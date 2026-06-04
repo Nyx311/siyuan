@@ -49,8 +49,6 @@ const (
 )
 
 var (
-	RunInContainer             = false // 是否运行在容器中
-	SiYuanAccessAuthCodeBypass = false // 是否跳过空锁屏密码检查
 	RunInContainer                = false // 是否运行在容器中
 	SiYuanAccessAuthCodeBypass    = false // 是否跳过空访问授权码检查
 	SiYuanSyncProviderCheckBypass = true  // 默认跳过同步服务提供商付费校验
