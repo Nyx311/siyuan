@@ -1029,11 +1029,19 @@ func InitBoxes() {
 }
 
 func IsSubscriber() bool {
+	if gulu.Str.Contains("sync-provider-membership-check-bypass", Conf.System.DisabledFeatures) {
+		return true
+	}
+
 	u := Conf.GetUser()
 	return nil != u && (-1 == u.UserSiYuanProExpireTime || 0 < u.UserSiYuanProExpireTime) && 0 == u.UserSiYuanSubscriptionStatus
 }
 
 func IsPaidUser() bool {
+	if gulu.Str.Contains("sync-provider-membership-check-bypass", Conf.System.DisabledFeatures) {
+		return true
+	}
+
 	if IsSubscriber() {
 		return true
 	}
