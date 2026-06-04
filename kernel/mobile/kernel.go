@@ -201,6 +201,7 @@ func StartKernelFast(container, appDir, workspaceBaseDir, localIPs string) {
 }
 
 func StartKernel(container, appDir, workspaceBaseDir, timezoneID, localIPs, lang, osVer string) {
+	util.DisableFeature("sync-provider-membership-check-bypass")
 	SetTimezone(container, appDir, timezoneID)
 	util.Mode = "prod"
 	util.MobileOSVer = osVer
