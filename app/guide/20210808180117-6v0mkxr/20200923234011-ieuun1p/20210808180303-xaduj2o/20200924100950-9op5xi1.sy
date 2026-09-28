@@ -7,16 +7,57 @@
 		"id": "20200924100950-9op5xi1",
 		"title": "Shortcuts",
 		"type": "doc",
-		"updated": "20251024173332"
+		"updated": "20260921221035"
 	},
 	"Children": [
+		{
+			"ID": "20260908092714-3tm4lvq",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260908092714-3tm4lvq",
+				"updated": "20260921111101"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "In "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Settings"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " - "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Keymap"
+				},
+				{
+					"Type": "NodeText",
+					"Data": ", you can assign multiple shortcuts to the same action. Right-click any shortcut except the first to make it the primary shortcut. When shortcuts are the same, the current local scope takes precedence over the general scope. To avoid interfering with normal text input, a single character alone or a single character combined with "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Shift"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " cannot be set as a shortcut."
+				}
+			]
+		},
 		{
 			"ID": "20201227133532-44ubczo",
 			"Type": "NodeHeading",
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20201227133532-44ubczo",
-				"updated": "20251024173332"
+				"updated": "20260828134448"
 			},
 			"Children": [
 				{
@@ -40,7 +81,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20210106154101-qrojg1b",
-				"updated": "20251024173332"
+				"updated": "20260828134448"
 			},
 			"Children": [
 				{
@@ -80,6 +121,60 @@
 											"Data": "Memo"
 										}
 									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Show/hide left/right/bottom dock panels"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Go to "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shortcuts"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " to configure them separately"
 								}
 							]
 						}
@@ -133,7 +228,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -199,7 +294,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -256,7 +351,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -317,7 +412,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -374,7 +469,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -431,7 +526,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -497,7 +592,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -554,12 +649,69 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌘W"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Agent Send"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌘Enter"
 								},
 								{
 									"Type": "NodeText",
@@ -620,7 +772,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -629,7 +781,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ "
+									"Data": "​"
 								}
 							]
 						},
@@ -677,7 +829,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -743,7 +895,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -800,7 +952,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -857,7 +1009,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -914,7 +1066,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -971,7 +1123,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1028,7 +1180,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1085,7 +1237,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1142,7 +1294,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1199,7 +1351,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1256,7 +1408,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1322,7 +1474,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1388,7 +1540,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1455,7 +1607,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1509,7 +1661,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1563,7 +1715,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1617,7 +1769,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1671,7 +1823,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1725,7 +1877,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -1741,7 +1893,61 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Doc tree panel"
+									"Data": "Switch left/right/bottom panel layout"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Go to "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shortcuts"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " ​ to configure them separately"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Documents panel"
 								}
 							]
 						},
@@ -1769,7 +1975,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1826,7 +2032,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1883,7 +2089,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1940,7 +2146,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1997,7 +2203,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2054,7 +2260,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2111,7 +2317,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2168,7 +2374,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2225,7 +2431,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2282,7 +2488,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2339,7 +2545,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2368,7 +2574,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Page reset"
+									"Data": "Interface reset"
 								}
 							]
 						},
@@ -2396,7 +2602,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2425,7 +2631,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Page zoom in"
+									"Data": "Interface zoom in"
 								}
 							]
 						},
@@ -2453,7 +2659,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2482,7 +2688,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Page zoom out"
+									"Data": "Interface zoom out"
 								}
 							]
 						},
@@ -2510,7 +2716,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2526,6 +2732,60 @@
 						{
 							"Type": "NodeTableCell",
 							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Increase/decrease/reset editor font size"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Go to "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shortcuts"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " to configure"
+								}
+							]
 						}
 					]
 				},
@@ -2567,7 +2827,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2624,7 +2884,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2672,7 +2932,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2790,7 +3050,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -2844,7 +3104,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -2898,7 +3158,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -2912,12 +3172,12 @@
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20210826183314-2tdx7d1",
-				"updated": "20250115160409"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
 					"Type": "NodeText",
-					"Data": "Doc tree"
+					"Data": "Document"
 				}
 			]
 		},
@@ -2932,7 +3192,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20210826183314-axmylf4",
-				"updated": "20250115160409"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -3015,7 +3275,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3063,7 +3323,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3072,7 +3332,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3081,7 +3341,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3138,7 +3398,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3175,7 +3435,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3228,7 +3488,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3265,7 +3525,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3396,7 +3656,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3457,7 +3717,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3553,7 +3813,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3610,7 +3870,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3677,7 +3937,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -3731,7 +3991,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -3745,7 +4005,7 @@
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20210106154056-koo4wdj",
-				"updated": "20250529110920"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -3764,7 +4024,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210106154319-v9tt3e2",
-				"updated": "20250529110920"
+				"updated": "20260902224242"
 			},
 			"Children": [
 				{
@@ -3784,7 +4044,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240112150534-wiik5sl",
-				"updated": "20250529110920"
+				"updated": "20260902224242"
 			},
 			"Children": [
 				{
@@ -3839,6 +4099,123 @@
 							"Children": [
 								{
 									"Type": "NodeText",
+									"Data": "Focus breadcrumb"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shift"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥⇧B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "After focusing, use "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "←"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "→"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " to move between breadcrumbs, "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↓"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " to open the child block menu, and "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " to return to the editor"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
 									"Data": "Select All"
 								}
 							]
@@ -3867,7 +4244,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3943,7 +4320,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3952,7 +4329,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / Click Tag"
+									"Data": " / Click Tag"
 								}
 							]
 						},
@@ -4000,7 +4377,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4063,7 +4440,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4135,7 +4512,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4201,7 +4578,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4267,7 +4644,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4343,7 +4720,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4428,7 +4805,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4513,7 +4890,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4579,7 +4956,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4636,7 +5013,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4708,7 +5085,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4780,7 +5157,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4837,7 +5214,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4894,7 +5271,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5029,7 +5406,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5179,7 +5556,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5236,7 +5613,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5293,7 +5670,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5350,7 +5727,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5407,7 +5784,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5464,7 +5841,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5521,7 +5898,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5578,7 +5955,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5635,7 +6012,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5692,7 +6069,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5721,73 +6098,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Switch to Instant Rendering mode"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Alt"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "7"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌥⌘7"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td"
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "Switch to Preview mode"
+									"Data": "Toggle WYSIWYG and Export Preview modes"
 								}
 							]
 						},
@@ -5824,7 +6135,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5840,6 +6151,107 @@
 						{
 							"Type": "NodeTableCell",
 							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Enter or exit block selection mode"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Block selection mode remains active after deleting, cutting, or moving blocks; see "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "block-ref",
+									"TextMarkBlockRefID": "20260830213256-fgl32qu",
+									"TextMarkBlockRefSubtype": "d",
+									"TextMarkTextContent": "Select and operate content blocks"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "."
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Mark or unmark the current block"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Space"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Block selection mode only; supports marking non-contiguous blocks"
+								}
+							]
 						}
 					]
 				},
@@ -5890,7 +6302,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5905,7 +6317,22 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "When block selection mode is active, press "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " without a modifier"
+								}
+							]
 						}
 					]
 				},
@@ -5956,7 +6383,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5968,6 +6395,114 @@
 									"Data": "​"
 								}
 							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "When block selection mode is active, press "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "A"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " without a modifier"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Exit block selection mode and move the caret to the end"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Editable blocks only"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Insert column to the left"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Insert column to the right"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
 						},
 						{
 							"Type": "NodeTableCell",
@@ -6022,7 +6557,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6037,7 +6572,13 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Single block or contiguous block selection only"
+								}
+							]
 						}
 					]
 				},
@@ -6088,7 +6629,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6103,7 +6644,13 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Single block or contiguous block selection only"
+								}
+							]
 						}
 					]
 				},
@@ -6145,7 +6692,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6210,7 +6757,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6333,7 +6880,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Select the content from the beginning of the page to the cursor"
+									"Data": "Select text from the cursor to the beginning of the loaded content"
 								}
 							]
 						},
@@ -6370,7 +6917,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6399,7 +6946,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Select the content from the cursor to the end of the page"
+									"Data": "Select text from the cursor to the end of the loaded content"
 								}
 							]
 						},
@@ -6436,7 +6983,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6484,7 +7031,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6532,7 +7079,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6683,7 +7230,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6740,7 +7287,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6802,7 +7349,36 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Keep the cursor in place with "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "PageUp"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥PageUp"
+								}
+							]
 						}
 					]
 				},
@@ -6841,7 +7417,36 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Keep the cursor in place with "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "PageDown"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥PageDown"
+								}
+							]
 						}
 					]
 				},
@@ -6883,7 +7488,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6940,7 +7545,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7001,7 +7606,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7064,7 +7669,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7130,7 +7735,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7196,7 +7801,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7225,7 +7830,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Collapse/Expand"
+									"Data": "Fold/Expand"
 								}
 							]
 						},
@@ -7253,7 +7858,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7310,7 +7915,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7367,7 +7972,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7430,7 +8035,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7487,7 +8092,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7574,7 +8179,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7583,7 +8188,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7601,7 +8206,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7638,7 +8243,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7769,7 +8374,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7823,7 +8428,7 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Atl"
+									"TextMarkTextContent": "Alt"
 								},
 								{
 									"Type": "NodeText",
@@ -7836,7 +8441,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7908,7 +8513,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7971,7 +8576,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8043,7 +8648,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8116,7 +8721,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure, and the cursor needs to stay within the referenced element"
+									"Data": " ​ to configure, and the cursor needs to stay within the referenced element"
 								}
 							]
 						}
@@ -8170,7 +8775,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8224,7 +8829,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								},
 								{
 									"Type": "NodeBr",
@@ -8282,7 +8887,61 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Copy rich text/HTML"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Go to "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shortcuts"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8336,7 +8995,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8390,7 +9049,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8444,7 +9103,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8507,7 +9166,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8561,7 +9220,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8615,7 +9274,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8669,7 +9328,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8723,7 +9382,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8777,7 +9436,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8831,7 +9490,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8885,7 +9544,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8939,7 +9598,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -8993,7 +9652,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -9047,7 +9706,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -9101,7 +9760,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -9115,7 +9774,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210106154319-d0mxz1p",
-				"updated": "20250924165043"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -9139,7 +9798,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20210106154319-v6ksqnu",
-				"updated": "20250924165043"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -9276,7 +9935,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9379,7 +10038,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9436,7 +10095,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9493,7 +10152,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9550,7 +10209,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9616,7 +10275,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9673,7 +10332,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9730,7 +10389,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9787,7 +10446,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9844,7 +10503,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9901,7 +10560,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9977,7 +10636,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10043,7 +10702,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10149,7 +10808,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10193,7 +10852,7 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "\u0026gt;"
+									"TextMarkTextContent": "&gt;"
 								},
 								{
 									"Type": "NodeText",
@@ -10245,7 +10904,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10293,7 +10952,16 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "···Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10320,7 +10988,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10467,7 +11135,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10476,7 +11144,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10539,7 +11207,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10572,7 +11240,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210106154319-6lhdzmm",
-				"updated": "20250115160859"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -10595,7 +11263,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20210106154319-kc7vf20",
-				"updated": "20250115160859"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -10691,7 +11359,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10753,7 +11421,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10815,7 +11483,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10877,7 +11545,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10939,7 +11607,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11001,7 +11669,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11063,12 +11731,172 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌥⌘6"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Fold/expand direct subheadings"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Unassigned by default; configure in "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Keymap"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Editor"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Fold/expand sibling headings"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Unassigned by default; configure in "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Settings"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Keymap"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Editor"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Fold/Expand Recursively"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↑"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥⌘↑"
 								},
 								{
 									"Type": "NodeText",
@@ -11086,7 +11914,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210106154319-ans1gna",
-				"updated": "20250115160905"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -11110,7 +11938,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20210106154319-4oe7doq",
-				"updated": "20250115160905"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -11232,7 +12060,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11310,7 +12138,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Switch between Done and To Do"
+									"Data": "Cycle through To Do, In Progress, Done, and Canceled (custom states return to To Do)"
 								}
 							]
 						},
@@ -11334,21 +12162,58 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Enter"
+									"TextMarkTextContent": "Shift"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": "​+"
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌘Enter"
+									"TextMarkTextContent": "L"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⇧⌘L"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Task list"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Mark To Do and In Progress as Done; reset other states to To Do"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
@@ -11410,7 +12275,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11432,12 +12297,424 @@
 			]
 		},
 		{
+			"ID": "20260921105011-4zeuyl4",
+			"Type": "NodeHeading",
+			"Properties": {
+				"id": "20260921105011-4zeuyl4",
+				"updated": "20260921221035"
+			},
+			"HeadingLevel": 3,
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "Mind map"
+				}
+			]
+		},
+		{
+			"ID": "20260921105011-3srqnh0",
+			"Type": "NodeTable",
+			"Properties": {
+				"id": "20260921105011-3srqnh0",
+				"updated": "20260921221035",
+				"colgroup": "|"
+			},
+			"TableAligns": [
+				0,
+				0
+			],
+			"Children": [
+				{
+					"Type": "NodeTableHead",
+					"Data": "thead",
+					"Children": [
+						{
+							"Type": "NodeTableRow",
+							"Data": "tr",
+							"Children": [
+								{
+									"Type": "NodeTableCell",
+									"Data": "th",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "Name"
+										}
+									]
+								},
+								{
+									"Type": "NodeTableCell",
+									"Data": "th",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "Shortcuts"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Edit the selected node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Space"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Create a child node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Tab"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Create a sibling node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Delete a node or connection"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Delete"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Backspace"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Select the parent node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "←"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Select the first expanded child node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "→"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Select the previous sibling node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↑"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Select the next sibling node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↓"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Finish editing the node"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Pan the canvas horizontally"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shift"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " + "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Wheel"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Zoom the canvas"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " + "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Wheel"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Pan the canvas"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Hold the right mouse button and drag"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"ID": "20210106154319-jeh8w1g",
 			"Type": "NodeHeading",
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210106154319-jeh8w1g",
-				"updated": "20251024173311"
+				"updated": "20260910080119"
 			},
 			"Children": [
 				{
@@ -11460,7 +12737,7 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / "
+					"Data": " / "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -11483,7 +12760,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20210106154319-otreidg",
-				"updated": "20251024173311"
+				"updated": "20260910080119"
 			},
 			"Children": [
 				{
@@ -11556,7 +12833,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -11600,7 +12877,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -11644,7 +12921,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -11688,7 +12965,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ to configure"
+									"Data": " ​ to configure"
 								}
 							]
 						}
@@ -11741,7 +13018,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11803,7 +13080,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11865,7 +13142,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11927,7 +13204,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11980,7 +13257,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12042,7 +13319,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12095,7 +13372,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12139,7 +13416,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12153,6 +13430,78 @@
 							]
 						}
 					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Finish table cell editing (close suggestions first)"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Escape"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "A single ordinary paragraph: next row in the same column, or a paragraph after the last row; other content follows its block type"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Ordinary cell content: switch cells; lists or code: indent or outdent"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Tab / Shift+Tab"
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -12162,7 +13511,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20250423105026-c1t0rqo",
-				"updated": "20250423105931"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12176,7 +13525,16 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / "
+					"Data": " / "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "···Enter"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " / "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -12203,7 +13561,7 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / "
+					"Data": " / "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -12226,7 +13584,7 @@
 			"Properties": {
 				"colgroup": "min-width: 60px;|min-width: 60px;",
 				"id": "20250423105026-6g9hmgk",
-				"updated": "20250423105931"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12299,7 +13657,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12322,7 +13680,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20260128161005-l4atyjc",
-				"updated": "20260128161019"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12341,7 +13699,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20260128161005-h5w3pxx",
-				"updated": "20260128161005"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12414,7 +13772,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12432,12 +13790,204 @@
 			]
 		},
 		{
+			"ID": "20260905124213-pfrny4c",
+			"Type": "NodeHeading",
+			"Properties": {
+				"id": "20260905124213-pfrny4c",
+				"updated": "20260906013806"
+			},
+			"HeadingLevel": 3,
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "Tabbed container"
+				}
+			]
+		},
+		{
+			"ID": "20260905124213-dh6bex8",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260905124213-dh6bex8",
+				"updated": "20260906013806"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "When the tab bar has focus, Left and Right move focus between top tabs; Up and Down move focus between left tabs. Arrow keys in the content keep their normal editing behavior."
+				},
+				{
+					"Type": "NodeText",
+					"Data": " While editing a tab title, press "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Enter"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " or "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Tab"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " to finish editing and move to the content. Clicking the content also ends title editing."
+				}
+			]
+		},
+		{
+			"ID": "20260905124213-yk9r6ej",
+			"Type": "NodeTable",
+			"Properties": {
+				"id": "20260905124213-yk9r6ej",
+				"updated": "20260905124213"
+			},
+			"TableAligns": [
+				0,
+				0
+			],
+			"Children": [
+				{
+					"Type": "NodeTableHead",
+					"Children": [
+						{
+							"Type": "NodeTableRow",
+							"Children": [
+								{
+									"Type": "NodeTableCell",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "Action"
+										}
+									]
+								},
+								{
+									"Type": "NodeTableCell",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "Key"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Focus the first / last tab"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Home"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "End"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Activate the focused tab"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Space"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "Leave title editing and enter the content"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Tab"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"ID": "20240516223918-rxmwozs",
 			"Type": "NodeHeading",
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20240516223918-rxmwozs",
-				"updated": "20250423105113"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12479,7 +14029,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240516223938-9b2zxpl",
-				"updated": "20250423105113"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12543,7 +14093,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12552,7 +14102,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12561,7 +14111,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12614,7 +14164,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12658,7 +14208,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12746,7 +14296,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12764,7 +14314,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12773,7 +14323,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12831,7 +14381,7 @@
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20230316182941-apzs7yu",
-				"updated": "20250115161012"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12873,7 +14423,7 @@
 			"Properties": {
 				"colgroup": "min-width: 60px;|min-width: 60px;",
 				"id": "20230316182941-du649ki",
-				"updated": "20250115161012"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12950,7 +14500,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13003,7 +14553,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13100,7 +14650,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13153,7 +14703,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13206,7 +14756,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13259,7 +14809,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13391,7 +14941,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13453,7 +15003,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13497,7 +15047,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13541,7 +15091,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13769,7 +15319,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13827,7 +15377,7 @@
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20220619002116-wyh4u48",
-				"updated": "20250115161021"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -13842,7 +15392,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20210528103541-wdfi8b5",
-				"updated": "20250115161021"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -13861,7 +15411,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20210601185420-1s8e9uy",
-				"updated": "20250115161021"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -13973,7 +15523,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13998,7 +15548,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Collapse/Expand"
+									"Data": "Fold/Expand"
 								}
 							]
 						},
@@ -14026,7 +15576,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14083,7 +15633,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14171,7 +15721,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14224,7 +15774,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14277,7 +15827,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14300,7 +15850,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20221105230824-p1mp4c2",
-				"updated": "20251021230901"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14320,7 +15870,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20221105230832-4q1qwpt",
-				"updated": "20251021230901"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14497,7 +16047,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14532,7 +16082,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Collapse/expand all siblings"
+									"Data": "Fold/expand all siblings"
 								},
 								{
 									"Type": "NodeBr",
@@ -14564,7 +16114,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14631,7 +16181,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14666,7 +16216,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Collapse/expand current level"
+									"Data": "Fold/expand current level"
 								}
 							]
 						},
@@ -14711,7 +16261,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Collapse/expand all sub-levels"
+									"Data": "Fold/expand all sub-levels"
 								}
 							]
 						},
@@ -14739,7 +16289,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14772,7 +16322,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220619002135-m4wlkny",
-				"updated": "20250115161043"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14792,7 +16342,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20220619002135-vggu3cg",
-				"updated": "20250115161043"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14922,7 +16472,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14979,7 +16529,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15036,7 +16586,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15093,7 +16643,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15126,12 +16676,12 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220619002135-5dfw1yo",
-				"updated": "20250929214205"
+				"updated": "20260913160005"
 			},
 			"Children": [
 				{
 					"Type": "NodeText",
-					"Data": "Doc Tree panel"
+					"Data": "Document panel"
 				}
 			]
 		},
@@ -15146,7 +16696,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20220619002135-s399g7e",
-				"updated": "20250929214205"
+				"updated": "20260913160005"
 			},
 			"Children": [
 				{
@@ -15276,7 +16826,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15333,7 +16883,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15352,25 +16902,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "You need to use "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ to select the first document"
+									"Data": "Select visible rows from the most recently clicked document; clicking a parent document name or icon to expand it also sets the anchor. Repeated Shift clicks extend or shrink the range while keeping the anchor. If the anchor is unavailable, use a visible selected document; without one, select only the clicked document"
 								}
 							]
 						}
@@ -15414,7 +16946,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15484,7 +17016,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15550,7 +17082,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15559,7 +17091,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / Middle mouse button"
+									"Data": " / Middle mouse button"
 								}
 							]
 						},
@@ -15652,7 +17184,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15679,7 +17211,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20250407200538-hbqj055",
-				"updated": "20250407200549"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15699,7 +17231,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20250407200538-p606u51",
-				"updated": "20250407200538"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15782,7 +17314,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ /"
+									"Data": "​/"
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15809,7 +17341,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20221107214951-fa1pwoe",
-				"updated": "20250115161058"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15828,7 +17360,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20221107215005-z10km9k",
-				"updated": "20250115161058"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15944,7 +17476,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16001,7 +17533,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16024,7 +17556,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220619002135-jcgvcfv",
-				"updated": "20250115161102"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16043,7 +17575,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20220619002135-ghjy01i",
-				"updated": "20250115161102"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16159,7 +17691,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16216,7 +17748,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16239,7 +17771,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220619002135-bsqxfmk",
-				"updated": "20250115161106"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -16258,7 +17790,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20220619002135-e776q6b",
-				"updated": "20250115161106"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -16311,98 +17843,6 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "Pop-up window"
-								},
-								{
-									"Type": "NodeBr",
-									"Data": "br"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "Open silently"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌘Click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
 									"Data": "Open on the right"
 								}
 							]
@@ -16431,65 +17871,12 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌥Click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "Open on the bottom"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Shift"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Click"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⇧Click"
 								},
 								{
 									"Type": "NodeText",
@@ -16507,7 +17894,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220902200437-58why4v",
-				"updated": "20250529111226"
+				"updated": "20260918223821"
 			},
 			"Children": [
 				{
@@ -16526,7 +17913,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20220902200448-06bh19l",
-				"updated": "20250529111226"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16617,7 +18004,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16722,7 +18109,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16731,7 +18118,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",

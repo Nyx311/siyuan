@@ -1,11 +1,11 @@
 import * as path from "path";
 import {fetchPost} from "./fetch";
 import {Dialog} from "../dialog";
-import {escapeHtml} from "./escape";
-import {getSearch, isMobile} from "./functions";
+import {escapeAriaLabel, escapeHtml} from "./escape";
+import {isMobile} from "./functions";
 import {focusByRange} from "../protyle/util/selection";
-import {unicode2Emoji} from "../emoji";
 import {Constants} from "../constants";
+import {getFileTreeDefaultIconAttr, getFileTreeIconHTML} from "../emoji/fileTreeIcon";
 /// #if !BROWSER
 import {ipcRenderer} from "electron";
 /// #endif
@@ -16,8 +16,16 @@ import {isOnlyMeta, isWindows, setStorageVal, updateHotkeyTip} from "../protyle/
 import {matchHotKey} from "../protyle/util/hotKey";
 import {Menu} from "../plugin/Menu";
 import {hasClosestByClassName} from "../protyle/util/hasClosest";
+import {mergePathSegments} from "./mergePathSegments";
+import {expandFileTree} from "../layout/dock/fileTreeAnimation";
+import {getHostCapabilities} from "./hostCapabilities";
+import {highlightSearchText} from "./searchHighlight";
+import {addClearButton} from "./addClearButton";
 
 export const useShell = (cmd: "showItemInFolder" | "openPath", filePath: string) => {
+    if (!getHostCapabilities().localFileSystem) {
+        return;
+    }
     /// #if !BROWSER
     ipcRenderer.send(Constants.SIYUAN_CMD, {
         cmd,
@@ -26,39 +34,87 @@ export const useShell = (cmd: "showItemInFolder" | "openPath", filePath: string)
     /// #endif
 };
 
-export const getIdZoomInByPath = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const PWAURL = searchParams.get("url");
-    const data = {
-        id: "",
-        isZoomIn: false,
-    };
-    if (/^web\+siyuan:\/\/blocks\/\d{14}-\w{7}/.test(PWAURL)) {
-        // PWA 捕获 web+siyuan://blocks/20221031001313-rk7sd0e?focus=1
-        data.id = PWAURL.substring(20, 20 + 22);
-        data.isZoomIn = getSearch("focus", PWAURL) === "1";
-        window.siyuan.editorIsFullscreen = getSearch("fullscreen", PWAURL) === "1";
-    } else if (window.JSAndroid) {
-        // PAD 通过思源协议打开
-        const SYURL = window.JSAndroid.getBlockURL();
-        data.id = getIdFromSYProtocol(SYURL);
-        data.isZoomIn = getSearch("focus", SYURL) === "1";
-        window.siyuan.editorIsFullscreen = getSearch("fullscreen", SYURL) === "1";
-    } else {
-        // 支持通过 URL 查询字符串参数 `id` 和 `focus` 跳转到 Web 端指定块 https://github.com/siyuan-note/siyuan/pull/7086
-        data.id = searchParams.get("id");
-        data.isZoomIn = searchParams.get("focus") === "1";
-        window.siyuan.editorIsFullscreen = searchParams.get("fullscreen") === "1";
+/**
+ * Check if the given URI is a valid SiYuan URI protocol (siyuan:// or web+siyuan://)
+ * @param uri - the URI to check
+ */
+export const isSiYuanUriProtocol = (uri: URL | string | null | undefined): boolean => {
+    try {
+        if (uri == null) return false;
+
+        const uriObj = uri instanceof URL ? uri : new URL(uri);
+        if (uriObj.protocol === "siyuan:" || uriObj.protocol === "web+siyuan:") {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        return false;
     }
-    return data;
 };
 
-export const isSYProtocol = (url: string) => {
-    return /^siyuan:\/\/blocks\/\d{14}-\w{7}/.test(url);
+/**
+ * Parse siyuan://blocks/20221031001313-rk7sd0e?focus=1&fullscreen=1
+ * @param uri - the siyuan block uri to parse
+ * @returns the block id and other info, or null if the uri is not a valid siyuan block uri
+ */
+export const parseSiYuanUriInfo = (uri: URL | string | null | undefined): ISiYuanUriBlockInfo | null => {
+    try {
+        if (uri == null) return null;
+
+        const uriObj = uri instanceof URL ? uri : new URL(uri);
+        if (!isSiYuanUriProtocol(uriObj)) {
+            return null;
+        }
+        if (uriObj.hostname === "blocks" && /^\/\d{14}-\w{7}/.test(uriObj.pathname)) {
+            const avItemID = uriObj.searchParams.get("avItemID") || undefined;
+            const avViewID = uriObj.searchParams.get("avViewID") || undefined;
+            const avGroupID = uriObj.searchParams.get("avGroupID") || undefined;
+            const isNodeID = (id?: string) => !id || /^\d{14}-\w{7}$/.test(id);
+            if (!isNodeID(avItemID) || !isNodeID(avViewID) || !isNodeID(avGroupID)) {
+                return null;
+            }
+            return {
+                id: uriObj.pathname.substring(1, 1 + 22),
+                focus: uriObj.searchParams.get("focus") === "1",
+                fullscreen: uriObj.searchParams.get("fullscreen") === "1",
+                avItemID,
+                avViewID,
+                avGroupID,
+                avStandalone: uriObj.searchParams.get("avStandalone") === "1",
+            };
+        }
+        return null;
+    } catch (error) {
+        return null;
+    }
 };
 
-export const getIdFromSYProtocol = (url: string) => {
-    return url.substring(16, 16 + 22);
+export const parseUriInfo = (): ISiYuanUriBlockInfo => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has("url")) {
+        const dataInfo = parseSiYuanUriInfo(searchParams.get("url"));
+        if (dataInfo != null) {
+            window.siyuan.editorIsFullscreen = dataInfo.fullscreen;
+            return dataInfo;
+        }
+    }
+
+    if (window.JSAndroid) {
+        const dataInfo = parseSiYuanUriInfo(window.JSAndroid.getBlockURL());
+        if (dataInfo != null) {
+            window.siyuan.editorIsFullscreen = dataInfo.fullscreen;
+            return dataInfo;
+        }
+    }
+
+    // 支持通过 URL 查询字符串参数 `id` 和 `focus` 跳转到 Web 端指定块 https://github.com/siyuan-note/siyuan/pull/7086
+    const fullscreen = searchParams.get("fullscreen") === "1";
+    window.siyuan.editorIsFullscreen = fullscreen;
+    return {
+        id: searchParams.get("id") ?? "",
+        focus: searchParams.get("focus") === "1",
+        fullscreen,
+    };
 };
 
 /* redirect to auth page */
@@ -70,6 +126,10 @@ export const redirectToCheckAuth = async (to: string = window.location.href) => 
     const url = new URL(window.location.origin);
     url.pathname = "/check-auth";
     url.searchParams.set("to", to);
+    if (getHostCapabilities().remoteKernel) {
+        url.searchParams.set("lang", window.siyuan.config.appearance.lang);
+        url.searchParams.set("remote", "1");
+    }
     window.location.href = url.href;
 };
 
@@ -94,8 +154,28 @@ export const getDisplayName = (filePath: string, basename = true, removeSY = fal
     return name;
 };
 
+export const getDocDisplayName = (name: string, titleEmpty?: boolean, escape?: boolean) => {
+    if (titleEmpty) {
+        return window.siyuan.languages["_kernel"][16];
+    }
+    const displayName = getDisplayName(name, true, true);
+    if (escape) {
+        return Lute.EscapeHTMLStr(displayName);
+    }
+    return displayName;
+};
+
+export const getAssetPathWithoutQuery = (assetPath: string) => {
+    return assetPath.split("?", 1)[0];
+};
+
+export const getAssetExtension = (assetPath: string) => {
+    return pathPosix().extname(getAssetPathWithoutQuery(assetPath));
+};
+
 export const getAssetName = (assetPath: string) => {
-    return pathPosix().basename(assetPath, pathPosix().extname(assetPath)).replace(/-\d{14}-\w{7}/, "");
+    const pathWithoutQuery = getAssetPathWithoutQuery(assetPath);
+    return pathPosix().basename(pathWithoutQuery, getAssetExtension(pathWithoutQuery)).replace(/-\d{14}-\w{7}$/, "");
 };
 
 export const isLocalPath = (link: string) => {
@@ -149,6 +229,18 @@ export const getTopPaths = (liElements: Element[]) => {
     return fromPaths;
 };
 
+export const isMoveTargetAllowed = (sourceNotebookIds: string[] = [], targetNotebookId: string) => {
+    const sourceIds = Array.from(new Set(sourceNotebookIds.filter(Boolean)));
+    if (sourceIds.length === 0) {
+        return true;
+    }
+    const encryptedSourceIds = sourceIds.filter(isEncryptedBox);
+    if (encryptedSourceIds.length > 0) {
+        return encryptedSourceIds.length === sourceIds.length && sourceIds.length === 1 && sourceIds[0] === targetNotebookId;
+    }
+    return !isEncryptedBox(targetNotebookId);
+};
+
 export const moveToPath = (fromPaths: string[], toNotebook: string, toPath: string) => {
     fetchPost("/api/filetree/moveDocs", {
         toNotebook,
@@ -164,6 +256,7 @@ export const movePathTo = (options: {
     title?: string,
     flashcard: boolean
     rootIDs?: string[],
+    sourceNotebookIds?: string[],
 }) => {
     const exitDialog = window.siyuan.dialogs.find((item) => {
         if (item.element.querySelector("#foldList")) {
@@ -184,7 +277,7 @@ export const movePathTo = (options: {
         <svg class="svg--mid"><use xlink:href="#iconSearch"></use></svg>
         <svg class="svg--smaller"><use xlink:href="#iconDown"></use></svg>
     </span>
-    <input class="b3-text-field fn__block" style="padding-left: 42px;" value="" placeholder="${window.siyuan.languages.search}">
+    <input spellcheck="false" class="b3-text-field fn__block" style="padding-left: 42px;" value="" placeholder="${window.siyuan.languages.searchPlaceholder}">
 </div>
 <ul id="foldList" class="fn__flex-1 fn__none b3-list b3-list--background${isMobile() ? " b3-list--mobile" : ""}" style="overflow: auto;position: relative"></ul>
 <div id="foldTree" class="fn__flex-1${isMobile() ? " b3-list--mobile" : ""}" style="overflow: auto;position: relative"></div>
@@ -213,7 +306,7 @@ export const movePathTo = (options: {
     setNoteBook((notebooks) => {
         let html = "";
         notebooks.forEach((item) => {
-            if (!item.closed) {
+            if (!item.closed && isMoveTargetAllowed(options.sourceNotebookIds, item.id)) {
                 let countHTML = "";
                 if (options.flashcard) {
                     countHTML = `<span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardNewCard}">${item.newFlashcardCount}</span>
@@ -221,11 +314,11 @@ export const movePathTo = (options: {
 <span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardCard}">${item.flashcardCount}</span>`;
                 }
                 html += `<ul class="b3-list b3-list--background">
-<li class="b3-list-item${html === "" ? " b3-list-item--focus" : ""}" data-path="/" data-box="${item.id}">
+<li class="b3-list-item${html === "" ? " b3-list-item--focus" : ""}" data-path="/" data-box="${item.id}"${getFileTreeDefaultIconAttr(item.icon, "notebook")}>
     <span class="b3-list-item__toggle b3-list-item__toggle--hl">
         <svg class="b3-list-item__arrow"><use xlink:href="#iconRight"></use></svg>
     </span>
-    ${unicode2Emoji(item.icon || window.siyuan.storage[Constants.LOCAL_IMAGES].note, "b3-list-item__graphic", true)}
+    ${getFileTreeIconHTML(item.icon, "notebook", "b3-list-item__graphic", true)}
     <span class="b3-list-item__text">${escapeHtml(item.name)}</span>
     ${countHTML}
 </li></ul>`;
@@ -251,31 +344,46 @@ export const movePathTo = (options: {
         searchTreeElement.classList.add("fn__none");
         searchListElement.classList.remove("fn__none");
         searchListElement.scrollTo(0, 0);
+        const keyword = inputElement.value;
+        const caseSensitive = window.siyuan.config.search.caseSensitive;
         fetchPost("/api/filetree/searchDocs", {
-            k: inputElement.value,
+            k: keyword,
             flashcard: options.flashcard,
             excludeIDs: options.rootIDs,
         }, (data) => {
+            if (inputElement.value !== keyword) {
+                return;
+            }
+            const highlight = (text: string) => highlightSearchText(text, keyword, caseSensitive);
             let fileHTML = "";
             data.data.forEach((item: {
                 boxIcon: string,
                 box: string,
                 hPath: string,
                 path: string,
+                name?: string,
+                alias?: string,
                 newFlashcardCount: string,
                 dueFlashcardCount: string,
                 flashcardCount: string
             }) => {
                 let countHTML = "";
                 if (options.flashcard) {
-                    countHTML = `<span class="fn__flex-1"></span>
-<span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardNewCard}">${item.newFlashcardCount}</span>
+                    countHTML = `<span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardNewCard}">${item.newFlashcardCount}</span>
 <span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardDueCard}">${item.dueFlashcardCount}</span>
 <span class="counter counter--right b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.flashcardCard}">${item.flashcardCount}</span>`;
                 }
-                fileHTML += `<li class="b3-list-item${fileHTML === "" ? " b3-list-item--focus" : ""}" data-path="${item.path}" data-box="${item.box}">
-    ${unicode2Emoji(item.boxIcon || window.siyuan.storage[Constants.LOCAL_IMAGES].note, "b3-list-item__graphic", true)}
-    <span class="b3-list-item__showall" style="padding: 4px 0">${escapeHtml(item.hPath)}</span>
+                let attributesHTML = "";
+                if (item.name) {
+                    attributesHTML += `<span class="b3-list-item__meta fn__flex" style="max-width: 30%" aria-label="${window.siyuan.languages.name} ${escapeAriaLabel(item.name)}"><svg class="b3-list-item__hinticon"><use xlink:href="#iconN"></use></svg><span class="b3-list-item__hinttext">${highlight(item.name)}</span></span>`;
+                }
+                if (item.alias) {
+                    attributesHTML += `<span class="b3-list-item__meta fn__flex" style="max-width: 30%" aria-label="${window.siyuan.languages.alias} ${escapeAriaLabel(item.alias)}"><svg class="b3-list-item__hinticon"><use xlink:href="#iconA"></use></svg><span class="b3-list-item__hinttext">${highlight(item.alias)}</span></span>`;
+                }
+                fileHTML += `<li class="b3-list-item${fileHTML === "" ? " b3-list-item--focus" : ""}" data-path="${item.path}" data-box="${item.box}"${getFileTreeDefaultIconAttr(item.boxIcon, "notebook")}>
+    ${getFileTreeIconHTML(item.boxIcon, "notebook", "b3-list-item__graphic", true)}
+    <span class="b3-list-item__showall fn__flex-1" style="padding: 4px 0; min-width: 0">${highlight(item.hPath)}</span>
+    ${attributesHTML}
     ${countHTML}
 </li>`;
             });
@@ -283,9 +391,22 @@ export const movePathTo = (options: {
         });
     };
 
+    const saveMovePathHistory = () => {
+        if (inputElement.value) {
+            let list: string[] = window.siyuan.storage[Constants.LOCAL_MOVE_PATH].keys;
+            list.splice(0, 0, inputElement.value);
+            list = Array.from(new Set(list));
+            if (list.length > window.siyuan.config.search.limit) {
+                list.splice(window.siyuan.config.search.limit, list.length - window.siyuan.config.search.limit);
+            }
+            window.siyuan.storage[Constants.LOCAL_MOVE_PATH].keys = list;
+        }
+        window.siyuan.storage[Constants.LOCAL_MOVE_PATH].k = inputElement.value;
+        setStorageVal(Constants.LOCAL_MOVE_PATH, window.siyuan.storage[Constants.LOCAL_MOVE_PATH]);
+    };
     const toggleMovePathHistory = () => {
         const keys = window.siyuan.storage[Constants.LOCAL_MOVE_PATH].keys;
-        if (!keys || keys.length === 0 || (keys.length === 1 && keys[0] === inputElement.value)) {
+        if (!keys || keys.length === 0) {
             return;
         }
         const menu = new Menu(Constants.MENU_MOVE_PATH_HISTORY);
@@ -304,7 +425,7 @@ export const movePathTo = (options: {
         const separatorElement = menu.addSeparator(1);
         let current = true;
         keys.forEach((s: string) => {
-            if (s !== inputElement.value && s) {
+            if (s) {
                 const menuItem = menu.addItem({
                     iconHTML: "",
                     label: escapeHtml(s),
@@ -326,7 +447,9 @@ export const movePathTo = (options: {
                                     element.remove();
                                 }
                             } else {
-                                inputElement.value = element.textContent;
+                                inputElement.value = s;
+                                inputElement.dispatchEvent(new Event("change"));
+                                saveMovePathHistory();
                                 inputEvent();
                                 window.siyuan.menus.menu.remove();
                             }
@@ -347,29 +470,27 @@ export const movePathTo = (options: {
         const rect = inputElement.getBoundingClientRect();
         menu.open({
             x: rect.left,
-            y: rect.bottom
+            y: rect.bottom,
+            h: rect.height
         });
     };
     inputEvent();
+    addClearButton({
+        inputElement,
+        right: 8,
+        height: inputElement.clientHeight,
+        clearCB() {
+            saveMovePathHistory();
+            inputEvent();
+        }
+    });
     inputElement.addEventListener("compositionend", (event: InputEvent) => {
         inputEvent(event);
     });
     inputElement.addEventListener("input", (event: InputEvent) => {
         inputEvent(event);
     });
-    inputElement.addEventListener("blur", () => {
-        if (inputElement.value) {
-            let list: string[] = window.siyuan.storage[Constants.LOCAL_MOVE_PATH].keys;
-            list.splice(0, 0, inputElement.value);
-            list = Array.from(new Set(list));
-            if (list.length > window.siyuan.config.search.limit) {
-                list.splice(window.siyuan.config.search.limit, list.length - window.siyuan.config.search.limit);
-            }
-            window.siyuan.storage[Constants.LOCAL_MOVE_PATH].keys = list;
-        }
-        window.siyuan.storage[Constants.LOCAL_MOVE_PATH].k = inputElement.value;
-        setStorageVal(Constants.LOCAL_MOVE_PATH, window.siyuan.storage[Constants.LOCAL_MOVE_PATH]);
-    });
+    inputElement.addEventListener("blur", saveMovePathHistory);
     const lineHeight = 28;
     inputElement.addEventListener("keydown", (event: KeyboardEvent) => {
         if (event.isComposing) {
@@ -643,12 +764,13 @@ const getLeaf = (liElement: HTMLElement, flashcard: boolean) => {
             } else if (item.count && item.count > 0) {
                 countHTML = `<span class="popover__block counter b3-tooltips b3-tooltips__w" aria-label="${window.siyuan.languages.ref}">${item.count}</span>`;
             }
-            fileHTML += `<li data-box="${notebookId}" class="b3-list-item" data-path="${item.path}">
+            const defaultIcon = item.subFileCount === 0 ? "file" : "folder";
+            fileHTML += `<li data-box="${notebookId}" class="b3-list-item" data-path="${item.path}"${getFileTreeDefaultIconAttr(item.icon, defaultIcon)}>
     <span style="padding-left: ${item.path.split("/").length * 8}px" class="b3-list-item__toggle b3-list-item__toggle--hl${item.subFileCount === 0 ? " fn__hidden" : ""}">
         <svg class="b3-list-item__arrow"><use xlink:href="#iconRight"></use></svg>
     </span>
-    ${unicode2Emoji(item.icon || (item.subFileCount === 0 ? window.siyuan.storage[Constants.LOCAL_IMAGES].file : window.siyuan.storage[Constants.LOCAL_IMAGES].folder), "b3-list-item__graphic", true)}
-    <span class="b3-list-item__text ariaLabel" data-position="parentE" aria-label="${getDisplayName(Lute.EscapeHTMLStr(item.name), true, true)} <small class='ft__on-surface'>${item.hSize}</small>${item.bookmark ? "<br>" + window.siyuan.languages.bookmark + " " + item.bookmark : ""}${item.name1 ? "<br>" + window.siyuan.languages.name + " " + item.name1 : ""}${item.alias ? "<br>" + window.siyuan.languages.alias + " " + item.alias : ""}${item.memo ? "<br>" + window.siyuan.languages.memo + " " + item.memo : ""}${item.subFileCount !== 0 ? window.siyuan.languages.includeSubFile.replace("x", item.subFileCount) : ""}<br>${window.siyuan.languages.modifiedAt} ${item.hMtime}<br>${window.siyuan.languages.createdAt} ${item.hCtime}">${getDisplayName(Lute.EscapeHTMLStr(item.name), true, true)}</span>
+    ${getFileTreeIconHTML(item.icon, defaultIcon, "b3-list-item__graphic", true)}
+    <span class="b3-list-item__text ariaLabel" data-position="parentE" aria-label="${getDocDisplayName(item.name, item.titleEmpty, true)} <small class='ft__on-surface'>${item.hSize}</small>${item.bookmark ? "<br>" + window.siyuan.languages.bookmark + " " + escapeAriaLabel(item.bookmark) : ""}${item.name1 ? "<br>" + window.siyuan.languages.name + " " + escapeAriaLabel(item.name1) : ""}${item.alias ? "<br>" + window.siyuan.languages.alias + " " + escapeAriaLabel(item.alias) : ""}${item.memo ? "<br>" + window.siyuan.languages.memo + " " + escapeAriaLabel(item.memo) : ""}${item.subFileCount !== 0 ? window.siyuan.languages.includeSubFile.replace("x", item.subFileCount) : ""}<br>${window.siyuan.languages.modifiedAt} ${item.hMtime}<br>${window.siyuan.languages.createdAt} ${item.hCtime}">${getDocDisplayName(item.name, item.titleEmpty, true)}</span>
     ${countHTML}
 </li>`;
         });
@@ -656,15 +778,8 @@ const getLeaf = (liElement: HTMLElement, flashcard: boolean) => {
             return;
         }
         toggleElement.classList.add("b3-list-item__arrow--open");
-        liElement.insertAdjacentHTML("afterend", `<ul class="file-tree__sliderDown">${fileHTML}</ul>`);
-        const nextElement = liElement.nextElementSibling;
-        setTimeout(() => {
-            nextElement.setAttribute("style", `height:${nextElement.childElementCount * liElement.clientHeight}px;`);
-            setTimeout(() => {
-                nextElement.classList.remove("file-tree__sliderDown");
-                nextElement.removeAttribute("style");
-            }, 120);
-        }, 2);
+        liElement.insertAdjacentHTML("afterend", `<ul>${fileHTML}</ul>`);
+        expandFileTree(liElement.nextElementSibling as HTMLElement);
     });
 };
 
@@ -710,11 +825,17 @@ export const getOpenNotebookCount = () => {
 };
 
 export const setNoteBook = (cb?: (notebook: INotebook[]) => void, flashcard = false) => {
-    fetchPost("/api/notebook/lsNotebooks", {
+    return fetchPost("/api/notebook/lsNotebooks", {
         flashcard
     }, (response) => {
+        if (!response.data?.notebooks) {
+            return;
+        }
         if (!flashcard) {
             window.siyuan.notebooks = response.data.notebooks;
+            if (window.siyuan.config?.fileTree) {
+                window.siyuan.config.fileTree.boxDocEnabled = response.data.boxDocEnabled;
+            }
         }
         if (cb) {
             cb(response.data.notebooks);
@@ -723,21 +844,24 @@ export const setNoteBook = (cb?: (notebook: INotebook[]) => void, flashcard = fa
 };
 
 /**
+ * 返回指定 boxID 是否为加密笔记本。
+ * 用于前端在加密 box 上下文里给 getDoc / 反链 / 搜索请求带上 notebook 参数，
+ * 让内核走 InBox 版（查加密 blocktree + content db）。
+ */
+export const isEncryptedBox = (boxId: string): boolean => {
+    if (!boxId) {
+        return false;
+    }
+    return !!window.siyuan.notebooks?.find((item) => item.id === boxId && item.encrypted);
+};
+
+/**
  * 规范化并校验相对路径：允许子目录，但禁止通过 ".." 穿越到根外。
  * 用于插件存储，确保路径不逃出指定根目录。
  * @returns 规范化后的相对路径（使用 /），若路径非法则返回替换后的合法路径
  */
 export const normalizeStoragePath = (storageName: string): string | null => {
-    const parts = storageName.replace(/\\/g, "/").split("/");
-    const resolved: string[] = [];
-    for (const part of parts) {
-        if (part === "..") {
-            if (resolved.length > 0) {
-                resolved.pop();
-            }
-        } else if (part && part !== ".") {
-            resolved.push(part);
-        }
-    }
-    return resolved.length > 0 ? resolved.join("/") : storageName.replace(/[\/\\]+/g, "");
+    const segments = storageName.replace(/\\/g, "/").split("/");
+    const merged = mergePathSegments([], segments);
+    return merged.length > 0 ? merged.join("/") : storageName.replace(/[\/\\]+/g, "");
 };

@@ -1,4 +1,4 @@
-// SiYuan - Refactor your thinking
+// SiYuan - From thought to insight, with agents
 // Copyright (c) 2020-present, b3log.org
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,7 @@
 package model
 
 import (
+	"bytes"
 	"image/color"
 	"net/http"
 	"net/url"
@@ -31,6 +32,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/siyuan-note/logging"
+	"github.com/siyuan-note/siyuan/kernel/apicontract"
 	"github.com/siyuan-note/siyuan/kernel/util"
 	"github.com/steambap/captcha"
 )
@@ -40,106 +42,93 @@ var (
 	BasicAuthHeaderValue = "Basic realm=\"SiYuan Authorization Require\", charset=\"UTF-8\""
 )
 
-func LogoutAuth(c *gin.Context) {
-	ret := gulu.Ret.NewResult()
-	defer c.JSON(http.StatusOK, ret)
+func LogoutAuth(c *gin.Context, request apicontract.EmptyRequest) (ret apicontract.Response[apicontract.Null]) {
+	ret = apicontract.Success(apicontract.Null{})
 
-	if "" == Conf.AccessAuthCode {
-		ret.Code = -1
-		ret.Msg = Conf.Language(86)
-		ret.Data = map[string]any{"closeTimeout": 5000}
+	if !IsAccessAuthRequired() {
+		ret = apicontract.FailureWithTimeout[apicontract.Null](-1, Conf.Language(86), 5000)
 		return
 	}
 
 	session := util.GetSession(c)
 	util.RemoveWorkspaceSession(session)
 	if err := session.Save(c); err != nil {
-		logging.LogErrorf("saves session failed: " + err.Error())
+		logging.LogError("saves session failed: " + err.Error())
 		session.Clear(c)
-		ret.Code = 1
-		ret.Msg = Conf.Language(258)
+		ret = apicontract.Failure[apicontract.Null](1, Conf.Language(258))
 		return
 	}
 
 	util.BroadcastByType("main", "logoutAuth", 0, "", nil)
+	return
 }
 
-func LoginAuth(c *gin.Context) {
-	ret := gulu.Ret.NewResult()
-	defer c.JSON(http.StatusOK, ret)
-
-	arg, ok := util.JsonArg(c, ret)
-	if !ok {
-		return
-	}
+func LoginAuth(c *gin.Context, request apicontract.SystemLoginAuthRequest) (ret apicontract.Response[apicontract.Null]) {
+	ret = apicontract.Success(apicontract.Null{})
 
 	var inputCaptcha string
 	session := util.GetSession(c)
 	workspaceSession := util.GetWorkspaceSession(session)
 	if util.NeedCaptcha() {
-		captchaArg := arg["captcha"]
-		if nil == captchaArg {
-			ret.Code = 1
-			ret.Msg = Conf.Language(21)
+		if request.CaptchaError() != nil {
+			return apicontract.Failure[apicontract.Null](-1, request.CaptchaError().Error())
+		}
+		if request.Captcha == "" {
+			ret = apicontract.Failure[apicontract.Null](1, Conf.Language(21))
 			logging.LogWarnf("invalid captcha")
 			return
 		}
-		inputCaptcha = captchaArg.(string)
-		if "" == inputCaptcha {
-			ret.Code = 1
-			ret.Msg = Conf.Language(21)
-			logging.LogWarnf("invalid captcha")
-			return
-		}
+		inputCaptcha = request.Captcha
 
 		if strings.ToLower(workspaceSession.Captcha) != strings.ToLower(inputCaptcha) {
-			ret.Code = 1
-			ret.Msg = Conf.Language(22)
+			ret = apicontract.Failure[apicontract.Null](1, Conf.Language(22))
 			logging.LogWarnf("invalid captcha")
 
 			workspaceSession.Captcha = gulu.Rand.String(7) // https://github.com/siyuan-note/siyuan/issues/13147
 			if err := session.Save(c); err != nil {
-				logging.LogErrorf("save session failed: " + err.Error())
+				logging.LogError("save session failed: " + err.Error())
 				session.Clear(c)
-				ret.Code = 1
-				ret.Msg = Conf.Language(258)
+				ret = apicontract.Failure[apicontract.Null](1, Conf.Language(258))
 				return
 			}
 			return
 		}
 	}
 
-	authCode := arg["authCode"].(string)
+	if request.AuthCodeError() != nil {
+		return apicontract.Failure[apicontract.Null](-1, request.AuthCodeError().Error())
+	}
+	authCode := request.AuthCode
 	authCode = util.RemoveInvalid(authCode)
 	authCode = strings.TrimSpace(authCode)
 
-	if Conf.AccessAuthCode != authCode {
-		ret.Code = -1
-		ret.Msg = Conf.Language(83)
+	if Conf.AccessAuthCode == "" || !util.AuthCodeEquals(Conf.AccessAuthCode, authCode) {
+		code := -1
 		logging.LogWarnf("invalid auth code [ip=%s]", util.GetRemoteAddr(c.Request))
 
 		util.WrongAuthCount++
 		workspaceSession.Captcha = gulu.Rand.String(7)
 		if util.NeedCaptcha() {
-			ret.Code = 1 // 需要渲染验证码
+			code = 1 // 需要渲染验证码
 		}
 
 		if err := session.Save(c); err != nil {
-			logging.LogErrorf("save session failed: " + err.Error())
+			logging.LogError("save session failed: " + err.Error())
 			session.Clear(c)
-			ret.Code = 1
-			ret.Msg = Conf.Language(258)
+			ret = apicontract.Failure[apicontract.Null](1, Conf.Language(258))
 			return
 		}
-		return
+		return apicontract.Failure[apicontract.Null](code, Conf.Language(83))
 	}
 
 	workspaceSession.AccessAuthCode = authCode
+	workspaceSession.OIDCSessionVersion = ""
 	util.WrongAuthCount = 0
+	util.AuthThrottleReset(c.ClientIP())
 	workspaceSession.Captcha = gulu.Rand.String(7)
 
 	maxAge := 0 // Default session expiration (browser session)
-	if rememberMe, ok := arg["rememberMe"].(bool); ok && rememberMe {
+	if request.RememberMe {
 		// Add a 'Remember me' checkbox when logging in to save a session https://github.com/siyuan-note/siyuan/pull/14964
 		maxAge = 60 * 60 * 24 * 30 // 30 days
 	}
@@ -148,21 +137,22 @@ func LoginAuth(c *gin.Context) {
 		Secure:   util.SSL,
 		MaxAge:   maxAge,
 		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
 	})
 
 	logging.LogInfof("auth success [ip=%s, maxAge=%d]", util.GetRemoteAddr(c.Request), maxAge)
 	if err := session.Save(c); err != nil {
-		logging.LogErrorf("save session failed: " + err.Error())
+		logging.LogError("save session failed: " + err.Error())
 		session.Clear(c)
-		ret.Code = 1
-		ret.Msg = Conf.Language(258)
+		ret = apicontract.Failure[apicontract.Null](1, Conf.Language(258))
 		return
 	}
 
 	util.BroadcastByType("auth", "loginAuth", 0, "", nil)
+	return
 }
 
-func GetCaptcha(c *gin.Context) {
+func GetCaptcha(c *gin.Context, request apicontract.EmptyRequest) apicontract.Response[apicontract.BinaryContent] {
 	img, err := captcha.New(100, 26, func(options *captcha.Options) {
 		options.CharPreset = "ABCDEFGHKLMNPQRSTUVWXYZ23456789"
 		options.Noise = 0.5
@@ -170,26 +160,24 @@ func GetCaptcha(c *gin.Context) {
 		options.BackgroundColor = color.White
 	})
 	if err != nil {
-		logging.LogErrorf("generates captcha failed: " + err.Error())
-		c.Status(http.StatusInternalServerError)
-		return
+		logging.LogError("generates captcha failed: " + err.Error())
+		return apicontract.EmptyHTTPResponse[apicontract.BinaryContent](http.StatusInternalServerError)
 	}
 
 	session := util.GetSession(c)
 	workspaceSession := util.GetWorkspaceSession(session)
 	workspaceSession.Captcha = img.Text
 	if err = session.Save(c); err != nil {
-		logging.LogErrorf("save session failed: " + err.Error())
-		c.Status(http.StatusInternalServerError)
-		return
+		logging.LogError("save session failed: " + err.Error())
+		return apicontract.EmptyHTTPResponse[apicontract.BinaryContent](http.StatusInternalServerError)
 	}
 
-	if err = img.WriteImage(c.Writer); err != nil {
-		logging.LogErrorf("writes captcha image failed: " + err.Error())
-		c.Status(http.StatusInternalServerError)
-		return
+	var data bytes.Buffer
+	if err = img.WriteImage(&data); err != nil {
+		logging.LogError("writes captcha image failed: " + err.Error())
+		return apicontract.EmptyHTTPResponse[apicontract.BinaryContent](http.StatusInternalServerError)
 	}
-	c.Status(http.StatusOK)
+	return apicontract.SuccessHTTPContent(http.StatusOK, "image/png", data.Bytes())
 }
 
 func CheckReadonly(c *gin.Context) {
@@ -218,47 +206,31 @@ func CheckAuth(c *gin.Context) {
 	// 通过 API token (header: Authorization)
 	if authHeader := c.GetHeader("Authorization"); "" != authHeader {
 		var token string
-		if strings.HasPrefix(authHeader, "Token ") {
-			token = strings.TrimPrefix(authHeader, "Token ")
-		} else if strings.HasPrefix(authHeader, "token ") {
-			token = strings.TrimPrefix(authHeader, "token ")
-		} else if strings.HasPrefix(authHeader, "Bearer ") {
-			token = strings.TrimPrefix(authHeader, "Bearer ")
-		} else if strings.HasPrefix(authHeader, "bearer ") {
-			token = strings.TrimPrefix(authHeader, "bearer ")
+		if after, ok := strings.CutPrefix(authHeader, "Token "); ok {
+			token = after
+		} else if after, ok := strings.CutPrefix(authHeader, "token "); ok {
+			token = after
+		} else if after, ok := strings.CutPrefix(authHeader, "Bearer "); ok {
+			token = after
+		} else if after, ok := strings.CutPrefix(authHeader, "bearer "); ok {
+			token = after
 		}
 
-		if "" != token {
-			if Conf.Api.Token == token {
-				c.Set(RoleContextKey, RoleAdministrator)
-				c.Next()
-				return
-			}
-
-			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed [header: Authorization]"})
-			c.Abort()
+		if authByAPIToken(c, "header: Authorization", token) {
 			return
 		}
 	}
 
 	// 通过 API token (query-params: token)
-	if token := c.Query("token"); "" != token {
-		if Conf.Api.Token == token {
-			c.Set(RoleContextKey, RoleAdministrator)
-			c.Next()
-			return
-		}
-
-		c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed [query: token]"})
-		c.Abort()
+	if authByAPIToken(c, "query: token", c.Query("token")) {
 		return
 	}
 
 	//logging.LogInfof("check auth for [%s]", c.Request.RequestURI)
-	localhost := util.IsLocalHost(c.Request.RemoteAddr)
+	localhost := IsLocalRequest(c)
 
-	// 未设置访问授权码
-	if "" == Conf.AccessAuthCode {
+	// 未设置锁屏密码
+	if !IsAccessAuthRequired() {
 		// Skip the empty access authorization code check https://github.com/siyuan-note/siyuan/issues/9709
 		if util.SiYuanAccessAuthCodeBypass {
 			c.Set(RoleContextKey, RoleAdministrator)
@@ -266,17 +238,17 @@ func CheckAuth(c *gin.Context) {
 			return
 		}
 
+		// 浏览器标记的跨站请求直接拒绝，防止跨站 GET 导航不带 Origin 时绕过校验
+		// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-2w6q-wgc8-q743
+		if util.IsCrossSiteFetchSite(c.GetHeader("Sec-Fetch-Site")) {
+			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": Conf.Language(378)})
+			c.Abort()
+			return
+		}
+
 		// Authenticate requests with the Origin header other than 127.0.0.1 https://github.com/siyuan-note/siyuan/issues/9180
-		clientIP := c.ClientIP()
-		host := c.GetHeader("Host")
-		origin := c.GetHeader("Origin")
-		forwardedHost := c.GetHeader("X-Forwarded-Host")
-		if !localhost ||
-			("" != clientIP && !util.IsLocalHostname(clientIP)) ||
-			("" != host && !util.IsLocalHost(host)) ||
-			("" != origin && !util.IsLocalOrigin(origin) && !strings.HasPrefix(origin, "chrome-extension://")) ||
-			("" != forwardedHost && !util.IsLocalHost(forwardedHost)) {
-			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed: for security reasons, please set [Access authorization code] when using non-127.0.0.1 access\n\n为安全起见，使用非 127.0.0.1 访问时请设置 [访问授权码]"})
+		if !localhost || !isLocalHostRequestAllowed(c) {
+			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed: for security reasons, please set [Lock screen password] when using non-127.0.0.1 access\n\n为安全起见，使用非 127.0.0.1 访问时请设置 [锁屏密码]"})
 			c.Abort()
 			return
 		}
@@ -294,14 +266,27 @@ func CheckAuth(c *gin.Context) {
 		return
 	}
 
-	// 放过来自本机的某些请求
 	if localhost {
+		// 校验浏览器来源，防止恶意网页借助受害者浏览器作为环回客户端绕过锁屏鉴权
+		// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-9gpj-3rm3-x42m
+		if util.IsCrossSiteFetchSite(c.GetHeader("Sec-Fetch-Site")) {
+			logging.LogWarnf("invalid local host pass-through request [ip=%s, origin=%s, host=%s, uri=%s]",
+				c.ClientIP(), c.GetHeader("Origin"), c.Request.Host, c.Request.RequestURI)
+			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed: invalid request origin"})
+			c.Abort()
+			return
+		}
+	}
+
+	// 仅对可信本机来源免认证放行，其他来源继续校验会话或密码，兼容经环回地址转发的远程访问。
+	if localhost && isLocalHostRequestAllowed(c) {
 		if strings.HasPrefix(c.Request.RequestURI, "/assets/") || strings.HasPrefix(c.Request.RequestURI, "/export/") {
 			c.Set(RoleContextKey, RoleAdministrator)
 			c.Next()
 			return
 		}
-		if strings.HasPrefix(c.Request.RequestURI, "/api/system/exit") {
+		if strings.HasPrefix(c.Request.RequestURI, "/api/system/exit") ||
+			strings.HasPrefix(c.Request.RequestURI, "/api/system/uiproc") {
 			c.Set(RoleContextKey, RoleAdministrator)
 			c.Next()
 			return
@@ -312,7 +297,7 @@ func CheckAuth(c *gin.Context) {
 			return
 		}
 		if strings.HasPrefix(c.Request.RequestURI, "/api/sync/performSync") {
-			if util.ContainerIOS == util.Container || util.ContainerAndroid == util.Container || util.ContainerHarmony == util.Container {
+			if util.IsMobileContainer() {
 				c.Set(RoleContextKey, RoleAdministrator)
 				c.Next()
 				return
@@ -323,19 +308,42 @@ func CheckAuth(c *gin.Context) {
 	// 通过 Cookie
 	session := util.GetSession(c)
 	workspaceSession := util.GetWorkspaceSession(session)
-	if workspaceSession.AccessAuthCode == Conf.AccessAuthCode {
+	if IsWorkspaceSessionAuthenticated(workspaceSession) {
+		// 校验 Origin 防止跨站请求伪造 https://github.com/siyuan-note/siyuan/security/advisories/GHSA-hhm2-g993-p656
+		// 同时拒绝浏览器标记的跨站请求，防止跨站 GET 导航不带 Origin 时绕过校验
+		// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-2w6q-wgc8-q743
+		if !util.IsSessionOriginAllowedRequest(c.Request) {
+			logging.LogWarnf("invalid Origin [%s] for session auth [ip=%s]", c.GetHeader("Origin"), c.ClientIP())
+			c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed: invalid Origin"})
+			c.Abort()
+			return
+		}
 		c.Set(RoleContextKey, RoleAdministrator)
 		c.Next()
 		return
 	}
 
 	// 通过 BasicAuth (header: Authorization)
-	if username, password, ok := c.Request.BasicAuth(); ok {
-		// 使用访问授权码作为密码
-		if util.WorkspaceName == username && Conf.AccessAuthCode == password {
-			c.Set(RoleContextKey, RoleAdministrator)
-			c.Next()
-			return
+	if Conf.AccessAuthCode != "" {
+		if username, password, ok := c.Request.BasicAuth(); ok {
+			// 使用锁屏密码作为密码
+			ip := c.ClientIP()
+			if retryAfter := util.AuthThrottleCheck(ip); 0 < retryAfter {
+				// 锁定期间持续记录失败，防止暴力破解 https://github.com/siyuan-note/siyuan/security/advisories/GHSA-w3xh-mmmh-r54v
+				util.AuthThrottleFail(ip)
+				c.Header("Retry-After", strconv.Itoa(retryAfter))
+				c.JSON(http.StatusTooManyRequests, map[string]any{"code": -1, "msg": Conf.Language(354)})
+				c.Abort()
+				return
+			}
+			if util.WorkspaceName == username && util.AuthCodeEquals(Conf.AccessAuthCode, password) {
+				util.AuthThrottleReset(ip)
+				c.Set(RoleContextKey, RoleAdministrator)
+				c.Next()
+				return
+			}
+			logging.LogWarnf("invalid auth code [ip=%s]", ip)
+			util.AuthThrottleFail(ip)
 		}
 	}
 
@@ -354,7 +362,7 @@ func CheckAuth(c *gin.Context) {
 		return
 	}
 
-	if workspaceSession.AccessAuthCode != Conf.AccessAuthCode {
+	if !IsWorkspaceSessionAuthenticated(workspaceSession) {
 		userAgentHeader := c.GetHeader("User-Agent")
 		if strings.HasPrefix(userAgentHeader, "SiYuan/") || strings.HasPrefix(userAgentHeader, "Mozilla/") {
 			if "GET" != c.Request.Method || c.IsWebsocket() {
@@ -381,6 +389,56 @@ func CheckAuth(c *gin.Context) {
 
 	c.Set(RoleContextKey, RoleAdministrator)
 	c.Next()
+}
+
+// authByAPIToken 校验 API token，成功时赋予管理员角色并返回 true；
+// 校验失败或触发限流时直接结束请求并返回 true，token 为空时不处理并返回 false。
+func authByAPIToken(c *gin.Context, source, token string) (handled bool) {
+	if "" == token {
+		return
+	}
+
+	ip := c.ClientIP()
+	if retryAfter := util.AuthThrottleCheck(ip); 0 < retryAfter {
+		// 锁定期间持续记录失败，防止暴力破解 https://github.com/siyuan-note/siyuan/security/advisories/GHSA-m6w6-p7pc-fpg2
+		util.AuthThrottleFail(ip)
+		c.Header("Retry-After", strconv.Itoa(retryAfter))
+		c.JSON(http.StatusTooManyRequests, map[string]any{"code": -1, "msg": Conf.Language(354)})
+		c.Abort()
+		return true
+	}
+	if util.AuthCodeEquals(Conf.Api.Token, token) {
+		util.AuthThrottleReset(ip)
+		c.Set(RoleContextKey, RoleAdministrator)
+		c.Next()
+		return true
+	}
+	logging.LogWarnf("invalid api token [ip=%s]", ip)
+	util.AuthThrottleFail(ip)
+	c.JSON(http.StatusUnauthorized, map[string]any{"code": -1, "msg": "Auth failed [" + source + "]"})
+	c.Abort()
+	return true
+}
+
+// IsLocalRequest 判断请求是否由本机客户端直接发起或经可信本机代理转发。
+func IsLocalRequest(c *gin.Context) bool {
+	// 仅当直接连接和可信代理解析出的原始客户端均为环回地址时，才视为本机请求。
+	return util.IsLocalHost(c.Request.RemoteAddr) && util.IsLocalHostname(c.ClientIP())
+}
+
+// isLocalHostRequestAllowed 判断本机放行请求是否可信任：
+// 要求 clientIP/host/origin/forwardedHost 均为本机地址，防止恶意网页借助受害者浏览器
+// 作为环回客户端绕过鉴权（DNS 重绑定场景通过 Host 校验兜底）
+// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-9gpj-3rm3-x42m
+func isLocalHostRequestAllowed(c *gin.Context) bool {
+	clientIP := c.ClientIP()
+	host := c.Request.Host
+	origin := c.GetHeader("Origin")
+	forwardedHost := c.GetHeader("X-Forwarded-Host")
+	return ("" == clientIP || util.IsLocalHostname(clientIP)) &&
+		("" == host || util.IsLocalHost(host)) &&
+		("" == origin || util.IsLocalOrigin(origin)) &&
+		("" == forwardedHost || util.IsLocalHost(forwardedHost))
 }
 
 func CheckAdminRole(c *gin.Context) {
@@ -438,13 +496,23 @@ func Timing(c *gin.Context) {
 	c.Next()
 	elapsed := int(time.Now().UnixMilli() - now)
 	if timing < elapsed {
-		logging.LogWarnf("[%s] elapsed [%dms]", c.Request.RequestURI, elapsed)
+		logging.LogWarnf("[%s] elapsed [%dms]", p, elapsed)
 		util.PushMsg(Conf.Language(tip), 7000)
 	}
 }
 
 func Recover(c *gin.Context) {
 	defer logging.Recover()
+	c.Next()
+}
+
+// Activity 记录用户写操作时间，用于 AutoFixIndex 的空闲判断。
+// 只认会产生数据变更的事务类请求（/api/transactions*），因为只有写操作才会引入索引不一致；
+// 读操作和前端定时轮询（如 /api/ai/embeddingStat）不计入，避免 SiYuan 开着却不操作时被判为活跃。
+func Activity(c *gin.Context) {
+	if strings.HasPrefix(c.Request.URL.Path, "/api/transactions") {
+		util.RefreshActivity()
+	}
 	c.Next()
 }
 
@@ -460,6 +528,12 @@ func ControlConcurrency(c *gin.Context) {
 	}
 
 	reqPath := c.Request.URL.Path
+
+	// 插件 RPC 独立处理各次调用，避免单个调用阻塞其他插件或信息查询。
+	if reqPath == "/api/plugin/rpc" {
+		c.Next()
+		return
+	}
 
 	// Improve the concurrency of the kernel data reading interfaces https://github.com/siyuan-note/siyuan/issues/10149
 	if strings.HasPrefix(reqPath, "/stage/") ||
@@ -477,7 +551,9 @@ func ControlConcurrency(c *gin.Context) {
 		strings.HasPrefix(reqPath, "/api/search/") ||
 		strings.HasPrefix(reqPath, "/api/network/") ||
 		strings.HasPrefix(reqPath, "/api/broadcast/") ||
-		strings.HasPrefix(reqPath, "/es/") {
+		strings.HasPrefix(reqPath, "/api/ai/") ||
+		strings.HasPrefix(reqPath, "/es/") ||
+		strings.HasPrefix(reqPath, "/mcp") {
 		c.Next()
 		return
 	}
@@ -489,6 +565,15 @@ func ControlConcurrency(c *gin.Context) {
 		strings.HasPrefix(function, "search") ||
 		strings.HasPrefix(function, "render") ||
 		strings.HasPrefix(function, "ls") {
+		c.Next()
+		return
+	}
+
+	// 仅对已注册的静态 /api/ 路径做并发控制：路由表有限，requesting map 不会无界增长；
+	// 未知路径与带参数通配路由直接放行 https://github.com/siyuan-note/siyuan/security/advisories/GHSA-p59v-3q54-qq55
+	if !strings.HasPrefix(reqPath, "/api/") ||
+		"" == c.FullPath() ||
+		strings.ContainsAny(c.FullPath(), ":*") {
 		c.Next()
 		return
 	}

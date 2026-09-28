@@ -8,6 +8,8 @@ import {writeText} from "../../protyle/util/compatibility";
 import {showMessage} from "../../dialog/message";
 import {cancelDrag} from "./dragover";
 import {nbsp2space, removeZWJ} from "../../protyle/util/normalizeText";
+import {getDockByType} from "../../layout/tabUtil";
+import {SELECTION_TOOLBAR_SUB_ELEMENT_SOURCE} from "../../protyle/toolbar/subElementLifecycle";
 
 export const globalClickHideMenu = (element: HTMLElement) => {
     if (!window.siyuan.menus.menu.element.contains(element) && !hasClosestByAttribute(element, "data-menu", "true")) {
@@ -28,15 +30,20 @@ export const globalClick = (event: MouseEvent & { target: HTMLElement }) => {
     const protyleElement = hasClosestByClassName(event.target, "protyle", true);
     if (protyleElement) {
         const wysiwygElement = protyleElement.querySelector(".protyle-wysiwyg");
-        if (wysiwygElement.getAttribute("data-readonly") === "true" || !wysiwygElement.contains(event.target)) {
+        if (wysiwygElement &&
+            (wysiwygElement.getAttribute("data-readonly") === "true" || !wysiwygElement.contains(event.target))) {
             wysiwygElement.dispatchEvent(new Event("focusin"));
         }
     }
 
-    if (!hasTopClosestByClassName(event.target, "protyle-util") &&
-        !hasTopClosestByClassName(event.target, "protyle-toolbar")) {
+    const toolbarElement = hasTopClosestByClassName(event.target, "protyle-toolbar");
+    const appearanceTrigger = toolbarElement && hasClosestByAttribute(event.target, "data-type", "text");
+    if (!hasTopClosestByClassName(event.target, "protyle-util") && !appearanceTrigger) {
         document.querySelectorAll(".protyle-font").forEach((item: HTMLElement) => {
             item.parentElement.classList.add("fn__none");
+            if (item.parentElement.dataset.subElementSource === SELECTION_TOOLBAR_SUB_ELEMENT_SOURCE) {
+                delete item.parentElement.dataset.subElementSource;
+            }
         });
     }
 
@@ -54,12 +61,22 @@ export const globalClick = (event: MouseEvent & { target: HTMLElement }) => {
         !hasClosestByClassName(event.target, "b3-dialog--open", true) &&
         !hasClosestByClassName(event.target, "b3-menu") &&
         !hasClosestByClassName(event.target, "block__popover") &&
+        !hasClosestByClassName(event.target, "protyle-hint--lite-overlay") &&
+        !hasClosestByClassName(event.target, "protyle-hint--agent-overlay") &&
         !hasClosestByClassName(event.target, "dock") &&
         !hasClosestByClassName(event.target, "layout--float", true)
     ) {
         window.siyuan.layout.bottomDock.hideDock();
         window.siyuan.layout.leftDock.hideDock();
         window.siyuan.layout.rightDock.hideDock();
+    }
+    // Dock item click
+    const dockItemElement = hasClosestByClassName(event.target as HTMLElement, "dock__item");
+    if (dockItemElement) {
+        const type = dockItemElement.getAttribute("data-type") as TDock;
+        if (type) {
+            getDockByType(type).toggleModel(type, false, true);
+        }
     }
 
     if (!hasClosestByClassName(event.target, "pdf__outer")) {

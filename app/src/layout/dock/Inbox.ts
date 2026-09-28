@@ -4,18 +4,19 @@ import {setPanelFocus} from "../util";
 import {getDockByType} from "../tabUtil";
 /// #endif
 import {fetchPost, fetchSyncPost} from "../../util/fetch";
-import {updateHotkeyAfterTip} from "../../protyle/util/compatibility";
+import {isInIOS, updateHotkeyAfterTip} from "../../protyle/util/compatibility";
 import {Model} from "../Model";
 import {needSubscribe} from "../../util/needSubscribe";
 import {MenuItem} from "../../menus/Menu";
 import {confirmDialog} from "../../dialog/confirmDialog";
 import {replaceFileName} from "../../editor/rename";
 import {getDisplayName, movePathTo, pathPosix} from "../../util/pathName";
-import {App} from "../../index";
+import type {App} from "../../index";
 import {getCloudURL} from "../../config/util/about";
 import {hasClosestByClassName} from "../../protyle/util/hasClosest";
 import {escapeHtml} from "../../util/escape";
 import {emitOpenMenu} from "../../plugin/EventBus";
+import {sanitizeKernelHTML} from "../../util/hostCapabilities";
 
 export class Inbox extends Model {
     private element: Element;
@@ -25,7 +26,7 @@ export class Inbox extends Model {
     private data: { [key: string]: IInbox } = {};
 
     constructor(app: App, tab: Tab | Element) {
-        super({app, id: tab.id});
+        super({app});
         if (tab instanceof Element) {
             this.element = tab;
         } else {
@@ -39,7 +40,6 @@ export class Inbox extends Model {
         <span class="fn__space"></span>
         <span class="inboxSelectCount ft__smaller ft__on-surface"></span>
     </div>
-    <span class="fn__flex-1"></span>
     <span class="fn__space"></span>
     <svg data-type="selectall" class="toolbar__icon"><use xlink:href="#iconUncheck"></use></svg>
     <svg data-type="previous" disabled="disabled" class="toolbar__icon"><use xlink:href='#iconLeft'></use></svg>
@@ -55,7 +55,7 @@ export class Inbox extends Model {
         this.element.classList.add("fn__flex-column", "file-tree", "sy__inbox", "dockPanel");
         this.element.innerHTML = `<div class="block__icons">
     <div class="block__logo fn__flex-1">
-        <svg class="block__logoicon"><use xlink:href="#iconInbox"></use></svg>${window.siyuan.languages.inbox}&nbsp;
+        ${window.siyuan.languages.inbox}&nbsp;
         <span class="inboxSelectCount"></span>
     </div>
     <span data-type="selectall" class="block__icon"><svg><use xlink:href="#iconUncheck"></use></svg></span>
@@ -191,21 +191,21 @@ export class Inbox extends Model {
         <svg class="toolbar__icon" style="float: left"><use xlink:href="#iconLink"></use></svg>
     </a>`;
         }
-        return `<div class="toolbar">
+        return sanitizeKernelHTML(`<div class="toolbar">
     <svg data-type="back" class="toolbar__icon"><use xlink:href="#iconLeft"></use></svg>
     <span data-type="back" class="toolbar__text fn__flex-1">${data.shorthandTitle}</span>
     ${linkHTML}
 </div>
 <div class="b3-typography b3-typography--default" style="padding: 0 8px 8px">
 ${data.shorthandContent}
-</div>`;
+</div>`);
         /// #else
         if (data.shorthandURL) {
             linkHTML = `<span class="fn__space"></span><a href="${data.shorthandURL}" target="_blank" class="block__icon block__icon--show ariaLabel" data-position="north" aria-label="${window.siyuan.languages.link}">
         <svg><use xlink:href="#iconLink"></use></svg>
     </a>`;
         }
-        return `<div class="block__icons">
+        return sanitizeKernelHTML(`<div class="block__icons">
     <div class="block__logo fn__pointer fn__flex-1" data-type="back">
         <svg class="block__logoicon"><use xlink:href="#iconLeft"></use></svg><span class="ft__breakword">${data.shorthandTitle}</span>
     </div>
@@ -213,19 +213,19 @@ ${data.shorthandContent}
 </div>
 <div class="b3-typography b3-typography--default" style="padding: 0 8px 8px;user-select: text" data-type="textMenu">
 ${data.shorthandContent}
-</div>`;
+</div>`);
         /// #endif
     }
 
     private genItemHTML(item: IInbox) {
-        return `<li style="padding-left: 0" data-id="${item.oId}" class="b3-list-item">
+        return sanitizeKernelHTML(`<li style="padding-left: 0" data-id="${item.oId}" class="b3-list-item">
     <span data-type="select" class="b3-list-item__action">
         <svg><use xlink:href="#icon${this.selectIds.includes(item.oId) ? "Check" : "Uncheck"}"></use></svg> 
     </span>
     <span class="fn__space--small"></span>
     <span class="b3-list-item__text" title="${item.shorthandTitle}${item.shorthandTitle === item.shorthandDesc ? "" : "\n" + item.shorthandDesc}">${item.shorthandTitle}</span>
     <span class="b3-list-item__meta">${item.hCreated}</span>
-</li>`;
+</li>`);
     }
 
     private more(event: MouseEvent, itemElement?: HTMLElement) {
@@ -239,6 +239,9 @@ ${data.shorthandContent}
                     fetchPost("/api/inbox/getShorthand", {
                         id: itemElement.dataset.id
                     }, (response) => {
+                        if (response.code !== 0 || !response.data) {
+                            return;
+                        }
                         this.data[response.data.oId] = response.data;
                         itemElement.outerHTML = this.genItemHTML(response.data);
                     });
@@ -249,6 +252,9 @@ ${data.shorthandContent}
                     fetchPost("/api/inbox/getShorthand", {
                         id: detailsElement.getAttribute("data-id")
                     }, (response) => {
+                        if (response.code !== 0 || !response.data) {
+                            return;
+                        }
                         this.data[response.data.oId] = response.data;
                         detailsElement.innerHTML = this.genDetail(response.data);
                         detailsElement.scrollTop = 0;
@@ -292,18 +298,21 @@ ${data.shorthandContent}
                 }
             }).element);
         }
-        if (this.app.plugins) {
-            emitOpenMenu({
-                plugins: this.app.plugins,
-                type: "open-menu-inbox",
-                detail: {
-                    ids,
-                    element: itemElement || detailsElement,
-                },
-                separatorPosition: "top",
-            });
-        }
-        window.siyuan.menus.menu.popup({x: event.clientX, y: event.clientY + 16});
+        emitOpenMenu({
+            type: "open-menu-inbox",
+            detail: {
+                ids,
+                element: itemElement || detailsElement,
+            },
+            separatorPosition: "top",
+        });
+        const button = (event.target as Element).closest("[data-type='more']");
+        const rect = (itemElement || button)?.getBoundingClientRect();
+        window.siyuan.menus.menu.popup({
+            x: !itemElement && rect ? rect.left : event.clientX,
+            y: rect ? rect.bottom : event.clientY + 16,
+            h: rect ? rect.height : 0,
+        });
     }
 
     private remove(removeIds?: string[]) {
@@ -334,6 +343,9 @@ ${data.shorthandContent}
                     const response = await fetchSyncPost("/api/inbox/getShorthand", {
                         id: idItem
                     });
+                    if (response.code !== 0 || !response.data) {
+                        return;
+                    }
                     this.data[response.data.oId] = response.data;
                     let md = response.data.shorthandMd;
                     if ("" === md && "" === response.data.shorthandContent && "" != response.data.shorthandURL) {
@@ -361,7 +373,7 @@ ${data.shorthandContent}
         ${window.siyuan.languages.inboxTip}
     </li>
     <li class="b3-list--empty">
-        ${window.siyuan.config.system.container === "ios" ? window.siyuan.languages._kernel[122] : window.siyuan.languages._kernel[29].replaceAll("${accountServer}", getCloudURL(""))}
+        ${isInIOS() ? window.siyuan.languages._kernel[295] : window.siyuan.languages._kernel[29].replaceAll("${accountServer}", getCloudURL(""))}
     </li>
 </ul>`;
             loadingElement.classList.add("fn__none");
@@ -373,6 +385,9 @@ ${data.shorthandContent}
         loadingElement.classList.remove("fn__none");
         fetchPost("/api/inbox/getShorthands", {page: this.currentPage}, (response) => {
             loadingElement.classList.add("fn__none");
+            if (response.code !== 0 || !response.data) {
+                return;
+            }
             let html = "";
             if (response.data.data.shorthands.length === 0) {
                 html = `<ul class="b3-list b3-list--background"><li class="b3-list--empty">${window.siyuan.languages.inboxTip}</li></ul>`;

@@ -3,21 +3,25 @@ import {Constants} from "../constants";
 import {ipcRenderer} from "electron";
 /// #endif
 import {processMessage} from "./processMessage";
-import {kernelError} from "../dialog/processSystem";
+import {kernelError} from "./kernelFault";
+import {withFetchTimeout} from "./fetchTimeout";
+import type {FetchGet, FetchPost, FetchSyncPost} from "../types/api";
 
-export const fetchPost = (
+export const fetchPost = ((
     url: string,
     data?: any,
     cb?: (response: IWebSocketData) => void,
-    headers?: IObject,
-    failCallback?: (response: IWebSocketData) => void) => {
+    headers?: Record<string, string>,
+    failCallback?: (response: IWebSocketData) => void,
+    signal?: AbortSignal,
+    timeout = url === "/api/system/exit" || url === "/api/system/setWorkspaceDir" ||
+        (url === "/api/system/setUILayout" && data?.errorExit) ? 30000 : 0) => {
     const init: RequestInit = {
         method: "POST",
     };
     if (data) {
-        if (["/api/search/searchRefBlock", "/api/graph/getGraph", "/api/graph/getLocalGraph",
-            "/api/block/getRecentUpdatedBlocks", "/api/search/fullTextSearchBlock"].includes(url)) {
-            window.siyuan.reqIds[url] = new Date().getTime();
+        if (["/api/search/searchRefBlock", "/api/graph/getGraph", "/api/graph/getLocalGraph"].includes(url)) {
+            window.siyuan.reqIds[url] = Date.now();
             if (data.type === "local" && url === "/api/graph/getLocalGraph") {
                 // 当打开文档A的关系图、关系图、文档A后刷新，由于防止请求重复处理，文档A关系图无法渲染。
             } else {
@@ -26,7 +30,7 @@ export const fetchPost = (
         }
         // 并发导出后端接受顺序不一致
         if (url === "/api/transactions") {
-            data.reqId = new Date().getTime();
+            data.reqId = Date.now();
         }
         if (data instanceof FormData) {
             init.body = data;
@@ -37,8 +41,11 @@ export const fetchPost = (
     if (headers) {
         init.headers = headers;
     }
+    if (signal) {
+        init.signal = signal;
+    }
     let isGetFile202 = false;
-    fetch(url, init).then((response) => {
+    return withFetchTimeout((requestSignal) => fetch(url, {...init, signal: requestSignal}).then((response) => {
         switch (response.status) {
             case 403:
             case 404:
@@ -68,7 +75,7 @@ export const fetchPost = (
                     return response.text();
                 }
         }
-    }).then((response: IWebSocketData) => {
+    }), signal, timeout).then((response: IWebSocketData) => {
         if (failCallback && url === "/api/file/getFile" && isGetFile202) {
             failCallback(response);
             return;
@@ -79,8 +86,7 @@ export const fetchPost = (
             }
             return;
         }
-        if (["/api/search/searchRefBlock", "/api/graph/getGraph", "/api/graph/getLocalGraph",
-            "/api/block/getRecentUpdatedBlocks", "/api/search/fullTextSearchBlock"].includes(url)) {
+        if (["/api/search/searchRefBlock", "/api/graph/getGraph", "/api/graph/getLocalGraph"].includes(url)) {
             if (response.data.reqId && window.siyuan.reqIds[url] && window.siyuan.reqIds[url] > response.data.reqId) {
                 return;
             }
@@ -93,7 +99,10 @@ export const fetchPost = (
             cb(response);
         }
     }).catch((e) => {
-        if (failCallback && url === "/api/file/getFile") {
+        if (e?.name === "AbortError") {
+            return;
+        }
+        if (failCallback) {
             failCallback({
                 data: null,
                 msg: e.message,
@@ -114,12 +123,17 @@ export const fetchPost = (
         }
         /// #endif
     });
-};
+}) as FetchPost<IWebSocketData>;
 
-export const fetchSyncPost = async (url: string, data?: any) => {
+export const fetchSyncPost = (async (url: string, data?: any, headers?: Record<string, string>, process = true,
+                                    signal?: AbortSignal) => {
     const init: RequestInit = {
         method: "POST",
+        signal,
     };
+    if (headers) {
+        init.headers = headers;
+    }
     if (data) {
         if (data instanceof FormData) {
             init.body = data;
@@ -129,12 +143,14 @@ export const fetchSyncPost = async (url: string, data?: any) => {
     }
     const res = await fetch(url, init);
     const res2 = await res.json() as IWebSocketData;
-    processMessage(res2);
+    if (process) {
+        processMessage(res2);
+    }
     return res2;
-};
+}) as FetchSyncPost<IWebSocketData>;
 
-export const fetchGet = (url: string, cb: (response: IWebSocketData | IObject | string) => void) => {
-    fetch(url).then((response) => {
+export const fetchGet = ((url: string, cb: (response: IWebSocketData | IObject | string) => void) => {
+    fetch(url, {cache: "no-store"}).then((response) => {
         if (response.headers.get("content-type")?.indexOf("application/json") > -1) {
             return response.json();
         } else {
@@ -143,4 +159,4 @@ export const fetchGet = (url: string, cb: (response: IWebSocketData | IObject | 
     }).then((response) => {
         cb(response);
     });
-};
+}) as FetchGet<IWebSocketData | IObject | string>;

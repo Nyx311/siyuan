@@ -5,7 +5,16 @@ export const escapeHtml = (html: string) => {
     return html.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 };
 
-export const escapeGreat = (html: string) => {
+export const stripSearchMark = (html: string) => {
+    return html.replace(/<\/?mark>/g, "");
+};
+
+// 仅转义非搜索高亮的 < 字符，保留内核插入的 <mark> 高亮标签
+export const escapeSearchHighlight = (html: string) => {
+    return html.replace(/<(?!\/?mark>)/g, "&lt;");
+};
+
+export const escapeLessThans = (html: string) => {
     return html.replace(/</g, "&lt;");
 };
 

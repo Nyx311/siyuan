@@ -18,7 +18,7 @@ import { AppOptions } from "./app_options.js";
 import { LinkTarget } from "./pdf_link_service.js";
 import { PDFViewerApplication } from "./app.js";
 import {Constants} from "../../constants";
-import {initAnno} from "../anno";
+import {destroyAnno, initAnno} from "../anno";
 import {AnnotationEditorType} from "./pdfjs";
 
 /* eslint-disable-next-line no-unused-vars */
@@ -50,6 +50,8 @@ function getViewerConfiguration(element) {
       container: element.querySelector("#toolbarContainer"),
       numPages: element.querySelector("#numPages"),
       pageNumber: element.querySelector("#pageNumber"),
+      historyBack: element.querySelector("#pdfHistoryBack"),
+      historyForward: element.querySelector("#pdfHistoryForward"),
       scaleSelect: element.querySelector("#scaleSelect"),
       customScaleOption: element.querySelector("#customScaleOption"),
       previous: element.querySelector("#previous"),
@@ -234,10 +236,12 @@ function getViewerConfiguration(element) {
 
 // NOTE
 function webViewerLoad(file, element, pdfPage, annoId) {
-  AppOptions.set("workerSrc", `${Constants.PROTYLE_CDN}/js/pdf/pdf.worker.min.mjs?v=4.7.85`);
+  // SiYuan 通过 AppOptions.set 显式配置 viewer,禁用从 localStorage 读取的 Preferences,
+  AppOptions.set("disablePreferences", true);
+  AppOptions.set("workerSrc", `${Constants.PROTYLE_CDN}/js/pdf/pdf.worker.compat.mjs?v=4.8.69`);
   AppOptions.set("defaultUrl", file);
-  AppOptions.set("cMapUrl", 'cmaps/');
-  AppOptions.set("standardFontDataUrl", 'standard_fonts/');
+  AppOptions.set("cMapUrl", `${Constants.PROTYLE_CDN}/js/pdf/cmaps/`);
+  AppOptions.set("standardFontDataUrl", `${Constants.PROTYLE_CDN}/js/pdf/standard_fonts/`);
   AppOptions.set("annotationEditorMode", AnnotationEditorType.DISABLE);
   const pdf = new PDFViewerApplication(pdfPage)
   pdf.annoId = annoId
@@ -266,8 +270,23 @@ function webViewerLoad(file, element, pdfPage, annoId) {
       document.dispatchEvent(event);
     }
   }
-  pdf.run(config);
+  const runPromise = pdf.run(config);
   initAnno(element, pdf);
+  const destroy = pdf.destroy.bind(pdf);
+  let isDestroyed = false;
+  pdf.destroy = async () => {
+    if (isDestroyed) {
+      return;
+    }
+    isDestroyed = true;
+    destroyAnno(element);
+    try {
+      await runPromise;
+    } catch {
+      // 初始化失败时仍继续清理已创建的资源。
+    }
+    await destroy();
+  };
   return pdf
 }
 

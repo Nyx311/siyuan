@@ -9,9 +9,46 @@
 		"id": "20240530101000-xsbxokr",
 		"title": "ショートカット",
 		"type": "doc",
-		"updated": "20251024173645"
+		"updated": "20260921221035"
 	},
 	"Children": [
+		{
+			"ID": "20260908134131-m3ys4ns",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260908134131-m3ys4ns",
+				"updated": "20260921111101"
+			},
+			"Children": [
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "設定"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " - "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "ショートカット"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " では、同じ操作に複数のショートカットを割り当てられます。先頭以外のショートカットを右クリックすると、メインのショートカットに設定できます。同じショートカットが設定されている場合、現在の局所的な範囲が優先され、次に全般的な範囲が判定されます。通常のテキスト入力への影響を避けるため、単一文字、または "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Shift"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " と組み合わせた単一文字をショートカットに設定することはできません。"
+				}
+			]
+		},
 		{
 			"ID": "20240530101000-9imgmgf",
 			"Type": "NodeHeading",
@@ -19,7 +56,7 @@
 			"Properties": {
 				"ID": "20240530101000-0wo4ch4",
 				"id": "20240530101000-9imgmgf",
-				"updated": "20251024173645"
+				"updated": "20260828134448"
 			},
 			"Children": [
 				{
@@ -39,7 +76,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-5z0uafx",
-				"updated": "20251024173645"
+				"updated": "20260828134448"
 			},
 			"Children": [
 				{
@@ -79,6 +116,56 @@
 											"Data": "備考"
 										}
 									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "左/右/下側ドックパネルの表示/非表示"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "設定"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ショートカット"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " で個別に設定できます"
 								}
 							]
 						}
@@ -132,7 +219,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -198,7 +285,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -255,7 +342,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -316,7 +403,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -373,7 +460,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -430,7 +517,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -496,7 +583,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -553,12 +640,69 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌘W"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "エージェント送信"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌘Enter"
 								},
 								{
 									"Type": "NodeText",
@@ -619,7 +763,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -676,7 +820,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -742,7 +886,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -799,7 +943,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -856,7 +1000,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -913,7 +1057,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -970,7 +1114,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1027,7 +1171,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1084,7 +1228,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1141,7 +1285,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1198,7 +1342,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1255,7 +1399,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1321,7 +1465,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1387,7 +1531,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1436,7 +1580,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1454,7 +1598,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1490,7 +1634,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1508,7 +1652,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1544,7 +1688,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1562,7 +1706,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1598,7 +1742,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1616,7 +1760,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1652,7 +1796,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1670,7 +1814,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1706,7 +1850,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1724,7 +1868,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -1740,7 +1884,61 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "ドキュメントツリーパネル"
+									"Data": "左/右/下部パネルのレイアウトを切り替える"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​ "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "設定"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ショートカット"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " ​ で個別に設定できます"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ドキュメントパネル"
 								}
 							]
 						},
@@ -1768,7 +1966,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1825,7 +2023,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1882,7 +2080,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1939,7 +2137,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -1996,7 +2194,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2053,7 +2251,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2110,7 +2308,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2167,7 +2365,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2224,7 +2422,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2281,7 +2479,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2338,7 +2536,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2367,7 +2565,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "デフォルトのズームレベルに戻す"
+									"Data": "インターフェースをリセット"
 								}
 							]
 						},
@@ -2395,7 +2593,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2424,7 +2622,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "ページを拡大"
+									"Data": "インターフェースを拡大"
 								}
 							]
 						},
@@ -2452,7 +2650,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2481,7 +2679,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "ページを縮小"
+									"Data": "インターフェースを縮小"
 								}
 							]
 						},
@@ -2509,7 +2707,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2525,6 +2723,60 @@
 						{
 							"Type": "NodeTableCell",
 							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "エディタのフォントサイズを拡大/縮小/リセット"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "-"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "設定場所："
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "設定"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ショートカット"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " で設定できます"
+								}
+							]
 						}
 					]
 				},
@@ -2566,7 +2818,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2623,7 +2875,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2671,7 +2923,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2771,7 +3023,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2789,7 +3041,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -2829,7 +3081,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2847,7 +3099,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -2883,7 +3135,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -2901,7 +3153,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -2916,7 +3168,7 @@
 			"Properties": {
 				"ID": "20240530101000-jqxdws2",
 				"id": "20240530101000-fibh6bk",
-				"updated": "20250115161421"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -2946,7 +3198,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-anawzpw",
-				"updated": "20250115161421"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -3029,7 +3281,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3077,7 +3329,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3086,7 +3338,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3095,7 +3347,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3156,7 +3408,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3180,11 +3432,20 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl+クリック"
+									"TextMarkTextContent": "Ctrl"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": "+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "クリック"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3241,7 +3502,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3265,11 +3526,20 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl+クリック"
+									"TextMarkTextContent": "Ctrl"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": "+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "クリック"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3400,7 +3670,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3461,7 +3731,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3557,7 +3827,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3606,7 +3876,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3624,7 +3894,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -3660,7 +3930,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3678,7 +3948,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -3693,7 +3963,7 @@
 			"Properties": {
 				"ID": "20240530101000-twmuxke",
 				"id": "20240530101000-675gu9g",
-				"updated": "20250529111052"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -3719,7 +3989,7 @@
 			"Properties": {
 				"ID": "20240530101000-tkbdrth",
 				"id": "20240530101000-9wkmh8w",
-				"updated": "20250529111052"
+				"updated": "20260902224242"
 			},
 			"Children": [
 				{
@@ -3739,7 +4009,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-1isfzez",
-				"updated": "20250529111052"
+				"updated": "20260902224242"
 			},
 			"Children": [
 				{
@@ -3794,6 +4064,123 @@
 							"Children": [
 								{
 									"Type": "NodeText",
+									"Data": "パンくずリストにフォーカス"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shift"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥⇧B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "フォーカス後、"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "←"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "→"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " でパンくずリスト項目を移動し、"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↓"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " で下位ブロックメニューを開き、"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " でエディタに戻ります"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
 									"Data": "すべて選択"
 								}
 							]
@@ -3822,7 +4209,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3894,7 +4281,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -3903,7 +4290,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / タグをクリック"
+									"Data": " / タグをクリック"
 								}
 							]
 						},
@@ -3951,7 +4338,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4014,7 +4401,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4086,7 +4473,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4130,7 +4517,16 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl+Shift"
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shift"
 								},
 								{
 									"Type": "NodeText",
@@ -4143,7 +4539,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4209,7 +4605,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4285,7 +4681,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4370,7 +4766,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4455,7 +4851,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4525,7 +4921,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4582,7 +4978,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4654,7 +5050,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4726,7 +5122,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4783,7 +5179,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4840,7 +5236,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4975,7 +5371,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -4994,7 +5390,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5021,7 +5417,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ の設定に従います"
+									"Data": " ​ の設定に従います"
 								},
 								{
 									"Type": "NodeBr",
@@ -5147,7 +5543,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5204,7 +5600,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5261,7 +5657,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5318,7 +5714,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5375,7 +5771,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5432,7 +5828,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5489,7 +5885,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5546,7 +5942,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5603,7 +5999,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5660,7 +6056,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5689,73 +6085,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "編集モードに切り替え"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Alt"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "7"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌥⌘7"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td"
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "プレビューモードに切り替え"
+									"Data": "WYSIWYG モードとプレビューモードを切り替える"
 								}
 							]
 						},
@@ -5792,7 +6122,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5808,6 +6138,107 @@
 						{
 							"Type": "NodeTableCell",
 							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロック選択モードを開始または終了"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロックの削除、切り取り、移動後もブロック選択モードを維持します。詳しくは"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "block-ref",
+									"TextMarkBlockRefID": "20260830213256-014vk79",
+									"TextMarkBlockRefSubtype": "d",
+									"TextMarkTextContent": "ブロックの選択と操作"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "を参照してください。"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "現在のブロックをマークまたはマーク解除"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "スペース"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロック選択モードでのみ有効で、連続していないブロックもマーク可能"
+								}
+							]
 						}
 					]
 				},
@@ -5858,7 +6289,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5873,7 +6304,22 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロック選択モードでは、修飾キーなしで "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "B"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " を押すこともできます"
+								}
+							]
 						}
 					]
 				},
@@ -5924,7 +6370,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -5936,6 +6382,114 @@
 									"Data": "​"
 								}
 							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロック選択モードでは、修飾キーなしで "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "A"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " を押すこともできます"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ブロック選択モードを終了して末尾に移動"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "編集可能なブロックのみ"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "左側に列を挿入"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "右側に列を挿入"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td"
 						},
 						{
 							"Type": "NodeTableCell",
@@ -5990,7 +6544,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6005,7 +6559,13 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "単一のブロックまたは連続して選択されたブロックのみ"
+								}
+							]
 						}
 					]
 				},
@@ -6056,7 +6616,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6071,7 +6631,13 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "単一のブロックまたは連続して選択されたブロックのみ"
+								}
+							]
 						}
 					]
 				},
@@ -6113,7 +6679,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6174,7 +6740,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6297,7 +6863,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "カーソルからページの先頭まで選択"
+									"Data": "カーソルから読み込み済みコンテンツの先頭までのテキストを選択"
 								}
 							]
 						},
@@ -6334,7 +6900,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6363,7 +6929,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "カーソルからページの末尾まで選択"
+									"Data": "カーソルから読み込み済みコンテンツの末尾までのテキストを選択"
 								}
 							]
 						},
@@ -6400,7 +6966,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6448,7 +7014,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6496,7 +7062,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6647,7 +7213,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6704,7 +7270,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6766,7 +7332,36 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "カーソルを動かさない場合は "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "PageUp"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥PageUp"
+								}
+							]
 						}
 					]
 				},
@@ -6805,7 +7400,36 @@
 						},
 						{
 							"Type": "NodeTableCell",
-							"Data": "td"
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "カーソルを動かさない場合は "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "PageDown"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥PageDown"
+								}
+							]
 						}
 					]
 				},
@@ -6847,7 +7471,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6904,7 +7528,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -6961,7 +7585,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7024,7 +7648,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7090,7 +7714,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7156,7 +7780,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7213,7 +7837,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7270,7 +7894,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7327,7 +7951,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7390,7 +8014,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7447,7 +8071,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7534,7 +8158,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7543,7 +8167,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7561,7 +8185,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7598,7 +8222,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7729,7 +8353,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7779,7 +8403,7 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Atl"
+									"TextMarkTextContent": "Alt"
 								},
 								{
 									"Type": "NodeText",
@@ -7792,7 +8416,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7864,7 +8488,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7927,7 +8551,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -7999,7 +8623,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8054,7 +8678,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8072,7 +8696,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます。カーソルが参照要素内にある必要があります"
+									"Data": " ​ で設定できます。カーソルが参照要素内にある必要があります"
 								}
 							]
 						}
@@ -8108,7 +8732,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8126,7 +8750,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8162,7 +8786,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8180,7 +8804,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8216,7 +8840,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8234,7 +8858,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8270,7 +8894,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8288,7 +8912,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8324,7 +8948,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8342,7 +8966,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8378,7 +9002,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8396,7 +9020,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8452,6 +9076,10 @@
 									"Data": "{: colspan=\"1\"}"
 								},
 								{
+									"Type": "NodeText",
+									"Data": " "
+								},
+								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "設定"
@@ -8467,7 +9095,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8503,7 +9131,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8521,7 +9149,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます。データベースブロックでのみ使用できます"
+									"Data": " ​ で設定できます。データベースブロックでのみ使用できます"
 								}
 							]
 						}
@@ -8557,7 +9185,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8575,7 +9203,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8611,7 +9239,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8629,7 +9257,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8665,7 +9293,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8683,7 +9311,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8719,7 +9347,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8737,7 +9365,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8773,7 +9401,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8791,7 +9419,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8827,7 +9455,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8845,7 +9473,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8881,7 +9509,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8899,7 +9527,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8935,7 +9563,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -8953,7 +9581,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -8989,7 +9617,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9007,7 +9635,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -9043,7 +9671,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9061,7 +9689,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -9076,7 +9704,7 @@
 			"Properties": {
 				"ID": "20240530101000-qf3oj4u",
 				"id": "20240530101000-zy0pmo3",
-				"updated": "20250924165340"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -9106,7 +9734,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-5be9vw0",
-				"updated": "20250924165340"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -9243,7 +9871,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9346,7 +9974,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9403,7 +10031,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9460,7 +10088,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9517,7 +10145,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9583,7 +10211,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9640,7 +10268,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9697,7 +10325,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9754,7 +10382,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9811,7 +10439,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9868,7 +10496,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -9944,7 +10572,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10010,7 +10638,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10112,7 +10740,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10156,7 +10784,7 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "\u0026gt;"
+									"TextMarkTextContent": "&gt;"
 								},
 								{
 									"Type": "NodeText",
@@ -10208,7 +10836,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10256,7 +10884,16 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "···Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10283,7 +10920,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10430,7 +11067,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10439,7 +11076,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10502,7 +11139,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10536,7 +11173,7 @@
 			"Properties": {
 				"ID": "20240530101000-xpeqztf",
 				"id": "20240530101000-emapwbq",
-				"updated": "20250115161758"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -10565,7 +11202,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-x5nggv1",
-				"updated": "20250115161758"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -10657,7 +11294,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10719,7 +11356,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10781,7 +11418,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10843,7 +11480,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10905,7 +11542,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -10967,7 +11604,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11029,12 +11666,180 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌥⌘6"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "直接の子見出しを折りたたむ/展開"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "デフォルトでは未設定です。"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "設定"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ショートカット"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "エディタ"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " ​で設定できます"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "同階層の見出しを折りたたむ/展開"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "デフォルトでは未設定です。"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "設定"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ショートカット"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ - "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "エディタ"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " ​で設定できます"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "レベルごとに折りたたみ/展開"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Alt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​+"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↑"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⌥⌘↑"
 								},
 								{
 									"Type": "NodeText",
@@ -11053,7 +11858,7 @@
 			"Properties": {
 				"ID": "20240530101000-uaq4ub6",
 				"id": "20240530101000-yl0e0sq",
-				"updated": "20250115161806"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -11083,7 +11888,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-wqr5cs1",
-				"updated": "20250115161806"
+				"updated": "20260921105011"
 			},
 			"Children": [
 				{
@@ -11205,7 +12010,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11283,7 +12088,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "完了と未完了を切り替え"
+									"Data": "未着手、進行中、完了、中止の順に循環して切り替え（カスタム状態からは未着手に戻る）"
 								}
 							]
 						},
@@ -11307,21 +12112,58 @@
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Enter"
+									"TextMarkTextContent": "Shift"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": "​+"
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌘Enter"
+									"TextMarkTextContent": "L"
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "⇧⌘L"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "タスクリスト"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "未着手と進行中は完了に、その他の状態は未着手に切り替え"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
@@ -11383,7 +12225,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11405,13 +12247,425 @@
 			]
 		},
 		{
+			"ID": "20260921105011-icqlkb6",
+			"Type": "NodeHeading",
+			"Properties": {
+				"id": "20260921105011-icqlkb6",
+				"updated": "20260921221035"
+			},
+			"HeadingLevel": 3,
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "マインドマップ"
+				}
+			]
+		},
+		{
+			"ID": "20260921105011-01k7syf",
+			"Type": "NodeTable",
+			"Properties": {
+				"id": "20260921105011-01k7syf",
+				"updated": "20260921221035",
+				"colgroup": "|"
+			},
+			"TableAligns": [
+				0,
+				0
+			],
+			"Children": [
+				{
+					"Type": "NodeTableHead",
+					"Data": "thead",
+					"Children": [
+						{
+							"Type": "NodeTableRow",
+							"Data": "tr",
+							"Children": [
+								{
+									"Type": "NodeTableCell",
+									"Data": "th",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "名前"
+										}
+									]
+								},
+								{
+									"Type": "NodeTableCell",
+									"Data": "th",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "ショートカット"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "選択したノードを編集"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Space"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "子ノードを作成"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Tab"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "同階層のノードを作成"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ノードまたは接続を削除"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Delete"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Backspace"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "親ノードを選択"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "←"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "展開済みの最初の子ノードを選択"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "→"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "同じ親を持つ前のノードを選択"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↑"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "同じ親を持つ次のノードを選択"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "↓"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "ノードの編集を終了"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Esc"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "キャンバスを横方向に移動"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Shift"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " + "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ホイール"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "キャンバスを拡大・縮小"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Ctrl"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " + "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "ホイール"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Data": "tr",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "キャンバスを移動"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Data": "td",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "マウスの右ボタンを押しながらドラッグ"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"ID": "20240530101000-9x0xqew",
 			"Type": "NodeHeading",
 			"HeadingLevel": 3,
 			"Properties": {
 				"ID": "20240530101000-uqhtil9",
 				"id": "20240530101000-9x0xqew",
-				"updated": "20251024173531"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -11450,16 +12704,13 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / ",
+					"Data": " / ",
 					"Properties": {
 						"id": ""
 					}
 				},
 				{
 					"Type": "NodeTextMark",
-					"Properties": {
-						"id": ""
-					},
 					"TextMarkType": "kbd",
 					"TextMarkTextContent": "⌘O"
 				},
@@ -11482,7 +12733,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-prxsqyv",
-				"updated": "20251024173531"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -11551,7 +12802,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -11577,7 +12828,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11595,7 +12846,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -11621,7 +12872,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11639,7 +12890,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -11665,7 +12916,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11683,7 +12934,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ で設定できます"
+									"Data": " ​ で設定できます"
 								}
 							]
 						}
@@ -11736,7 +12987,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11798,7 +13049,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11860,7 +13111,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11922,7 +13173,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -11975,7 +13226,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12037,7 +13288,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12090,7 +13341,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12134,7 +13385,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12157,7 +13408,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20250423105545-q3l2fg0",
-				"updated": "20250423105910"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12171,7 +13422,16 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / "
+					"Data": " / "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "···Enter"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " / "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -12198,7 +13458,7 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ / "
+					"Data": " / "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -12221,7 +13481,7 @@
 			"Properties": {
 				"colgroup": "min-width: 60px;|min-width: 60px;",
 				"id": "20250423105545-be49765",
-				"updated": "20250423105910"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12294,7 +13554,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12317,7 +13577,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20260128161450-iiz9i7p",
-				"updated": "20260128161456"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12336,7 +13596,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20260128161450-kbgswta",
-				"updated": "20260128161450"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12409,7 +13669,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12427,13 +13687,205 @@
 			]
 		},
 		{
+			"ID": "20260905124213-unrfwm9",
+			"Type": "NodeHeading",
+			"Properties": {
+				"id": "20260905124213-unrfwm9",
+				"updated": "20260906013806"
+			},
+			"HeadingLevel": 3,
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "タブブロック"
+				}
+			]
+		},
+		{
+			"ID": "20260905124213-fem82m0",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260905124213-fem82m0",
+				"updated": "20260906013806"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "タブバーにフォーカスがあるとき、左右の矢印キーで上部タブ、上下の矢印キーで左側タブのフォーカスを移動します。本文では通常のテキスト編集として動作します。"
+				},
+				{
+					"Type": "NodeText",
+					"Data": "タブのタイトルを編集中に "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Enter"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " または "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "Tab"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " を押すと編集を終了して本文に移動します。本文をクリックしてもタイトルの編集を終了できます。"
+				}
+			]
+		},
+		{
+			"ID": "20260905124213-idyj9f0",
+			"Type": "NodeTable",
+			"Properties": {
+				"id": "20260905124213-idyj9f0",
+				"updated": "20260905124213"
+			},
+			"TableAligns": [
+				0,
+				0
+			],
+			"Children": [
+				{
+					"Type": "NodeTableHead",
+					"Children": [
+						{
+							"Type": "NodeTableRow",
+							"Children": [
+								{
+									"Type": "NodeTableCell",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "操作"
+										}
+									]
+								},
+								{
+									"Type": "NodeTableCell",
+									"Children": [
+										{
+											"Type": "NodeText",
+											"Data": "キー"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "最初／最後のタブにフォーカス"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Home"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "End"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "フォーカス中のタブを選択"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Space"
+								}
+							]
+						}
+					]
+				},
+				{
+					"Type": "NodeTableRow",
+					"Children": [
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "タイトル編集から本文へ移動"
+								}
+							]
+						},
+						{
+							"Type": "NodeTableCell",
+							"Children": [
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Enter"
+								},
+								{
+									"Type": "NodeText",
+									"Data": " / "
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "kbd",
+									"TextMarkTextContent": "Tab"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"ID": "20240530101000-c14kljt",
 			"Type": "NodeHeading",
 			"HeadingLevel": 2,
 			"Properties": {
 				"ID": "20240530101000-kibu4fp",
 				"id": "20240530101000-c14kljt",
-				"updated": "20250115161839"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12486,7 +13938,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-m16mm4z",
-				"updated": "20250115161839"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12550,7 +14002,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12559,7 +14011,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12568,7 +14020,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12621,7 +14073,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12665,7 +14117,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12753,7 +14205,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12771,7 +14223,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12780,7 +14232,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -12839,7 +14291,7 @@
 			"Properties": {
 				"ID": "20240530101000-f610gee",
 				"id": "20240530101000-6otjesc",
-				"updated": "20250115161901"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12892,7 +14344,7 @@
 			"Properties": {
 				"colgroup": "min-width: 60px;|min-width: 60px;",
 				"id": "20240530101000-7kukgqe",
-				"updated": "20250115161901"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -12965,7 +14417,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13018,7 +14470,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13115,7 +14567,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13168,7 +14620,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13231,7 +14683,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13284,7 +14736,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13337,7 +14789,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13469,7 +14921,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13531,7 +14983,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13575,7 +15027,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13619,7 +15071,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13847,7 +15299,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -13906,7 +15358,7 @@
 			"Properties": {
 				"ID": "20240530101000-vrk49kt",
 				"id": "20240530101000-lika2qh",
-				"updated": "20250115161909"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -13932,7 +15384,7 @@
 			"Properties": {
 				"ID": "20240530101000-usrz6hz",
 				"id": "20240530101000-4xhn39m",
-				"updated": "20250115161909"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -13961,7 +15413,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-freiged",
-				"updated": "20250115161909"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14069,7 +15521,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14122,7 +15574,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14179,7 +15631,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14267,7 +15719,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14320,7 +15772,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14373,7 +15825,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14397,7 +15849,7 @@
 			"Properties": {
 				"ID": "20240530101000-8otxr1l",
 				"id": "20240530101000-tfqze2e",
-				"updated": "20251021231125"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14427,7 +15879,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-6s8hlcg",
-				"updated": "20251021231125"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14600,7 +16052,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14663,7 +16115,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14726,7 +16178,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14834,7 +16286,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -14868,7 +16320,7 @@
 			"Properties": {
 				"ID": "20240530101000-zk96zon",
 				"id": "20240530101000-ptljayp",
-				"updated": "20250115161926"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -14888,7 +16340,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-uhcv1tc",
-				"updated": "20250115161926"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15010,7 +16462,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15067,7 +16519,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15124,7 +16576,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15185,7 +16637,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15218,12 +16670,12 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20240530101000-mifghto",
-				"updated": "20250929214234"
+				"updated": "20260913160005"
 			},
 			"Children": [
 				{
 					"Type": "NodeText",
-					"Data": "ドキュメントツリーパネル"
+					"Data": "ドキュメントパネル"
 				}
 			]
 		},
@@ -15238,7 +16690,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20240530101000-4iuhg30",
-				"updated": "20250929214234"
+				"updated": "20260913160005"
 			},
 			"Children": [
 				{
@@ -15360,7 +16812,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15417,7 +16869,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15436,25 +16888,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "まずは "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ で最初の文書を選択する必要があります"
+									"Data": "最後にクリックしたドキュメントを起点として、表示されている行を範囲選択します。親ドキュメントの名前やアイコンをクリックして展開した場合も起点を更新します。Shift を押しながら繰り返しクリックすると、起点を維持したまま選択範囲を拡大・縮小できます。起点が無効な場合は表示中の選択済みドキュメントを使い、該当するものがなければクリックしたドキュメントだけを選択します"
 								}
 							]
 						}
@@ -15498,7 +16932,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15568,7 +17002,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15634,7 +17068,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15643,7 +17077,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / マウス中ボタン"
+									"Data": " / マウス中ボタン"
 								}
 							]
 						},
@@ -15653,7 +17087,7 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "​"
+									"Data": "​ "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15680,7 +17114,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ が有効な場合"
+									"Data": " ​ が有効な場合"
 								}
 							]
 						}
@@ -15763,7 +17197,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15790,7 +17224,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20250407200617-qvyo3wq",
-				"updated": "20250407200617"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15810,7 +17244,7 @@
 			"Properties": {
 				"colgroup": "||",
 				"id": "20250407200617-ri0umby",
-				"updated": "20250407200617"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15893,7 +17327,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ /"
+									"Data": "​/"
 								},
 								{
 									"Type": "NodeTextMark",
@@ -15921,7 +17355,7 @@
 			"Properties": {
 				"ID": "20240530101000-ylncc7b",
 				"id": "20240530101000-jll3o4o",
-				"updated": "20250115161948"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -15950,7 +17384,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-4tizc3i",
-				"updated": "20250115161948"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16018,7 +17452,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16075,7 +17509,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16132,7 +17566,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16156,7 +17590,7 @@
 			"Properties": {
 				"ID": "20240530101000-k2qu42z",
 				"id": "20240530101000-q8a53oa",
-				"updated": "20250115161952"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16185,7 +17619,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-afvvjmf",
-				"updated": "20250115161952"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16293,7 +17727,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16350,7 +17784,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16374,7 +17808,7 @@
 			"Properties": {
 				"ID": "20240530101000-gc0xgdh",
 				"id": "20240530101000-9gd269x",
-				"updated": "20250115161957"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -16403,7 +17837,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-p1pkn1q",
-				"updated": "20250115161957"
+				"updated": "20260919234652"
 			},
 			"Children": [
 				{
@@ -16448,94 +17882,6 @@
 							"Children": [
 								{
 									"Type": "NodeText",
-									"Data": "フローティングウィンドウで開く"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "バックグラウンドで開く"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Ctrl"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⌘クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
 									"Data": "右に開く"
 								}
 							]
@@ -16564,65 +17910,12 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
 									"TextMarkType": "kbd",
 									"TextMarkTextContent": "⌥クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								}
-							]
-						}
-					]
-				},
-				{
-					"Type": "NodeTableRow",
-					"Data": "tr",
-					"Children": [
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "下に開く"
-								}
-							]
-						},
-						{
-							"Type": "NodeTableCell",
-							"Data": "td",
-							"Children": [
-								{
-									"Type": "NodeText",
-									"Data": "​"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "Shift"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​+"
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "クリック"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "​ / "
-								},
-								{
-									"Type": "NodeTextMark",
-									"TextMarkType": "kbd",
-									"TextMarkTextContent": "⇧クリック"
 								},
 								{
 									"Type": "NodeText",
@@ -16641,7 +17934,7 @@
 			"Properties": {
 				"ID": "20240530101000-84m3izj",
 				"id": "20240530101000-q5l68vs",
-				"updated": "20250529111249"
+				"updated": "20260918223821"
 			},
 			"Children": [
 				{
@@ -16670,7 +17963,7 @@
 			"Properties": {
 				"colgroup": "|",
 				"id": "20240530101000-4pvglr9",
-				"updated": "20250529111249"
+				"updated": "20260811122156"
 			},
 			"Children": [
 				{
@@ -16765,7 +18058,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16875,7 +18168,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​/ "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -16884,7 +18177,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​ / "
+									"Data": " / "
 								},
 								{
 									"Type": "NodeTextMark",

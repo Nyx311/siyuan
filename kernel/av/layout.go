@@ -1,4 +1,4 @@
-// SiYuan - Refactor your thinking
+// SiYuan - From thought to insight, with agents
 // Copyright (c) 2020-present, b3log.org
 //
 // This program is free software: you can redistribute it and/or modify
@@ -75,9 +75,9 @@ type BaseInstance struct {
 func NewViewBaseInstance(view *View) *BaseInstance {
 	showIcon, wrapField := true, false
 	switch view.LayoutType {
-	case LayoutTypeTable:
-		showIcon = view.Table.ShowIcon
-		wrapField = view.Table.WrapField
+	case LayoutTypeTable, LayoutTypeList, LayoutTypeCalendar:
+		showIcon = view.GetTableLayout().ShowIcon
+		wrapField = view.GetTableLayout().WrapField
 	case LayoutTypeGallery:
 		showIcon = view.Gallery.ShowIcon
 		wrapField = view.Gallery.WrapField
@@ -99,6 +99,7 @@ func NewViewBaseInstance(view *View) *BaseInstance {
 		GroupCalc:        view.GroupCalc,
 		GroupFolded:      view.GroupFolded,
 		GroupHidden:      view.GroupHidden,
+		PageSize:         view.PageSize,
 		ShowIcon:         showIcon,
 		WrapField:        wrapField,
 	}
@@ -153,14 +154,16 @@ type BaseInstanceField struct {
 
 	// 以下是某些字段类型的特有属性
 
-	Options      []*SelectOption `json:"options,omitempty"`  // 选项列表
-	NumberFormat NumberFormat    `json:"numberFormat"`       // 数字字段格式化
-	Template     string          `json:"template"`           // 模板字段内容
-	Relation     *Relation       `json:"relation,omitempty"` // 关联字段
-	Rollup       *Rollup         `json:"rollup,omitempty"`   // 汇总字段
-	Date         *Date           `json:"date,omitempty"`     // 日期设置
-	Created      *Created        `json:"created,omitempty"`  // 创建时间设置
-	Updated      *Updated        `json:"updated,omitempty"`  // 更新时间设置
+	Options        []*SelectOption   `json:"options,omitempty"`        // 选项列表
+	NumberFormat   NumberFormat      `json:"numberFormat"`             // 数字字段格式化
+	DateFormat     DateDisplayFormat `json:"dateFormat,omitempty"`     // 日期显示格式
+	Template       string            `json:"template"`                 // 模板字段内容
+	RenderTemplate string            `json:"renderTemplate,omitempty"` // 显示模板内容
+	Relation       *Relation         `json:"relation,omitempty"`       // 关联字段
+	Rollup         *Rollup           `json:"rollup,omitempty"`         // 汇总字段
+	Date           *Date             `json:"date,omitempty"`           // 日期设置
+	Created        *Created          `json:"created,omitempty"`        // 创建时间设置
+	Updated        *Updated          `json:"updated,omitempty"`        // 更新时间设置
 }
 
 func (baseInstanceField *BaseInstanceField) GetID() string {
@@ -181,6 +184,10 @@ func (baseInstanceField *BaseInstanceField) GetType() KeyType {
 
 func (baseInstanceField *BaseInstanceField) GetNumberFormat() NumberFormat {
 	return baseInstanceField.NumberFormat
+}
+
+func (baseInstanceField *BaseInstanceField) GetDateFormat() DateDisplayFormat {
+	return baseInstanceField.DateFormat
 }
 
 // Collection 描述了一个集合的接口。
@@ -229,6 +236,9 @@ type Field interface {
 
 	// GetNumberFormat 返回数字字段的格式化设置。
 	GetNumberFormat() NumberFormat
+
+	// GetDateFormat 返回日期字段的显示格式。
+	GetDateFormat() DateDisplayFormat
 }
 
 // Item 描述了一个项目的接口。

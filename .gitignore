@@ -7,6 +7,7 @@
 *.aar
 *.jar
 *.syso
+/kernel/harmony/libkernel.h
 .DS_Store
 .eslintcache
 app/node_modules
@@ -15,6 +16,11 @@ app/build
 app/src/types/dist
 app/kernel*
 app/SiYuan-Kernel
+app/pandoc/bin/
+app/pandoc/share/
+app/pandoc/COPYING.rtf
+app/pandoc/COPYRIGHT.txt
+app/pandoc/MANUAL.html
 ios
 pprof
 
@@ -28,6 +34,7 @@ electron/dist
 # IDE
 .idea/
 .vscode/
+.zcode/
 
 # Log
 logs
@@ -36,6 +43,9 @@ logs
 # NPM Package
 package-lock.json
 yarn.lock
+
+# musl toolchain
+muslbin/
 
 # Workflows
 **/__pycache__

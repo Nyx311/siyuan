@@ -1,14 +1,9 @@
-import {App} from "../index";
+import type {App} from "../index";
 import {Constants} from "../constants";
-import { ipcRenderer } from "electron";
+import {ipcRenderer} from "electron";
+import {destroyWindowPluginKernels} from "./closeWinCore";
 
-export const closeWindow = async (app: App) => {
-    for (let i = 0; i < app.plugins.length; i++) {
-        try {
-            await app.plugins[i].onunload();
-        } catch (e) {
-            console.error(e);
-        }
-    }
+export const closeWindow = (app: App) => {
+    destroyWindowPluginKernels(app.plugins, error => console.error(error));
     ipcRenderer.send(Constants.SIYUAN_CMD, "destroy");
 };

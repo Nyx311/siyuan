@@ -1,29 +1,68 @@
-import {App} from "../index";
+import {sendGlobalShortcut} from "../boot/globalEvent/globalShortcut";
+import type {App} from "../index";
 import {EventBus} from "./EventBus";
-import {fetchPost} from "../util/fetch";
+import type {subMenu} from "../menus/Menu";
+import {setTopBarContextMenu} from "./topBarContextMenu";
+import {fetchPost, fetchSyncPost} from "../util/fetch";
+import {ContractFormData} from "../util/contractFormData";
 import {isMobile, isWindow} from "../util/functions";
+import {getAllEditor, getAllModels} from "../layout/getAll";
 /// #if !MOBILE
 import {Custom} from "../layout/dock/Custom";
-import {getAllEditor, getAllModels} from "../layout/getAll";
 import {Tab} from "../layout/Tab";
 import {resizeTopBar, setPanelFocus} from "../layout/util";
-import {getDockByType} from "../layout/tabUtil";
+import {getDockByType, setTabPosition} from "../layout/tabUtil";
+import {clearOBG} from "../layout/dock/util";
 ///#else
 import {MobileCustom} from "../mobile/dock/MobileCustom";
 /// #endif
 import {hasClosestByAttribute} from "../protyle/util/hasClosest";
 import {BlockPanel} from "../block/Panel";
 import {Setting} from "./Setting";
-import {clearOBG} from "../layout/dock/util";
 import {Constants} from "../constants";
-import {uninstall} from "./uninstall";
-import {afterLoadPlugin, loadPlugins} from "./loader";
+import {addPluginDock, removePluginDock} from "./loader";
 import {normalizeStoragePath} from "../util/pathName";
+import {Kernel} from "./kernel";
+import {IAgentCapabilityEffects, registerCapability} from "../layout/dock/agent/frontendCapabilities";
+import {
+    addBreadcrumbButton as addPluginBreadcrumbButton,
+    removeBreadcrumbButton as removePluginBreadcrumbButton,
+} from "./breadcrumbButton";
+import type {TCustomBlockRender} from "./customBlockRender";
+import {registerPluginCommand} from "./commandAdapter";
+import {updatePluginKeymap} from "./keymap";
+import {
+    clearPluginToolbarItems,
+    removePluginToolbarItem,
+    resolvePluginToolbar,
+    setPluginToolbarItem,
+} from "./toolbarItem";
+import {isBuiltinToolbarItemName} from "../protyle/toolbar/defaults";
+import {getLegacyPluginTopBarEntryKey, getPluginTopBarEntryKey} from "./topBarKey";
+import {applyTopBarEntryVisibility} from "../config/entryVisibility/runtime";
+
+export type TPluginDataChangeReason = "sync" | "overwrite";
+
+const disposedPlugins = new WeakSet<Plugin>();
+
+const isPluginDisposed = (plugin: Plugin) => disposedPlugins.has(plugin);
+
+export const markPluginDisposed = (plugin: Plugin) => {
+    disposedPlugins.add(plugin);
+    clearPluginToolbarItems(plugin);
+};
+
+const refreshPluginToolbars = () => {
+    getAllEditor().forEach(editor => {
+        editor.protyle.toolbar.update(editor.protyle);
+    });
+};
 
 export class Plugin {
     private app: App;
-    public i18n: IObject;
+    public i18n: Record<string, import("../types/api").JSONValue>;
     public eventBus: EventBus;
+    public kernel: Kernel;
     public data: any = {};
     public displayName: string;
     public readonly name: string;
@@ -31,21 +70,21 @@ export class Plugin {
         filter: string[],
         html: string,
         id: string,
+        /** 是否在精简版中显示。默认值：false */
+        showInLite?: boolean,
         callback: (protyle: import("../protyle").Protyle, nodeElement: HTMLElement) => void
     }[] = [];
-    // TODO
     public customBlockRenders: {
         [key: string]: {
-            icon: string,
-            action: "edit" | "more"[],
-            genCursor: boolean,
-            render: (options: { app: App, element: Element }) => void
+            render: TCustomBlockRender
         }
     } = {};
     public topBarIcons: Element[] = [];
+    private customTopBarElements = new WeakSet<HTMLElement>();
     public setting: Setting;
     public statusBarIcons: Element[] = [];
     public commands: ICommand[] = [];
+    public agentCapabilities: Array<{id: string; generation: number}> = [];
     public models: {
         /// #if !MOBILE
         [key: string]: (options: { tab: Tab, data: any }) => Custom
@@ -53,6 +92,7 @@ export class Plugin {
     } = {};
     public docks: {
         [key: string]: {
+            id: string,
             config: IPluginDockTab,
             /// #if !MOBILE
             model: (options: { tab: Tab }) => Custom
@@ -67,12 +107,17 @@ export class Plugin {
         app: App,
         name: string,
         displayName: string,
-        i18n: IObject
+        i18n: Record<string, import("../types/api").JSONValue>
     }) {
         this.app = options.app;
         this.i18n = options.i18n;
         this.displayName = options.displayName;
-        this.eventBus = new EventBus(options.name);
+        this.eventBus = new EventBus();
+        this.kernel = new Kernel({
+            appId: options.app.appId,
+            name: options.name,
+            eventBus: this.eventBus,
+        });
 
         // https://github.com/siyuan-note/siyuan/issues/9943
         Object.defineProperty(this, "name", {
@@ -80,32 +125,14 @@ export class Plugin {
             writable: false,
         });
 
-        this.updateProtyleToolbar([]).forEach(toolbarItem => {
+        resolvePluginToolbar(this, []).forEach(toolbarItem => {
             if (typeof toolbarItem === "string" || Constants.INLINE_TYPE.concat("|").includes(toolbarItem.name)) {
                 return;
             }
             if (typeof toolbarItem.hotkey !== "string") {
                 toolbarItem.hotkey = "";
             }
-            if (!window.siyuan.config.keymap.plugin) {
-                window.siyuan.config.keymap.plugin = {};
-            }
-            if (!window.siyuan.config.keymap.plugin[options.name]) {
-                window.siyuan.config.keymap.plugin[options.name] = {
-                    [toolbarItem.name]: {
-                        default: toolbarItem.hotkey,
-                        custom: toolbarItem.hotkey,
-                    }
-                };
-            }
-            if (!window.siyuan.config.keymap.plugin[options.name][toolbarItem.name]) {
-                window.siyuan.config.keymap.plugin[options.name][toolbarItem.name] = {
-                    default: toolbarItem.hotkey,
-                    custom: toolbarItem.hotkey,
-                };
-            } else {
-                window.siyuan.config.keymap.plugin[options.name][toolbarItem.name].default = toolbarItem.hotkey;
-            }
+            toolbarItem.hotkey = updatePluginKeymap(options.name, toolbarItem.name, toolbarItem.hotkey).default;
         });
     }
 
@@ -113,71 +140,84 @@ export class Plugin {
         // 加载
     }
 
-    public onunload() {
-        // 禁用/关闭
+    public onunload(): Promise<void> | void {
+        // 禁用
     }
 
-    public uninstall() {
+    public uninstall(): Promise<void> | void {
         // 卸载
     }
 
-    public onDataChanged() {
-        // 存储数据变更
-        // 兼容 3.4.1 以前同步数据使用重载插件的问题
-        uninstall(this.app, this.name, true);
-        loadPlugins(this.app, [this.name], false).then(() => {
-            afterLoadPlugin(this);
-            getAllEditor().forEach(editor => {
-                editor.protyle.toolbar.update(editor.protyle);
-            });
-        });
+    /**
+     * 插件实例就绪后存储数据发生变化时运行，思源会等待返回的 Promise；
+     * 未覆盖该方法时则重载整个插件。
+     * @param reason 数据变更来源，sync 为跨设备同步合并，overwrite 为其他前端实例通过文件接口写入
+     */
+    public onDataChanged(reason?: TPluginDataChangeReason): Promise<void> | void {
+        // 存储数据变更，子类可根据来源区分处理
+        void reason;
     }
 
     public async updateCards(options: ICardData) {
         return options;
     }
 
-    public onLayoutReady() {
+    public onLayoutReady(): Promise<void> | void {
         // 布局加载完成
     }
 
+    public addToolbarItem(item: IMenuItem) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        if (typeof item?.name !== "string" || !item.name.trim() || item.name !== item.name.trim() ||
+            Constants.INLINE_TYPE.includes(item.name) || isBuiltinToolbarItemName(item.name)) {
+            console.error(`plugin ${this.name} addToolbarItem error: name must be a unique custom toolbar item name`);
+            return;
+        }
+        const toolbarItem = {...item};
+        if (typeof toolbarItem.hotkey !== "string") {
+            toolbarItem.hotkey = "";
+        }
+        toolbarItem.hotkey = updatePluginKeymap(this.name, toolbarItem.name, toolbarItem.hotkey).default;
+        setPluginToolbarItem(this, toolbarItem);
+        refreshPluginToolbars();
+    }
+
+    public removeToolbarItem(name: string) {
+        if (isPluginDisposed(this) || !removePluginToolbarItem(this, name)) {
+            return;
+        }
+        refreshPluginToolbars();
+    }
+
     public addCommand(command: ICommand) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
         if (typeof command.hotkey !== "string") {
             command.hotkey = "";
         }
-        if (!window.siyuan.config.keymap.plugin) {
-            window.siyuan.config.keymap.plugin = {};
-        }
-        if (!window.siyuan.config.keymap.plugin[this.name]) {
-            command.customHotkey = command.hotkey;
-            window.siyuan.config.keymap.plugin[this.name] = {
-                [command.langKey]: {
-                    default: command.hotkey,
-                    custom: command.hotkey,
-                }
-            };
-        } else if (!window.siyuan.config.keymap.plugin[this.name][command.langKey]) {
-            command.customHotkey = command.hotkey;
-            window.siyuan.config.keymap.plugin[this.name][command.langKey] = {
-                default: command.hotkey,
-                custom: command.hotkey,
-            };
-        } else if (window.siyuan.config.keymap.plugin[this.name][command.langKey]) {
-            if (typeof window.siyuan.config.keymap.plugin[this.name][command.langKey].custom === "string") {
-                command.customHotkey = window.siyuan.config.keymap.plugin[this.name][command.langKey].custom;
-            } else {
-                command.customHotkey = command.hotkey;
-            }
-            window.siyuan.config.keymap.plugin[this.name][command.langKey]["default"] = command.hotkey;
-        }
+        const keymapItem = updatePluginKeymap(this.name, command.langKey, command.hotkey, command.hotkeys);
+        command.hotkey = keymapItem.default;
+        command.customHotkey = keymapItem.custom;
         if (typeof command.customHotkey !== "string") {
             console.error(`${this.name} - commands data is error and has been removed.`);
         } else {
             this.commands.push(command);
+            registerPluginCommand(this.app, this, command);
+            /// #if !BROWSER
+            if (command.globalCallback) {
+                sendGlobalShortcut(this.app);
+            }
+            /// #endif
         }
     }
 
     public addIcons(svg: string) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
         const svgElement = document.querySelector(`svg[data-name="${this.name}"] defs`);
         if (svgElement) {
             svgElement.insertAdjacentHTML("afterbegin", svg);
@@ -194,50 +234,172 @@ export class Plugin {
     }
 
     public addTopBar(options: {
-        icon: string,
+        id?: string,
+        icon?: string,
         title: string,
-        position?: "south" | "left",
-        callback: (evt: MouseEvent) => void
+        position?: "right" | "left",
+        element?: HTMLElement,
+        contextMenu?: (menu: subMenu) => void,
+        callback?: (evt: MouseEvent) => void
     }) {
-        options.icon = options.icon.trim();
-        if (!options.icon.startsWith("icon") && !options.icon.startsWith("<svg")) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        if (options.element && (isMobile() || isWindow())) {
+            return;
+        }
+        if (!options.element) {
+            options.icon = options.icon?.trim() || "";
+        }
+        if (!options.element && !options.icon.startsWith("icon") && !options.icon.startsWith("<svg")) {
             console.error(`plugin ${this.name} addTopBar error: icon must be svg id or svg tag`);
             return;
         }
-        const iconElement = document.createElement("div");
-        iconElement.setAttribute("data-menu", "true");
-        iconElement.addEventListener("click", options.callback);
-        iconElement.id = `plugin_${this.name}_${this.topBarIcons.length}`;
-        if (isMobile()) {
+        let iconElement = typeof options.id === "string" ? this.topBarIcons.find(item =>
+            item.getAttribute("data-id") === options.id) as HTMLElement : undefined;
+        if (options.element && this.topBarIcons.includes(options.element)) {
+            if (typeof options.id !== "string") {
+                iconElement = options.element;
+            } else if (iconElement !== options.element) {
+                console.error(`plugin ${this.name} addTopBar error: element is already registered with another id`);
+                return;
+            }
+        }
+        const isNew = !iconElement;
+        if (iconElement && (options.element && options.element !== iconElement ||
+            !options.element && this.customTopBarElements.has(iconElement))) {
+            const replacement = options.element || document.createElement("div");
+            ["id", "data-id", "data-topbar-entry", "data-location"].forEach(name => {
+                const value = iconElement.getAttribute(name);
+                if (value !== null) {
+                    replacement.setAttribute(name, value);
+                }
+            });
+            setTopBarContextMenu(iconElement);
+            iconElement.replaceWith(replacement);
+            this.topBarIcons[this.topBarIcons.indexOf(iconElement)] = replacement;
+            iconElement = replacement;
+        }
+        if (!iconElement) {
+            iconElement = options.element || document.createElement("div");
+            if (typeof options.id === "string") {
+                iconElement.id = `plugin_${encodeURIComponent(this.name)}:${encodeURIComponent(options.id)}`;
+                iconElement.setAttribute("data-id", options.id);
+                iconElement.setAttribute("data-topbar-entry", getPluginTopBarEntryKey(this.name, options.id));
+            } else {
+                let index = this.topBarIcons.length;
+                do {
+                    iconElement.id = `plugin_${this.name}_${index}`;
+                    index++;
+                } while (this.topBarIcons.some(item => item.getAttribute("id") === iconElement.id));
+                iconElement.setAttribute("data-topbar-entry", getLegacyPluginTopBarEntryKey(this.name, index - 1));
+            }
+        }
+        const previousLocation = iconElement.getAttribute("data-location");
+        setTopBarContextMenu(iconElement, options.contextMenu ? (menu) => {
+            if (!isPluginDisposed(this)) {
+                options.contextMenu(menu);
+            }
+        } : undefined);
+        if (options.element) {
+            this.customTopBarElements.add(iconElement);
+            iconElement.setAttribute("data-topbar-custom", "true");
+            iconElement.setAttribute("aria-label", options.title);
+            iconElement.setAttribute("data-location", options.position || "right");
+        } else {
+            iconElement.setAttribute("data-menu", "true");
+            iconElement.onclick = options.callback;
+        }
+        if (!options.element && isMobile()) {
             iconElement.className = "b3-menu__item";
-            iconElement.innerHTML = (options.icon.startsWith("icon") ? `<svg class="b3-menu__icon"><use xlink:href="#${options.icon}"></use></svg>` : options.icon) +
+            const iconHTML = options.icon.startsWith("icon") ?
+                `<svg class="b3-menu__icon"><use xlink:href="#${options.icon}"></use></svg>` :
+                `<span class="b3-menu__icon b3-menu__icon--custom">${options.icon}</span>`;
+            iconElement.innerHTML = iconHTML +
                 `<span class="b3-menu__label">${options.title}</span>`;
-        } else if (!isWindow()) {
+        } else if (!options.element && !isWindow()) {
             iconElement.className = "toolbar__item ariaLabel";
             iconElement.setAttribute("aria-label", options.title);
             iconElement.innerHTML = options.icon.startsWith("icon") ? `<svg><use xlink:href="#${options.icon}"></use></svg>` : options.icon;
-            iconElement.addEventListener("click", options.callback);
             iconElement.setAttribute("data-location", options.position || "right");
-            resizeTopBar();
         }
         if (isMobile() && window.siyuan.storage) {
-            if (!window.siyuan.storage[Constants.LOCAL_PLUGINTOPUNPIN].includes(iconElement.id)) {
-                document.querySelector("#menuAbout")?.after(iconElement);
+            if (!window.siyuan.storage[Constants.LOCAL_PLUGINTOPUNPIN].includes(iconElement.id) &&
+                !document.contains(iconElement)) {
+                document.getElementById("menuPluginTopBar")?.after(iconElement);
             }
         } else if (!isWindow() && window.siyuan.storage) {
-            if (window.siyuan.storage[Constants.LOCAL_PLUGINTOPUNPIN].includes(iconElement.id)) {
-                iconElement.classList.add("fn__none");
+            if (!document.contains(iconElement) ||
+                options.element && iconElement.parentElement !== document.getElementById("toolbar") ||
+                previousLocation !== iconElement.getAttribute("data-location")) {
+                document.querySelector("#" + (iconElement.getAttribute("data-location") === "right" ? "barPlugins" : "drag"))?.before(iconElement);
             }
-            document.querySelector("#" + (iconElement.getAttribute("data-location") === "right" ? "barPlugins" : "drag"))?.before(iconElement);
         }
-        this.topBarIcons.push(iconElement);
+        if (isNew) {
+            this.topBarIcons.push(iconElement);
+        }
+        /// #if !MOBILE
+        if (!isWindow()) {
+            applyTopBarEntryVisibility();
+            resizeTopBar();
+            setTabPosition(true);
+        }
+        /// #endif
         return iconElement;
+    }
+
+    public removeTopBar(id: string) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        const index = this.topBarIcons.findIndex(item => item.getAttribute("data-id") === id);
+        if (index === -1) {
+            return;
+        }
+        setTopBarContextMenu(this.topBarIcons[index]);
+        this.topBarIcons[index].remove();
+        this.topBarIcons.splice(index, 1);
+        /// #if !MOBILE
+        if (!isWindow()) {
+            applyTopBarEntryVisibility();
+            resizeTopBar();
+            setTabPosition(true);
+        }
+        /// #endif
+    }
+
+    public addBreadcrumbButton(options: {
+        id: string,
+        icon: string,
+        title: string,
+        callback: (event: MouseEvent, protyle: IProtyle) => void,
+    }) {
+        if (isPluginDisposed(this)) {
+            return options.id;
+        }
+        options.icon = options.icon.trim();
+        if (!options.icon.startsWith("icon") && !options.icon.startsWith("<svg")) {
+            console.error(`plugin ${this.name} addBreadcrumbButton error: icon must be svg id or svg tag`);
+            return options.id;
+        }
+        addPluginBreadcrumbButton(this.name, options);
+        return options.id;
+    }
+
+    public removeBreadcrumbButton(id: string) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        removePluginBreadcrumbButton(this.name, id);
     }
 
     public addStatusBar(options: {
         element: HTMLElement,
         position?: "right" | "left",
     }) {
+        if (isPluginDisposed(this)) {
+            return options.element;
+        }
         /// #if !MOBILE
         options.element.setAttribute("data-location", options.position || "right");
         this.statusBarIcons.push(options.element);
@@ -254,13 +416,37 @@ export class Plugin {
     }
 
     public openSetting() {
-        if (!this.setting) {
+        if (isPluginDisposed(this) || !this.setting) {
             return;
         }
         this.setting.open(this.displayName || this.name);
     }
 
+    public async loadPublishData(): Promise<Record<string, string | number | boolean | null>> {
+        if (isPluginDisposed(this)) {
+            throw {code: 410, msg: "Plugin lifecycle has ended", data: null};
+        }
+        const response = await fetchSyncPost("/api/petal/loadPluginPublishData", {packageName: this.name}, undefined, false);
+        if (response.code !== 0 || !response.data) {
+            throw response;
+        }
+        return response.data;
+    }
+
+    public async savePublishData(data: Record<string, string | number | boolean | null>): Promise<void> {
+        if (isPluginDisposed(this)) {
+            throw {code: 410, msg: "Plugin lifecycle has ended", data: null};
+        }
+        const response = await fetchSyncPost("/api/petal/savePluginPublishData", {packageName: this.name, data}, undefined, false);
+        if (response.code !== 0) {
+            throw response;
+        }
+    }
+
     public loadData(storageName: string): Promise<any> {
+        if (isPluginDisposed(this)) {
+            return Promise.reject({code: 410, msg: "Plugin lifecycle has ended", data: null});
+        }
         if (typeof this.data[storageName] === "undefined") {
             this.data[storageName] = "";
         }
@@ -277,6 +463,9 @@ export class Plugin {
     }
 
     public saveData(storageName: string, data: any): Promise<any | IWebSocketData> {
+        if (isPluginDisposed(this)) {
+            return Promise.reject({code: 410, msg: "Plugin lifecycle has ended", data: null});
+        }
         if (window.siyuan.config.readonly || window.siyuan.isPublish) {
             return Promise.reject({
                 code: 403,
@@ -304,10 +493,12 @@ export class Plugin {
                 });
                 return;
             }
-            const formData = new FormData();
-            formData.append("path", pathString);
-            formData.append("file", file);
-            formData.append("isDir", "false");
+            const formData = new ContractFormData({
+                path: pathString,
+                file,
+                isDir: "false",
+                app: Constants.SIYUAN_APPID,
+            });
             fetchPost("/api/file/putFile", formData, (response) => {
                 this.data[storageName] = data;
                 resolve(response);
@@ -316,6 +507,9 @@ export class Plugin {
     }
 
     public removeData(storageName: string): Promise<IWebSocketData> {
+        if (isPluginDisposed(this)) {
+            return Promise.reject({code: 410, msg: "Plugin lifecycle has ended", data: null} as IWebSocketData);
+        }
         if (window.siyuan.config.readonly || window.siyuan.isPublish) {
             return Promise.reject({
                 code: 403,
@@ -327,7 +521,10 @@ export class Plugin {
             if (!this.data) {
                 this.data = {};
             }
-            fetchPost("/api/file/removeFile", {path: `/data/storage/petal/${this.name}/${normalizeStoragePath(storageName)}`}, (response) => {
+            fetchPost("/api/file/removeFile", {
+                path: `/data/storage/petal/${this.name}/${normalizeStoragePath(storageName)}`,
+                app: Constants.SIYUAN_APPID,
+            }, (response) => {
                 delete this.data[storageName];
                 resolve(response);
             });
@@ -352,12 +549,15 @@ export class Plugin {
 
     public addTab(options: {
         type: string,
-        destroy?: () => void,
-        beforeDestroy?: () => void,
-        resize?: () => void,
-        update?: () => void,
-        init: () => void
+        destroy?: (this: Custom) => void,
+        beforeDestroy?: (this: Custom) => void,
+        resize?: (this: Custom) => void,
+        update?: (this: Custom) => void,
+        init: (this: Custom, custom: Custom) => void
     }) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
         /// #if !MOBILE
         const type2 = this.name + options.type;
         this.models[type2] = (arg: { data: any, tab: Tab }) => {
@@ -382,20 +582,93 @@ export class Plugin {
         /// #endif
     }
 
+    // Register a frontend action that the AI agent can discover and invoke. The action is exposed
+    // to the LLM under the full name "plugin__<pluginName>__<name>" with the given description, and
+    // is dispatched via the "frontend" tool. On uninstall, all registered actions are removed.
+    /**
+     * 按名称取密钥值（来自「设置 → 密钥和变量」的密钥库）。找不到时返回空字符串。
+     * 密钥在内核侧加密存储，此处读到的是运行时明文；仅在本地管理员身份下可用。
+     */
+    public getSecret(name: string): string {
+        const found = window.siyuan.config.secrets?.items?.find((item) => item.name === name);
+        return found ? found.value : "";
+    }
+
+    /**
+     * 按名称取变量值（来自「设置 → 密钥和变量」的变量库）。找不到时返回空字符串。
+     * 变量以明文存储，用于非敏感配置。
+     */
+    public getVariable(name: string): string {
+        const found = window.siyuan.config.variables?.items?.find((item) => item.name === name);
+        return found ? found.value : "";
+    }
+
+    public addAgentCapability(options: {
+        name: string,
+        title?: string,
+        description: string,
+        inputSchema: Record<string, unknown>,
+        outputSchema?: Record<string, unknown>,
+        effects?: IAgentCapabilityEffects,
+        actionEffects?: Record<string, IAgentCapabilityEffects>,
+        handler: (args: Record<string, unknown>, app: App) => Promise<{
+            result?: string;
+            structuredContent?: unknown;
+            error?: string;
+        }>
+    }): string {
+        const name = options.name.trim();
+        if (!name || !options.description.trim()) {
+            throw new Error("Agent capability name and description are required");
+        }
+        const id = "plugin/frontend/" + encodeURIComponent(this.name) + "/" + encodeURIComponent(name);
+        if (isPluginDisposed(this)) {
+            return id;
+        }
+        if (!this.agentCapabilities.some((capability) => capability.id === id)) {
+            const generation = registerCapability({
+                id,
+                title: options.title,
+                description: options.description,
+                inputSchema: options.inputSchema,
+                outputSchema: options.outputSchema,
+                effects: options.effects,
+                actionEffects: options.actionEffects,
+                source: "plugin",
+                ownerId: this.name,
+                ownerName: this.displayName || this.name,
+                handler: options.handler,
+            });
+            this.agentCapabilities.push({id, generation});
+        }
+        return id;
+    }
+
     public addDock(options: {
+        id?: string,
         config: IPluginDockTab,
         data: any,
         type: string,
-        destroy?: () => void,
-        resize?: () => void,
-        update?: () => void,
-        init: () => void
+        destroy?: (this: Custom | MobileCustom) => void,
+        resize?: (this: Custom) => void,
+        update?: (this: Custom | MobileCustom) => void,
+        init: (this: Custom | MobileCustom, custom: Custom | MobileCustom) => void
     }) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        const id = options.id || options.type;
         const type2 = this.name + options.type;
+        const existingID = this.docks[type2]?.id;
+        if (existingID && existingID !== id) {
+            removePluginDock(this, existingID);
+        }
+        removePluginDock(this, id);
         if (typeof options.config.index === "undefined") {
             options.config.index = 1000;
         }
         this.docks[type2] = {
+            id,
             config: options.config,
             /// #if MOBILE
             mobileModel: (element) => {
@@ -432,25 +705,16 @@ export class Plugin {
             }
             /// #endif
         };
-        if (!window.siyuan.config.keymap.plugin) {
-            window.siyuan.config.keymap.plugin = {};
-        }
-        if (!window.siyuan.config.keymap.plugin[this.name]) {
-            window.siyuan.config.keymap.plugin[this.name] = {};
-        }
-        const hotkey = typeof options.config.hotkey === "string" ? options.config.hotkey : "";
-        if (!window.siyuan.config.keymap.plugin[this.name][type2]) {
-            window.siyuan.config.keymap.plugin[this.name][type2] = {
-                default: hotkey,
-                custom: hotkey,
-            };
-        } else {
-            if (typeof window.siyuan.config.keymap.plugin[this.name][type2].custom !== "string") {
-                window.siyuan.config.keymap.plugin[this.name][type2].custom = hotkey;
-            }
-            window.siyuan.config.keymap.plugin[this.name][type2]["default"] = hotkey;
-        }
+        options.config.hotkey = updatePluginKeymap(this.name, type2, options.config.hotkey).default;
+        addPluginDock(this);
         return this.docks[type2];
+    }
+
+    public removeDock(id: string) {
+        if (isPluginDisposed(this)) {
+            return;
+        }
+        removePluginDock(this, id);
     }
 
     public addFloatLayer = (options: {
@@ -458,9 +722,12 @@ export class Plugin {
         x?: number,
         y?: number,
         targetElement?: HTMLElement,
-        originalRefBlockIDs?: IObject,
+        originalRefBlockIDs?: Record<string, string>,
         isBacklink: boolean,
     }) => {
+        if (isPluginDisposed(this)) {
+            return;
+        }
         window.siyuan.blockPanels.push(new BlockPanel({
             app: this.app,
             originalRefBlockIDs: options.originalRefBlockIDs,
@@ -484,3 +751,6 @@ export class Plugin {
         return this.protyleOptionsValue;
     }
 }
+
+export const hasPluginSetting = (plugin: Plugin) => Boolean(plugin.setting) ||
+    plugin.openSetting !== Plugin.prototype.openSetting;

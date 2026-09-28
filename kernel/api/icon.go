@@ -1,4 +1,4 @@
-// SiYuan - Refactor your thinking
+// SiYuan - From thought to insight, with agents
 // Copyright (c) 2020-present, b3log.org
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@ package api
 
 import (
 	"fmt"
+	"html"
 	"math"
 	"net/http"
 	"regexp"
@@ -26,6 +27,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/siyuan-note/siyuan/kernel/apicontract"
 	"github.com/siyuan-note/siyuan/kernel/model"
 	"github.com/siyuan-note/siyuan/kernel/util"
 )
@@ -112,7 +114,7 @@ func darkenColor(hexColor string, factor float64) string {
 	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
 }
 
-func getDynamicIcon(c *gin.Context) {
+var getDynamicIcon = contractHandler(apicontract.GetDynamicIcon, func(c *gin.Context, request apicontract.DynamicIconRequest) apicontract.Response[apicontract.BinaryContent] {
 	// Add internal kernel API `/api/icon/getDynamicIcon` https://github.com/siyuan-note/siyuan/pull/12939
 
 	iconType := c.Query("type")
@@ -125,7 +127,8 @@ func getDynamicIcon(c *gin.Context) {
 	if "" == lang {
 		lang = util.Lang
 	}
-	weekdayType := c.Query("weekdayType") // 设置星期几的格式，zh_CH {1：周日，2：周天， 3：星期日，4：星期天，}, en_US {1: Mon, 2: MON，3: Monday, 4. MONDAY,}
+	lang = util.LangToBCP47(lang)
+	weekdayType := c.Query("weekdayType") // 设置星期几的格式，zh-CN {1：周日，2：周天， 3：星期日，4：星期天，}, en {1: Mon, 2: MON，3: Monday, 4. MONDAY,}
 	if "" == weekdayType {
 		weekdayType = "1"
 	}
@@ -158,20 +161,46 @@ func getDynamicIcon(c *gin.Context) {
 		// Type 8: 文字图标
 		content := c.Query("content")
 		id := c.Query("id")
-		svg = generateTypeEightSVG(color, content, id)
+		if strings.Contains(content, ".action{") {
+			// 模板内容会按 id 读取工作区数据，只读角色必须通过发布访问控制后才能执行 https://github.com/siyuan-note/siyuan/security/advisories/GHSA-whcx-xxqh-c838
+			if !dynamicIconContentAccessable(c, id) {
+				// 空内容保持与 id 不存在时一致的响应结构，避免泄露文档的可访问状态
+				svg = generateTypeEightSVG(color, "")
+				break
+			}
+			content = model.RenderDynamicIconContentTemplate(c, content, id)
+		}
+		svg = generateTypeEightSVG(color, content)
 	default:
 		// 默认为Type 1
 		svg = generateTypeOneSVG(color, dateInfo)
 	}
 
 	if !model.Conf.Editor.AllowSVGScript {
-		svg = util.SanitizeSVG(svg)
+		var err error
+		svg, err = util.SanitizeSVG(svg)
+		if err != nil {
+			return apicontract.EmptyHTTPResponse[apicontract.BinaryContent](http.StatusInternalServerError)
+		}
 	}
 
 	c.Header("Content-Type", "image/svg+xml")
+	c.Header("Content-Security-Policy", "script-src 'none'; object-src 'none'; base-uri 'none'")
+	c.Header("X-Content-Type-Options", "nosniff")
+	// 响应内容随角色与发布密码 Cookie 变化，避免中间缓存跨调用方回放
+	c.Header("Vary", "Cookie")
 	c.Header("Cache-Control", "no-cache")
 	c.Header("Pragma", "no-cache")
-	c.String(http.StatusOK, svg)
+	return apicontract.SuccessBinary("image/svg+xml", []byte(svg))
+})
+
+// dynamicIconContentAccessable 判断调用方是否可读取动态图标模板内容所引用的块。
+// 管理员与编辑者拥有工作区读权限，只读角色则需要通过发布访问控制（禁用、密码与加密笔记本门禁）。
+func dynamicIconContentAccessable(c *gin.Context, id string) bool {
+	if !model.IsReadOnlyRoleContext(c) {
+		return true
+	}
+	return model.CheckBlockIdMetadataAccessableByPublishAccess(c, model.GetPublishAccess(), id)
 }
 
 func getDateInfo(dateStr string, lang string, weekdayType string) map[string]any {
@@ -194,7 +223,7 @@ func getDateInfo(dateStr string, lang string, weekdayType string) map[string]any
 	var weekdays []string
 
 	switch lang {
-	case "zh_CN":
+	case "zh-CN":
 		month = date.Format("1月")
 		switch weekdayType {
 		case "1":
@@ -209,7 +238,7 @@ func getDateInfo(dateStr string, lang string, weekdayType string) map[string]any
 			weekdays = []string{"周日", "周一", "周二", "周三", "周四", "周五", "周六"}
 		}
 		weekdayStr = weekdays[date.Weekday()]
-	case "zh_CHT":
+	case "zh-TW":
 		month = date.Format("1月")
 		switch weekdayType {
 		case "1":
@@ -247,9 +276,9 @@ func getDateInfo(dateStr string, lang string, weekdayType string) map[string]any
 	weekNumStr := fmt.Sprintf("%dW", weekNum)
 
 	switch lang {
-	case "zh_CN":
+	case "zh-CN":
 		weekNumStr = fmt.Sprintf("%d周", weekNum)
-	case "zh_CHT":
+	case "zh-TW":
 		weekNumStr = fmt.Sprintf("%d週", weekNum)
 	}
 	// 判断是否是周末
@@ -427,7 +456,7 @@ func generateTypeSixSVG(color string, lang string, weekdayType string, dateInfo 
 	// 动态变化字体大小
 	var fontSize float64
 	switch lang {
-	case "zh_CN", "zh_CHT":
+	case "zh-CN", "zh-TW":
 		fontSize = 460 / float64(len([]rune(weekday)))
 	default:
 		switch weekdayType {
@@ -472,7 +501,7 @@ func generateTypeSevenSVG(color string, lang string, dateInfo map[string]any) st
 	switch {
 	case diffDays == 0:
 		switch lang {
-		case "zh_CN", "zh_CHT":
+		case "zh-CN", "zh-TW":
 			tipText = "今天"
 		default:
 			tipText = "Today"
@@ -480,9 +509,9 @@ func generateTypeSevenSVG(color string, lang string, dateInfo map[string]any) st
 		diffDaysText = "--"
 	case diffDays > 0:
 		switch lang {
-		case "zh_CN":
+		case "zh-CN":
 			tipText = "还有"
-		case "zh_CHT":
+		case "zh-TW":
 			tipText = "還有"
 		default:
 			tipText = "Left"
@@ -490,9 +519,9 @@ func generateTypeSevenSVG(color string, lang string, dateInfo map[string]any) st
 		diffDaysText = fmt.Sprintf("%d", diffDays)
 	default:
 		switch lang {
-		case "zh_CN":
+		case "zh-CN":
 			tipText = "已过"
-		case "zh_CHT":
+		case "zh-TW":
 			tipText = "已過"
 		default:
 			tipText = "Past"
@@ -503,7 +532,7 @@ func generateTypeSevenSVG(color string, lang string, dateInfo map[string]any) st
 
 	var dayStr string
 	switch lang {
-	case "zh_CN", "zh_CHT":
+	case "zh-CN", "zh-TW":
 		dayStr = "天"
 	default:
 		dayStr = "days"
@@ -534,38 +563,44 @@ func generateTypeSevenSVG(color string, lang string, dateInfo map[string]any) st
 }
 
 // Type 8: 文字图标
-func generateTypeEightSVG(color, content, id string) string {
-	if strings.Contains(content, ".action{") {
-		content = model.RenderDynamicIconContentTemplate(content, id)
-	}
-
+func generateTypeEightSVG(color, content string) string {
 	colorScheme := getColorScheme(color)
+
+	contentLen := len([]rune(content))
+	if 0 == contentLen {
+		// 内容为空时不输出文本，避免字号按零长度计算得到无效值
+		return fmt.Sprintf(`
+    <svg id="dynamic_icon_type8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M39,0h434c20.97,0,38,17.03,38,38v412c0,33.11-26.89,60-60,60H60c-32.56,0-59-26.44-59-59V38C1,17.03,18.03,0,39,0Z" style="fill: %s;"/>
+	</svg>
+    `, colorScheme.Primary)
+	}
 
 	// 动态变化字体大小
 	isChinese := regexp.MustCompile(`[\p{Han}]`).MatchString(content)
 	var fontSize float64
 	if isChinese {
 		switch {
-		case len([]rune(content)) == 1:
+		case contentLen == 1:
 			fontSize = 320
 		default:
-			fontSize = 480 / float64(len([]rune(content)))
+			fontSize = 480 / float64(contentLen)
 		}
 	} else {
 		switch {
-		case len([]rune(content)) == 1:
+		case contentLen == 1:
 			fontSize = 480
-		case len([]rune(content)) == 2:
+		case contentLen == 2:
 			fontSize = 300
-		case len([]rune(content)) == 3:
+		case contentLen == 3:
 			fontSize = 240
 		default:
-			fontSize = 750 / float64(len([]rune(content)))
+			fontSize = 750 / float64(contentLen)
 		}
 	}
 	// 当内容为单个字符时，一些小写字母需要调整文字位置(暂时没法批量解决)
 	dy := "0%"
-	if len([]rune(content)) == 1 {
+	if contentLen == 1 {
 		switch content {
 		case "g", "p", "y", "q":
 			dy = "-10%"
@@ -576,10 +611,11 @@ func generateTypeEightSVG(color, content, id string) string {
 		}
 	}
 
+	escapedContent := html.EscapeString(content)
 	return fmt.Sprintf(`
     <svg id="dynamic_icon_type8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M39,0h434c20.97,0,38,17.03,38,38v412c0,33.11-26.89,60-60,60H60c-32.56,0-59-26.44-59-59V38C1,17.03,18.03,0,39,0Z" style="fill: %s;"/>
         <text x="50%%" y="55%%" dy="%s" style="font-size: %.2fpx; fill: #fff; text-anchor: middle; dominant-baseline:middle;font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans', 'Noto Sans CJK SC', 'Microsoft YaHei'; ">%s</text>
 	</svg>
-    `, colorScheme.Primary, dy, fontSize, content)
+    `, colorScheme.Primary, dy, fontSize, escapedContent)
 }

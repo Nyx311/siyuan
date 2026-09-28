@@ -1,10 +1,11 @@
 import {fetchPost, fetchSyncPost} from "../util/fetch";
-import {unicode2Emoji} from "../emoji";
+import {getFileTreeIconHTML} from "../emoji/fileTreeIcon";
 import {Constants} from "../constants";
 import {escapeHtml} from "../util/escape";
 import {isWindow} from "../util/functions";
 import {setStorageVal, updateHotkeyTip} from "../protyle/util/compatibility";
 import {getAllDocks} from "../layout/getAll";
+import {getDockHotkey} from "../layout/dock/hotkey";
 import {Dialog} from "../dialog";
 import {focusByRange} from "../protyle/util/selection";
 import {hasClosestByClassName} from "../protyle/util/hasClosest";
@@ -12,8 +13,8 @@ import {hideElements} from "../protyle/ui/hideElements";
 
 const renderRecentDocsContent = async (data: {
     rootID: string,
-    icon: string,
-    title: string,
+    icon?: string,
+    title?: string,
     viewedAt?: number,
     closedAt?: number,
     openAt?: number,
@@ -21,10 +22,10 @@ const renderRecentDocsContent = async (data: {
     let tabHtml = "";
     let index = 0;
     data.forEach((item) => {
-        if (!key || item.title.toLowerCase().includes(key.toLowerCase())) {
+        if (!key || (item.title || "").toLowerCase().includes(key.toLowerCase())) {
             tabHtml += `<li data-index="${index}" data-node-id="${item.rootID}" class="b3-list-item${index === 0 ? " b3-list-item--focus" : ""}">
-    ${unicode2Emoji(item.icon || window.siyuan.storage[Constants.LOCAL_IMAGES].file, "b3-list-item__graphic", true)}
-    <span class="b3-list-item__text">${escapeHtml(item.title)}</span>
+    ${getFileTreeIconHTML(item.icon, "file", "b3-list-item__graphic", true)}
+    <span class="b3-list-item__text">${escapeHtml(item.title || "")}</span>
 </li>`;
             index++;
         }
@@ -34,7 +35,9 @@ const renderRecentDocsContent = async (data: {
         const pathResponse = await fetchSyncPost("/api/filetree/getFullHPathByID", {
             id: data[0].rootID // 过滤后的第一个文档 ID
         });
-        switchPath = escapeHtml(pathResponse.data);
+        if (pathResponse.code === 0 && typeof pathResponse.data === "string") {
+            switchPath = escapeHtml(pathResponse.data);
+        }
     }
     let dockHtml = "";
     if (!isWindow()) {
@@ -55,7 +58,7 @@ const renderRecentDocsContent = async (data: {
                 dockHtml += `<li data-type="${item.type}" data-index="${docIndex}" class="b3-list-item${!switchPath ? " b3-list-item--focus" : ""}">
     <svg class="b3-list-item__graphic"><use xlink:href="#${item.icon}"></use></svg>
     <span class="b3-list-item__text">${item.title}</span>
-    <span class="b3-list-item__meta">${updateHotkeyTip(item.hotkey)}</span>
+    <span class="b3-list-item__meta">${updateHotkeyTip(getDockHotkey(item))}</span>
 </li>`;
                 if (!switchPath) {
                     switchPath = item.title;
@@ -95,14 +98,12 @@ export const openRecentDocs = () => {
             title: `<div class="fn__flex">
 <div class="fn__flex-center">${window.siyuan.languages.recentDocs}</div>
 <div class="fn__flex-1"></div>
-<div class="b3-form__icon fn__size200">
-    <svg class="b3-form__icon-icon"><use xlink:href="#iconSearch"></use></svg>
-    <input placeholder="${window.siyuan.languages.search}" class="b3-text-field fn__block b3-form__icon-input">
-</div>
+<input spellcheck="false" placeholder="${window.siyuan.languages.searchPlaceholder}" class="b3-text-field fn__size200">
 <span class="fn__space"></span>
 <div class="fn__flex-center">
     <select class="b3-select" id="recentDocsSort">
         <option value="viewedAt">${window.siyuan.languages.recentViewed}</option>
+        <option value="created">${window.siyuan.languages.recentCreated}</option>
         <option value="updated">${window.siyuan.languages.recentModified}</option>
         <option value="openAt">${window.siyuan.languages.recentOpened}</option>
         <option value="closedAt">${window.siyuan.languages.recentClosed}</option>
@@ -139,7 +140,7 @@ export const openRecentDocs = () => {
             if (liElement) {
                 dialog.element.querySelector(".b3-list-item--focus").classList.remove("b3-list-item--focus");
                 liElement.classList.add("b3-list-item--focus");
-                window.dispatchEvent(new KeyboardEvent("keydown", {key: "Enter"}));
+                liElement.dispatchEvent(new KeyboardEvent("keydown", {key: "Enter", bubbles: true}));
                 event.stopPropagation();
                 event.preventDefault();
             }

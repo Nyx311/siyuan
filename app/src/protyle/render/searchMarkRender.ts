@@ -1,7 +1,12 @@
 import {Constants} from "../../constants";
 import {isInEmbedBlock} from "../util/hasClosest";
 
-export const searchMarkRender = (protyle: IProtyle, keys: string[], hlId?: string | number, cb?: () => void) => {
+export const searchMarkRender = (protyle: IProtyle, keys: string[], hlId?: string | number, cb?: () => void,
+                                 options?: {
+                                     rootElement?: HTMLElement,
+                                     currentElement?: Element,
+                                     excludeSelector?: string,
+                                 }) => {
     if (!isSupportCSSHL() || ((!keys || keys.length === 0) && !hlId)) {
         return;
     }
@@ -11,8 +16,8 @@ export const searchMarkRender = (protyle: IProtyle, keys: string[], hlId?: strin
         protyle.highlight.rangeIndex = 0;
         protyle.highlight.ranges = [];
         let isSetHL = false;
-        let hlBlockElement: Element;
-        if (typeof hlId === "string") {
+        let hlBlockElement = options?.currentElement;
+        if (!hlBlockElement && typeof hlId === "string") {
             Array.from(protyle.wysiwyg.element.querySelectorAll(`[data-node-id='${hlId}']`)).find(item => {
                 if (!isInEmbedBlock(item)) {
                     hlBlockElement = item;
@@ -28,18 +33,25 @@ export const searchMarkRender = (protyle: IProtyle, keys: string[], hlId?: strin
         // 准备一个数组来保存所有文本节点
         const textNodes: Node[] = [];
         const textNodesSize: number[] = [];
+        const excludedTextNodeCounts: number[] = [];
         let currentSize = 0;
+        let excludedTextNodeCount = 0;
+        const rootElement = options?.rootElement || protyle.contentElement;
 
-        const treeWalker = document.createTreeWalker(protyle.contentElement, NodeFilter.SHOW_TEXT);
+        const treeWalker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT);
         let currentNode = treeWalker.nextNode();
         while (currentNode) {
             textNodes.push(currentNode);
             currentSize += currentNode.textContent.length;
             textNodesSize.push(currentSize);
+            if (options?.excludeSelector && currentNode.parentElement?.closest(options.excludeSelector)) {
+                excludedTextNodeCount++;
+            }
+            excludedTextNodeCounts.push(excludedTextNodeCount);
             currentNode = treeWalker.nextNode();
         }
 
-        const text = protyle.contentElement.textContent;
+        const text = rootElement.textContent;
         const rangeIndexes: { range: Range, startIndex: number, isCurrent: boolean }[] = [];
         if (keys && keys.length > 0) {
             keys.forEach(key => {
@@ -56,13 +68,20 @@ export const searchMarkRender = (protyle: IProtyle, keys: string[], hlId?: strin
                         while (currentNodeIndex < textNodes.length && textNodesSize[currentNodeIndex] <= startIndex) {
                             currentNodeIndex++;
                         }
+                        const startNodeIndex = currentNodeIndex;
                         let currentTextNode = textNodes[currentNodeIndex];
-                        range.setStart(currentTextNode, startIndex - (currentNodeIndex ? textNodesSize[currentNodeIndex - 1] : 0));
 
                         while (currentNodeIndex < textNodes.length && textNodesSize[currentNodeIndex] < endIndex) {
                             currentNodeIndex++;
                         }
                         currentTextNode = textNodes[currentNodeIndex];
+                        const excludedCountBefore = startNodeIndex ? excludedTextNodeCounts[startNodeIndex - 1] : 0;
+                        if (excludedTextNodeCounts[currentNodeIndex] > excludedCountBefore) {
+                            startIndex = endIndex;
+                            continue;
+                        }
+                        range.setStart(textNodes[startNodeIndex], startIndex -
+                            (startNodeIndex ? textNodesSize[startNodeIndex - 1] : 0));
                         range.setEnd(currentTextNode, endIndex - (currentNodeIndex ? textNodesSize[currentNodeIndex - 1] : 0));
 
                         let isCurrent = false;

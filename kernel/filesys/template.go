@@ -1,4 +1,4 @@
-// SiYuan - Refactor your thinking
+// SiYuan - From thought to insight, with agents
 // Copyright (c) 2020-present, b3log.org
 //
 // This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,7 @@ func BuiltInTemplateFuncs() (ret template.FuncMap) {
 	ret["wordCount"] = wordCount
 	ret["markdown2text"] = markdown2text
 	ret["markdown2content"] = markdown2content
+	ret["countif"] = util.CountIf
 	return
 }
 

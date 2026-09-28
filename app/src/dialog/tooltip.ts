@@ -1,4 +1,5 @@
 import {isMobile} from "../util/functions";
+import {emitToPlugins, forEachPluginSubscriber} from "../plugin/EventBusCore";
 
 export const showTooltip = (
     message: string,
@@ -6,8 +7,21 @@ export const showTooltip = (
     tooltipClass?: string,
     event?: MouseEvent,
     space: number = 0.5,
+    positionOverride?: string,
 ) => {
     if (isMobile() || !message) {
+        return;
+    }
+    const messageElement = document.getElementById("tooltip");
+    const showDetail = {
+        message,
+        target,
+        tooltipElement: messageElement,
+    };
+    emitToPlugins("before-show-tooltip", showDetail);
+    message = showDetail.message;
+    if (!message) {
+        hideTooltip();
         return;
     }
     let targetRect = target.getBoundingClientRect();
@@ -36,12 +50,15 @@ export const showTooltip = (
         hideTooltip();
         return;
     }
-    const messageElement = document.getElementById("tooltip");
     messageElement.className = tooltipClass ? `tooltip tooltip--${tooltipClass}` : "tooltip";
-    messageElement.innerHTML = message;
+    messageElement.innerHTML = window.DOMPurify.sanitize(message);
     // 避免原本的 top 和 left 影响计算
     messageElement.removeAttribute("style");
-    const position = target.getAttribute("data-position");
+    // 普通提示不拦截目标点击，包含链接或控件的提示仍可交互。
+    if (!messageElement.querySelector("a, button, input, select, textarea, [contenteditable='true'], [tabindex], [role='button']")) {
+        messageElement.style.pointerEvents = "none";
+    }
+    const position = positionOverride || target.getAttribute("data-position");
     const parentRect = target.parentElement.getBoundingClientRect();
 
     let left;
@@ -124,9 +141,23 @@ export const showTooltip = (
         }
     }
     messageElement.style.top = top + "px";
-    messageElement.style.left = left + "px";
+    messageElement.style.left = Math.max(0, left) + "px";
+    // 与 data-position 同套风格：触发元素可用 data-delay 指定悬浮延迟（毫秒），未设置时沿用 SCSS 默认值
+    const tooltipDelay = target.getAttribute("data-delay");
+    if (tooltipDelay) {
+        messageElement.style.animationDelay = tooltipDelay + "ms";
+    }
 };
 
 export const hideTooltip = () => {
-    document.getElementById("tooltip").classList.add("fn__none");
+    const messageElement = document.getElementById("tooltip");
+    if (messageElement.classList.contains("fn__none")) {
+        return;
+    }
+    forEachPluginSubscriber("before-hide-tooltip", eventBus => {
+        eventBus.emit("before-hide-tooltip", {
+            tooltipElement: messageElement,
+        });
+    });
+    messageElement.classList.add("fn__none");
 };

@@ -7,7 +7,7 @@
 		"id": "20240530101000-6x9ivi7",
 		"title": "テンプレートスニペット",
 		"type": "doc",
-		"updated": "20250828155138"
+		"updated": "20260904091600"
 	},
 	"Children": [
 		{
@@ -66,7 +66,7 @@
 			"Properties": {
 				"ID": "20240530101000-5nvn9ad",
 				"id": "20240530101000-pi05yzt",
-				"updated": "20250828155138"
+				"updated": "20260619110446"
 			},
 			"Children": [
 				{
@@ -226,7 +226,7 @@
 			"ListData": {},
 			"Properties": {
 				"id": "20240530101000-by5hqnb",
-				"updated": "20250828155138"
+				"updated": "20260619110446"
 			},
 			"Children": [
 				{
@@ -260,15 +260,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​: この変数は現在のドキュメント名を挿入します。たとえば、"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "テンプレート"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "の内容が "
+									"Data": "​: この変数は現在のドキュメント名を挿入します。たとえば、テンプレートの内容が "
 								},
 								{
 									"Type": "NodeTextMark",
@@ -462,15 +454,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​: この関数は"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "データベース"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "をクエリしてブロックのリストを返します"
+									"Data": "​: この関数はデータベースをクエリしてブロックのリストを返します"
 								}
 							]
 						},
@@ -535,15 +519,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​: この関数はブロックIDに基づいて"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "データベース"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "を照会するために使用され、戻り値はブロックです"
+									"Data": "​: この関数はブロックIDに基づいてデータベースを照会するために使用され、戻り値はブロックです"
 								}
 							]
 						},
@@ -607,15 +583,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​: この関数は"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "データベース"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "をクエリしてスパンのリストを返します"
+									"Data": "​: この関数はデータベースをクエリしてスパンのリストを返します"
 								}
 							]
 						},
@@ -680,15 +648,7 @@
 								},
 								{
 									"Type": "NodeText",
-									"Data": "​: この関数は"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "データベース"
-								},
-								{
-									"Type": "NodeText",
-									"Data": "へのクエリに使用され、戻り値は結果セットです"
+									"Data": "​: この関数はデータベースへのクエリに使用され、戻り値は結果セットです"
 								}
 							]
 						},
@@ -1537,6 +1497,171 @@
 							]
 						}
 					]
+				},
+				{
+					"ID": "20260612205412-5pg8060",
+					"Type": "NodeListItem",
+					"ListData": {
+						"BulletChar": 42,
+						"Marker": "Kg=="
+					},
+					"Properties": {
+						"id": "20260612205412-5pg8060",
+						"updated": "20260612205412"
+					},
+					"Children": [
+						{
+							"ID": "20260612205412-wmfxvg4",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20260612205412-wmfxvg4",
+								"updated": "20260612205412"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "markdown2text"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ は Markdown 形式のフィールド値をプレーンテキストに変換します（コードや数式などは破棄され、改行も挿入されません）"
+								}
+							]
+						}
+					]
+				},
+				{
+					"ID": "20260612205412-j9w8ku4",
+					"Type": "NodeListItem",
+					"ListData": {
+						"BulletChar": 42,
+						"Marker": "Kg=="
+					},
+					"Properties": {
+						"id": "20260612205412-j9w8ku4",
+						"updated": "20260612205412"
+					},
+					"Children": [
+						{
+							"ID": "20260612205412-7x0k0dz",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20260612205412-7x0k0dz",
+								"updated": "20260612205412"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "markdown2content"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ は Markdown 形式のフィールド値をコンテンツテキストに変換します（コードや数式などは保持され、ブロック間には改行が挿入されます）"
+								}
+							]
+						}
+					]
+				},
+				{
+					"ID": "20260619110445-064hnmb",
+					"Type": "NodeListItem",
+					"ListData": {
+						"BulletChar": 42,
+						"Marker": "Kg=="
+					},
+					"Properties": {
+						"id": "20260619110445-064hnmb",
+						"updated": "20260619110446"
+					},
+					"Children": [
+						{
+							"ID": "20260619110445-ivdgrj6",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20260619110445-ivdgrj6",
+								"updated": "20260619110446"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "countif"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​ は数値リスト内の指定した比較条件を満たす要素数をカウントします。第 1 引数は数値リスト、第 2 引数は比較演算子（"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "gt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​/"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "lt"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​/"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "eq"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​/"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "ge"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​/"
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "le"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​）、第 3 引数は比較の閾値です。例："
+								},
+								{
+									"Type": "NodeTextMark",
+									"TextMarkType": "code",
+									"TextMarkTextContent": "countif .values \"gt\" 0"
+								},
+								{
+									"Type": "NodeText",
+									"Data": "​"
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -1586,6 +1711,35 @@
 				{
 					"Type": "NodeText",
 					"Data": "​ キーを押します。"
+				}
+			]
+		},
+		{
+			"ID": "20260904022100-cvnck64",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"id": "20260904022100-cvnck64",
+				"updated": "20260904091600"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "保存したテンプレート内のデータベース"
+				}
+			]
+		},
+		{
+			"ID": "20260904022100-n8kvyo2",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260904022100-n8kvyo2",
+				"updated": "20260904091600"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "ドキュメントをテンプレートとして保存するとき、「テンプレート内のデータベース」で、そのドキュメントにあるすべてのデータベースブロックへ同じモードを適用します。「完全なコピーを作成」がデフォルトです。テンプレートを使用するたびに独立したデータベースが作成され、元のデータベースとは同期せず、ブロック単位のコンテキストフィルターは削除されます。「ミラーのコピーを作成」は既存のデータベース参照とコンテキストフィルターを保持し、挿入されたデータベースブロックは元のデータベースとデータおよびビュー設定を共有します。参照モードでは、対象ドキュメントが同じ暗号化境界内で元のデータベースにアクセスできる必要があります。アクセスできない場合、テンプレートの挿入は失敗します。参照した共有タスクデータベースと、データベースブロックの「コンテキストフィルター」で「プロジェクト」関連フィールドを組み合わせると（いずれかを含む - 現在の文書）、同じプロジェクトテンプレートを使いながら、各プロジェクト文書に関連するタスクだけを表示できます。"
 				}
 			]
 		},
@@ -1672,7 +1826,7 @@
 			"Properties": {
 				"ID": "20240530101000-41fyx9q",
 				"id": "20240530101000-bkqjdmt",
-				"updated": "20240530101000"
+				"updated": "20260809232000"
 			},
 			"Children": [
 				{
@@ -1687,13 +1841,13 @@
 			"Properties": {
 				"ID": "20240530101000-x3uff8u",
 				"id": "20240530101000-y8h9h7d",
-				"updated": "20240530101000"
+				"updated": "20260809232000"
 			},
 			"Children": [
 				{
 					"Type": "NodeTextMark",
 					"TextMarkType": "a",
-					"TextMarkAHref": "https://b3log.org/siyuan/en/community.html",
+					"TextMarkAHref": "https://github.com/siyuan-note/bazaar",
 					"TextMarkTextContent": "コミュニティマーケットプレイスのリポジトリ"
 				},
 				{

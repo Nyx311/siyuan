@@ -1,5 +1,8 @@
+import {revealTabsForTarget} from "../protyle/render/tabsRender";
 import {hasClosestBlock, isInEmbedBlock} from "../protyle/util/hasClosest";
 import {focusByRange, getEditorRange} from "../protyle/util/selection";
+import {getStartScrollTop} from "./highlightPosition";
+import {isMobile} from "./functions";
 
 export const bgFade = (element: Element) => {
     element.classList.add("protyle-wysiwyg--hl");
@@ -15,6 +18,7 @@ export const highlightById = (protyle: IProtyle, id: string, position: ScrollLog
         // 预览定位
         nodeElement = document.getElementById(id);
         if (nodeElement) {
+            revealTabsForTarget(nodeElement, false);
             protyle.preview.element.scrollTop = nodeElement.offsetTop;
             bgFade(nodeElement);
         }
@@ -44,6 +48,28 @@ export const scrollCenter = (
     position: ScrollLogicalPosition = "nearest",
     behavior: ScrollBehavior = "auto"
 ) => {
+    const cellEditor = protyle.wysiwyg.element.closest(".table__cell-editor");
+    const cellScroll = cellEditor?.parentElement.closest<HTMLElement>(".protyle-content");
+    if (cellScroll && position === "nearest") {
+        // 单元格片段没有独立视口，只在光标离开所属文档的可视区域时滚动。
+        const selection = getSelection();
+        const range = selection.rangeCount ? selection.getRangeAt(0) : undefined;
+        const target = nodeElement || (range && hasClosestBlock(range.startContainer));
+        const caretRect = !nodeElement && range?.getBoundingClientRect();
+        const rect = caretRect && caretRect.height > 0 ? caretRect : target && target.getBoundingClientRect();
+        if (rect) {
+            const viewport = cellScroll.getBoundingClientRect();
+            const offset = rect.top < viewport.top ? rect.top - viewport.top :
+                rect.bottom > viewport.bottom - 16 ? rect.bottom - viewport.bottom + 16 : 0;
+            if (offset) {
+                cellScroll.scroll({top: cellScroll.scrollTop + offset, behavior});
+            }
+        }
+        return;
+    }
+    if (nodeElement) {
+        revealTabsForTarget(nodeElement);
+    }
     if (!protyle.disabled && !nodeElement && getSelection().rangeCount > 0) {
         const range = getSelection().getRangeAt(0);
         const blockElement = hasClosestBlock(range.startContainer);
@@ -80,11 +106,14 @@ export const scrollCenter = (
             range.insertNode(br2Element);
             const editorElement = protyle.contentElement;
             const cursorTop = br2Element.getBoundingClientRect().top - editorElement.getBoundingClientRect().top;
+            // 移动端额外预留一行，避免输入文字贴近键盘工具栏。
+            const extraLineHeight = isMobile() ? parseFloat(getComputedStyle(br2Element).lineHeight) ||
+                window.siyuan.config.editor.fontSize * 1.625 : 0;
             let scrollTop = 0;
             if (cursorTop < 0) {
                 scrollTop = editorElement.scrollTop + cursorTop;
             } else if (cursorTop > editorElement.clientHeight - 74) {   // 74 = 移动端底部 + 段落块高度
-                scrollTop = editorElement.scrollTop + (cursorTop + 74 - editorElement.clientHeight);
+                scrollTop = editorElement.scrollTop + (cursorTop + 74 + extraLineHeight - editorElement.clientHeight);
             }
             if (scrollTop !== 0) {
                 editorElement.scroll({top: scrollTop, behavior});
@@ -106,8 +135,22 @@ export const scrollCenter = (
     const elementRect = nodeElement.getBoundingClientRect();
     const contentRect = protyle.contentElement.getBoundingClientRect();
     if (position === "start") {
+        const breadcrumbElement = protyle.breadcrumb?.element.parentElement;
+        // 使用未应用滚动平移的面包屑边界，确保顶部栏重新显示后目标块仍在可视区域内。
+        const offsetParentTop = breadcrumbElement?.offsetParent?.getBoundingClientRect().top ?? contentRect.top;
         protyle.contentElement.scroll({
-            top: protyle.contentElement.scrollTop + elementRect.top - contentRect.top - (window.siyuan.config.editor.fontSize * 1.625 * 2 + 24),
+            top: getStartScrollTop({
+                scrollTop: protyle.contentElement.scrollTop,
+                elementTop: elementRect.top,
+                contentTop: contentRect.top,
+                contextHeight: window.siyuan.config.editor.fontSize * 1.625 * 2 + 24,
+                overlay: breadcrumbElement ? {
+                    absolute: getComputedStyle(breadcrumbElement).position === "absolute",
+                    offsetParentTop,
+                    offsetTop: breadcrumbElement.offsetTop,
+                    height: breadcrumbElement.offsetHeight,
+                } : undefined,
+            }),
             behavior
         });
         return;

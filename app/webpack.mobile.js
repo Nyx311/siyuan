@@ -55,6 +55,9 @@ module.exports = (env, argv) => {
                             loader: "esbuild-loader",
                             options: {
                                 target: "es6",
+                                supported: {
+                                    "import-meta": true,
+                                },
                                 sourcemap: argv.mode !== "production",
                             }
                         },
@@ -90,7 +93,12 @@ module.exports = (env, argv) => {
                     ],
                 },
                 {
+                    test: /task-(canceled|in-progress|unchecked)\.svg$/,
+                    type: "asset/inline",
+                },
+                {
                     test: /\.(png|svg)$/,
+                    exclude: /task-(canceled|in-progress|unchecked)\.svg$/,
                     use: [
                         {
                             loader: "file-loader",

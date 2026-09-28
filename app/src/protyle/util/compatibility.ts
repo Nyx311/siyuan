@@ -4,127 +4,216 @@ import {Constants} from "../../constants";
 /// #if !BROWSER
 import {ipcRenderer} from "electron";
 /// #endif
-/// #if MOBILE
-import {processSYLink} from "../../editor/openLink";
-/// #endif
-import {getDefaultType} from "../../search/getDefault";
+import {getDefaultSubType, getDefaultType, normalizeSearchTypes} from "../../search/getDefault";
+import {hideMessage, showMessage} from "../../dialog/message";
+import {isEncryptedBox, isSiYuanUriProtocol} from "../../util/pathName";
+import {isBrowser} from "../../util/functions";
+import type {App} from "../../index";
+import {genUUID} from "../../util/genID";
+import {buildBlockDOMClipboardData} from "./blockDOMClipboard";
+import {buildWebClipboardHTML, getTextSiyuanFromTextHTML} from "./clipboardData";
+import {prepareExternalClipboardHTML} from "./richClipboard";
+import {isIOSPlatform, isIPadOSPlatform} from "./browserCompatibility";
+import {canOpenExternalURL, getHostCapabilities} from "../../util/hostCapabilities";
+
+export {encodeBase64, getTextSiyuanFromTextHTML} from "./clipboardData";
+
+export type TSaveExportFileResult = {
+    status: "success" | "canceled" | "error";
+    name?: string;
+    message?: string;
+};
+
+const mobileExportFileRequests = new Map<string, (result: TSaveExportFileResult) => void>();
+
+window.handleSaveExportFileResult = (requestID: string, resultJSON: string) => {
+    const resolve = mobileExportFileRequests.get(requestID);
+    if (!resolve) {
+        return;
+    }
+    mobileExportFileRequests.delete(requestID);
+    try {
+        const result = JSON.parse(resultJSON) as TSaveExportFileResult;
+        if (["success", "canceled", "error"].includes(result.status)) {
+            resolve(result);
+            return;
+        }
+    } catch (e) {
+        console.error("parse saveExportFile result failed:", e);
+    }
+    resolve({status: "error"});
+};
+
+const waitMobileExportFile = (callback: (requestID: string) => void) => {
+    return new Promise<TSaveExportFileResult>((resolve) => {
+        const requestID = genUUID();
+        mobileExportFileRequests.set(requestID, resolve);
+        try {
+            callback(requestID);
+        } catch (e) {
+            mobileExportFileRequests.delete(requestID);
+            console.error("saveExportFile failed:", e);
+            resolve({status: "error", message: String(e)});
+        }
+    });
+};
 
 export const isPhablet = () => {
     return /Android|webOS|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(navigator.userAgent) || isIPhone() || isIPad();
 };
 
-export const encodeBase64 = (text: string): string => {
-    if (typeof Buffer !== "undefined") {
-        return Buffer.from(text, "utf8").toString("base64");
-    } else {
-        const encoder = new TextEncoder();
-        const bytes = encoder.encode(text);
-        let binary = "";
-        const chunkSize = 0x8000; // 避免栈溢出
-
-        for (let i = 0; i < bytes.length; i += chunkSize) {
-            const chunk = bytes.subarray(i, Math.min(i + chunkSize, bytes.length));
-            binary += String.fromCharCode(...chunk);
+export const saveExportFile = async (uri: string, msgId?: string): Promise<TSaveExportFileResult> => {
+    if (!getHostCapabilities().importExport) {
+        if (msgId) {
+            hideMessage(msgId);
         }
-
-        return btoa(binary);
+        return {status: "error"};
     }
-};
-
-export const getTextSiyuanFromTextHTML = (html: string) => {
-    if (html.trimStart().startsWith("<html") &&
-        html.substring(0, html.indexOf(">")).includes('xmlns:x="urn:schemas-microsoft-com:office:excel"')) {
-        // 移除 Microsoft Excel 中的 data-siyuan https://github.com/siyuan-note/siyuan/pull/16338
-        return {
-            textSiyuan: "",
-            textHtml: html.replace(/<!--data-siyuan='[^']+'-->/g, "")
-        };
-    }
-    const siyuanMatch = html.match(/<!--data-siyuan='([^']+)'-->/);
-    let textSiyuan = "";
-    let textHtml = html;
-    if (siyuanMatch) {
-        try {
-            if (typeof Buffer !== "undefined") {
-                const decodedBytes = Buffer.from(siyuanMatch[1], "base64");
-                textSiyuan = decodedBytes.toString("utf8");
-            } else {
-                const decoder = new TextDecoder();
-                const bytes = Uint8Array.from(atob(siyuanMatch[1]), char => char.charCodeAt(0));
-                textSiyuan = decoder.decode(bytes);
-            }
-            // 移除注释节点，保持原有的 text/html 内容
-            textHtml = html.replace(/<!--data-siyuan='[^']+'-->/g, "");
-        } catch (e) {
-            console.log("Failed to decode siyuan data from HTML comment:", e);
-        }
-    }
-    return {
-        textSiyuan,
-        textHtml
-    };
-};
-
-export const openByMobile = (uri: string) => {
     if (!uri) {
-        return;
+        return {status: "error"};
     }
-    /// #if MOBILE
-    if (processSYLink(window.siyuan.ws.app, uri)) {
-        return;
+    /// #if !BROWSER
+    let saveErrorMsgId: string | undefined;
+    try {
+        const resolved = new URL(uri, `${location.origin}/`);
+        const pathSeg = resolved.pathname.substring(resolved.pathname.lastIndexOf("/") + 1);
+        let fileName: string;
+        try {
+            fileName = decodeURIComponent(pathSeg);
+        } catch {
+            fileName = pathSeg;
+        }
+        if (!fileName) {
+            fileName = "download";
+        }
+        let defaultPath = fileName;
+        while (true) {
+            const result = await ipcRenderer.invoke(Constants.SIYUAN_GET, {
+                cmd: "showSaveDialog",
+                defaultPath,
+                properties: ["showOverwriteConfirmation"],
+            });
+            if (result.canceled || !result.filePath) {
+                if (msgId) {
+                    hideMessage(msgId);
+                }
+                if (saveErrorMsgId) {
+                    hideMessage(saveErrorMsgId);
+                }
+                return {status: "canceled"};
+            }
+            const copyResponse = await (await fetch("/api/export/copyExportFile", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    srcPath: resolved.pathname,
+                    dest: result.filePath,
+                }),
+            })).json();
+            if (copyResponse.code === 0) {
+                break;
+            }
+            console.error("saveExportFile failed:", new Error(copyResponse.msg));
+            if (saveErrorMsgId) {
+                showMessage(window.siyuan.languages.exportFileSaveFailed, 0, "error", saveErrorMsgId);
+            } else {
+                saveErrorMsgId = showMessage(window.siyuan.languages.exportFileSaveFailed, 0, "error");
+            }
+            defaultPath = result.filePath;
+        }
+        if (msgId) {
+            hideMessage(msgId);
+        }
+        if (saveErrorMsgId) {
+            hideMessage(saveErrorMsgId);
+        }
+        showMessage(window.siyuan.languages.exported);
+        return {status: "success", name: fileName};
+    } catch (e) {
+        if (msgId) {
+            hideMessage(msgId);
+        }
+        console.error("saveExportFile failed:", e);
+        if (saveErrorMsgId) {
+            showMessage(window.siyuan.languages.exportFileSaveFailed, 0, "error", saveErrorMsgId);
+        } else {
+            showMessage(window.siyuan.languages.exportFileSaveFailed, 0, "error");
+        }
+        return {status: "error", message: String(e)};
+    }
+    /// #else
+    try {
+        let result: TSaveExportFileResult;
+        let hasCompletionResult = false;
+        if (isInAndroid()) {
+            if (window.JSAndroid.saveExportFileV2) {
+                result = await waitMobileExportFile((requestID) => {
+                    window.JSAndroid.saveExportFileV2(uri, requestID);
+                });
+                hasCompletionResult = true;
+            } else {
+                window.JSAndroid.saveExportFile(uri);
+                result = {status: "success"};
+            }
+        } else if (isInIOS()) {
+            if (window.webkit.messageHandlers.saveExportFileV2) {
+                result = await waitMobileExportFile((requestID) => {
+                    window.webkit.messageHandlers.saveExportFileV2.postMessage({uri, requestID});
+                });
+                hasCompletionResult = true;
+            } else {
+                window.webkit.messageHandlers.saveExportFile.postMessage(uri);
+                result = {status: "success"};
+            }
+        } else if (isInHarmony()) {
+            if (window.JSHarmony.saveExportFileV2) {
+                result = await waitMobileExportFile((requestID) => {
+                    window.JSHarmony.saveExportFileV2(uri, requestID);
+                });
+                hasCompletionResult = true;
+            } else {
+                window.JSHarmony.saveExportFile(uri);
+                result = {status: "success"};
+            }
+        } else {
+            const openUrl = new URL(uri, `${location.origin}/`);
+            openUrl.searchParams.set("download", "true");
+            window.open(openUrl.href);
+            result = {status: "success"};
+        }
+        if (msgId) {
+            hideMessage(msgId);
+        }
+        if (hasCompletionResult && result.status === "success") {
+            showMessage(window.siyuan.languages.exported);
+        }
+        return result;
+    } catch (e) {
+        if (msgId) {
+            hideMessage(msgId);
+        }
+        showMessage("saveExportFile failed: " + e);
+        return {status: "error", message: String(e)};
     }
     /// #endif
-    if (isInIOS()) {
-        if (uri.startsWith("assets/")) {
-            // iOS 16.7 之前的版本，uri 需要 encodeURIComponent
-            window.webkit.messageHandlers.openLink.postMessage(location.origin + "/assets/" + encodeURIComponent(uri.replace("assets/", "")));
-        } else if (uri.startsWith("/")) {
-            // 导出 zip 返回的是已经 encode 过的，因此不能再 encode
-            window.webkit.messageHandlers.openLink.postMessage(location.origin + uri);
-        } else {
-            try {
-                new URL(uri);
-                window.webkit.messageHandlers.openLink.postMessage(uri);
-            } catch (e) {
-                window.webkit.messageHandlers.openLink.postMessage("https://" + uri);
-            }
-        }
-    } else if (isInAndroid()) {
-        window.JSAndroid.openExternal(uri);
-    } else if (isInHarmony()) {
-        window.JSHarmony.openExternal(uri);
-    } else {
-        window.open(uri);
-    }
 };
 
-export const exportByMobile = (uri: string) => {
-    if (!uri) {
-        return;
-    }
-    if (isInIOS()) {
-        openByMobile(uri);
-    } else if (isInAndroid()) {
-        window.JSAndroid.exportByDefault(uri);
-    } else if (isInHarmony()) {
-        window.JSHarmony.exportByDefault(uri);
-    } else {
-        window.open(uri);
-    }
-};
-
-export const readText = () => {
+export const readText = (silent = false) => {
     if (isInAndroid()) {
         return window.JSAndroid.readClipboard();
     } else if (isInHarmony()) {
         return window.JSHarmony.readClipboard();
     }
     if (typeof navigator.clipboard === "undefined") {
-        alert(window.siyuan.languages.clipboardPermissionDenied);
+        if (!silent) {
+            alert(window.siyuan.languages.clipboardPermissionDenied);
+        }
         return "";
     }
     return navigator.clipboard.readText().catch(() => {
-        alert(window.siyuan.languages.clipboardPermissionDenied);
+        if (!silent) {
+            alert(window.siyuan.languages.clipboardPermissionDenied);
+        }
     }) || "";
 };
 
@@ -132,21 +221,19 @@ export const readText = () => {
 export const getLocalFiles = async () => {
     // 不再支持 PC 浏览器 https://github.com/siyuan-note/siyuan/issues/7206
     let localFiles: ILocalFiles[] = [];
+    if (!getHostCapabilities().localFileSystem) {
+        return localFiles;
+    }
     if ("darwin" === window.siyuan.config.system.os) {
-        const xmlString = await ipcRenderer.invoke(Constants.SIYUAN_GET, {
-            cmd: "clipboardRead",
-            format: "NSFilenamesPboardType",
+        const filePaths: string[] = await ipcRenderer.invoke(Constants.SIYUAN_GET, {
+            cmd: "clipboardReadFiles",
         });
-        if (xmlString) {
-            const domParser = new DOMParser();
-            const xmlDom = domParser.parseFromString(xmlString, "application/xml");
-            Array.from(xmlDom.getElementsByTagName("string")).forEach(item => {
-                localFiles.push({path: item.childNodes[0].nodeValue, size: null});
-            });
+        if (Array.isArray(filePaths)) {
+            localFiles = filePaths.map(path => ({path, size: null}));
         }
     } else {
         const xmlString = await fetchSyncPost("/api/clipboard/readFilePaths", {});
-        if (xmlString.data.length > 0) {
+        if (xmlString.code === 0 && Array.isArray(xmlString.data) && xmlString.data.length > 0) {
             localFiles = xmlString.data;
         }
     }
@@ -170,7 +257,7 @@ export const readClipboard = async () => {
     if (isInHarmony()) {
         text.textPlain = window.JSHarmony.readClipboard();
         text.textHTML = window.JSHarmony.readHTMLClipboard();
-        const textObj = getTextSiyuanFromTextHTML(text.textHTML);
+        const textObj = getTextSiyuanFromTextHTML(text.textHTML, true);
         text.textHTML = textObj.textHtml;
         text.siyuanHTML = textObj.textSiyuan;
         if (!text.siyuanHTML) {
@@ -260,6 +347,145 @@ export const writeText = (text: string) => {
     }
 };
 
+const writePlainTextFallback = async (text: string) => {
+    try {
+        if (isInAndroid()) {
+            window.JSAndroid.writeClipboard(text);
+            return true;
+        }
+        if (isInHarmony()) {
+            return window.JSHarmony.writeClipboard(text) !== false;
+        }
+        if (isInIOS()) {
+            window.webkit.messageHandlers.setClipboard.postMessage(text);
+            return true;
+        }
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch (e) {
+        console.log("Write plain text clipboard error:", e);
+    }
+
+    let range: Range;
+    if (getSelection().rangeCount > 0) {
+        range = getSelection().getRangeAt(0).cloneRange();
+    }
+    const textElement = document.createElement("textarea");
+    textElement.value = text;
+    textElement.style.position = "fixed";
+    document.body.appendChild(textElement);
+    textElement.focus();
+    textElement.select();
+    let copied = false;
+    try {
+        copied = document.execCommand("copy");
+    } catch (e) {
+        console.log("Copy plain text clipboard error:", e);
+    }
+    document.body.removeChild(textElement);
+    if (range) {
+        focusByRange(range);
+    }
+    return copied;
+};
+
+export interface IClipboardWriteData {
+    textPlain: string;
+    textHTML?: string;
+    textSiyuan?: string;
+}
+
+export type TClipboardWriteStatus = "rich" | "plain" | "failed";
+
+export interface IClipboardWriteResult {
+    status: TClipboardWriteStatus;
+    error?: unknown;
+}
+
+export interface IClipboardWriteOptions {
+    fallbackToPlainText?: boolean;
+}
+
+export const writeClipboardData = async (data: IClipboardWriteData, options: IClipboardWriteOptions = {}): Promise<IClipboardWriteResult> => {
+    const textPlain = data.textPlain || "";
+    const textHTML = data.textHTML || "";
+    const textSiyuan = data.textSiyuan || "";
+    const fallbackToPlainText = options.fallbackToPlainText !== false;
+    try {
+        if (isInAndroid()) {
+            if (textSiyuan) {
+                window.JSAndroid.writeSiYuanHTMLClipboard(textPlain, textHTML, textSiyuan);
+                return {status: "rich"};
+            }
+            if (textHTML) {
+                window.JSAndroid.writeHTMLClipboard(textPlain, textHTML);
+                return {status: "rich"};
+            }
+            window.JSAndroid.writeClipboard(textPlain);
+            return {status: "plain"};
+        }
+        if (isInHarmony()) {
+            if (textHTML || textSiyuan) {
+                // 使用通用 HTML 注释封装，使旧版鸿蒙壳也不会写入可见的内部格式分隔符。
+                if (window.JSHarmony.writeHTMLClipboard(textPlain, buildWebClipboardHTML(textHTML, textSiyuan)) === false) {
+                    throw new Error(window.siyuan.languages.clipboardPermissionDenied);
+                }
+                return {status: "rich"};
+            }
+            if (window.JSHarmony.writeClipboard(textPlain) === false) {
+                throw new Error(window.siyuan.languages.clipboardPermissionDenied);
+            }
+            return {status: "plain"};
+        }
+        if (isInIOS()) {
+            window.webkit.messageHandlers.setClipboard.postMessage(textPlain || textHTML);
+            return {status: "plain"};
+        }
+        if (textHTML && navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
+            const clipboardItem: Record<string, Blob> = {};
+            if (textPlain) {
+                clipboardItem["text/plain"] = new Blob([textPlain], {type: "text/plain"});
+            }
+            const webHTML = buildWebClipboardHTML(textHTML, textSiyuan);
+            clipboardItem["text/html"] = new Blob([webHTML], {type: "text/html"});
+            await navigator.clipboard.write([new ClipboardItem(clipboardItem)]);
+            return {status: "rich"};
+        }
+        if (!textHTML && navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(textPlain);
+            return {status: "plain"};
+        }
+    } catch (error) {
+        if (fallbackToPlainText && await writePlainTextFallback(textPlain || textHTML)) {
+            return {status: "plain", error};
+        }
+        return {status: "failed", error};
+    }
+    if (fallbackToPlainText && await writePlainTextFallback(textPlain || textHTML)) {
+        return {status: "plain"};
+    }
+    return {status: "failed"};
+};
+
+export const writeBlockDOMClipboard = async (lute: Lute, blockDOM: string) => {
+    const {textPlain, textHTML, textSiyuan} = buildBlockDOMClipboardData(lute, blockDOM);
+    const result = await writeClipboardData({
+        textPlain,
+        textHTML: prepareExternalClipboardHTML(textHTML),
+        textSiyuan,
+    });
+    if (result.error) {
+        console.log("Write block DOM clipboard error:", result.error);
+    }
+    if (result.status === "failed") {
+        showMessage(window.siyuan.languages.clipboardPermissionDenied, 7000, "error");
+        return false;
+    }
+    return true;
+};
+
 export const copyPlainText = (text: string) => {
     text = text.replace(new RegExp(Constants.ZWSP, "g"), ""); // `复制纯文本` 时移除所有零宽空格 https://github.com/siyuan-note/siyuan/issues/6674
     writeText(text);
@@ -308,13 +534,21 @@ export const isIPhone = () => {
     return navigator.userAgent.indexOf("iPhone") > -1;
 };
 
+export const isAndroid = () => {
+    return /Android/i.test(navigator.userAgent);
+};
+
+export const isIOSDevice = () => {
+    return isIOSPlatform(navigator);
+};
+
 export const isSafari = () => {
     const userAgent = navigator.userAgent;
     return userAgent.includes("Safari") && !userAgent.includes("Chrome") && !userAgent.includes("Chromium");
 };
 
 export const isIPad = () => {
-    return navigator.userAgent.indexOf("iPad") > -1;
+    return isIPadOSPlatform(navigator);
 };
 
 export const isMac = () => {
@@ -381,7 +615,12 @@ export function isChromeBrowser(): boolean {
         }
     };
     if (nav.userAgentData && Array.isArray(nav.userAgentData.brands)) {
-        return nav.userAgentData.brands.some((b: any) => /Chrome|Chromium/i.test(b.brand));
+        const brands = nav.userAgentData.brands.map((b) => b.brand);
+        // Edge、Opera 等 Chromium 内核浏览器 brands 中同样包含 Chromium，需与 userAgent 回退逻辑一致排除
+        if (brands.some((brand) => /Edge|Opera|OPR/i.test(brand))) {
+            return false;
+        }
+        return brands.some((brand) => /Chrome|Chromium/i.test(brand));
     }
     // 回退到 userAgent
     const ua = nav.userAgent || "";
@@ -401,8 +640,12 @@ export const updateHotkeyAfterTip = (hotkey: string, split = " ") => {
 
 // Mac，Windows 快捷键展示
 export const updateHotkeyTip = (hotkey: string) => {
-    if (!hotkey || isMac()) {
+    if (!hotkey) {
         return hotkey;
+    }
+    if (isMac()) {
+        // 为 Return 字符指定文本呈现，避免 macOS 使用彩色 emoji 字形。
+        return hotkey.replace(/↩(?!\uFE0E)/g, "↩\uFE0E");
     }
     const keys = [];
     if ((hotkey.indexOf("⌘") > -1 || hotkey.indexOf("⌃") > -1)) keys.push("Ctrl");
@@ -461,10 +704,12 @@ export const getLocalStorage = (cb: () => void) => {
             annoColor: "var(--b3-pdf-background1)"
         };
         defaultStorage[Constants.LOCAL_LAYOUTS] = [];   // {name: "", layout:{}, time: number, filespaths: IFilesPath[]}
-        defaultStorage[Constants.LOCAL_AI] = [];   // {name: "", memo: ""}
         defaultStorage[Constants.LOCAL_PLUGIN_DOCKS] = {};  // { pluginName: {dockId: IPluginDockTab}}
         defaultStorage[Constants.LOCAL_PLUGINTOPUNPIN] = [];
-        defaultStorage[Constants.LOCAL_OUTLINE] = {keepCurrentExpand: false};
+        defaultStorage[Constants.LOCAL_OUTLINE] = {
+            keepCurrentExpand: false,
+            expandLevel: 6
+        };
         defaultStorage[Constants.LOCAL_FILEPOSITION] = {}; // {id: IScrollAttr}
         defaultStorage[Constants.LOCAL_DIALOGPOSITION] = {}; // {id: IPosition}
         defaultStorage[Constants.LOCAL_HISTORY] = {
@@ -483,8 +728,18 @@ export const getLocalStorage = (cb: () => void) => {
             template: "0",
             icon: "0",
             widget: "0",
+            downloadedPlugin: "0",
+            downloadedTheme: "0",
+            downloadedIcon: "0",
+            downloadedTemplate: "0",
+            downloadedWidget: "0",
         };
-        defaultStorage[Constants.LOCAL_EXPORTWORD] = {removeAssets: false, mergeSubdocs: false};
+        defaultStorage[Constants.LOCAL_EXPORTWORD] = {
+            removeAssets: false,
+            mergeSubdocs: false,
+            mergeDocHeadingMode: "flat",
+            mergeContentHeadingMode: "preserve",
+        };
         defaultStorage[Constants.LOCAL_EXPORTPDF] = {
             landscape: false,
             marginType: "0",
@@ -493,6 +748,8 @@ export const getLocalStorage = (cb: () => void) => {
             removeAssets: true,
             keepFold: false,
             mergeSubdocs: false,
+            mergeDocHeadingMode: "flat",
+            mergeContentHeadingMode: "preserve",
             watermark: false,
             paged: true
         };
@@ -500,8 +757,25 @@ export const getLocalStorage = (cb: () => void) => {
             keepFold: false,
             watermark: false
         };
+        defaultStorage[Constants.LOCAL_EXPORTPATH] = {
+            path: ""
+        };
         defaultStorage[Constants.LOCAL_DOCINFO] = {
             id: "",
+        };
+        defaultStorage[Constants.LOCAL_MOBILE_TABS] = {
+            version: 1,
+            tabs: [],
+        };
+        defaultStorage["local-mobile-bars"] = {autoHide: true};
+        defaultStorage[Constants.LOCAL_MOBILE_BOTTOM_BAR] = {
+            version: 1,
+            actions: ["documents", "search", "newDoc", "tabs"],
+        };
+        defaultStorage[Constants.LOCAL_MOBILE_SIDE_PANEL] = {
+            version: 1,
+            left: ["file", "bookmark", "tag", "inbox", "plugin"],
+            right: ["outline", "backlink", "agent"],
         };
         defaultStorage[Constants.LOCAL_IMAGES] = {
             file: "1f4c4",
@@ -526,23 +800,27 @@ export const getLocalStorage = (cb: () => void) => {
             k: "",
             r: "",
             types: getDefaultType(),
+            subTypes: getDefaultSubType(),
             replaceTypes: Object.assign({}, Constants.SIYUAN_DEFAULT_REPLACETYPES),
         };
         defaultStorage[Constants.LOCAL_ZOOM] = 1;
         defaultStorage[Constants.LOCAL_MOVE_PATH] = {keys: [], k: ""};
         defaultStorage[Constants.LOCAL_RECENT_DOCS] = {type: "viewedAt"};   // TRecentDocsSort
 
-        [Constants.LOCAL_EXPORTIMG, Constants.LOCAL_SEARCHKEYS, Constants.LOCAL_PDFTHEME, Constants.LOCAL_BAZAAR,
-            Constants.LOCAL_EXPORTWORD, Constants.LOCAL_EXPORTPDF, Constants.LOCAL_DOCINFO, Constants.LOCAL_FONTSTYLES,
-            Constants.LOCAL_SEARCHDATA, Constants.LOCAL_ZOOM, Constants.LOCAL_LAYOUTS, Constants.LOCAL_AI,
+        [Constants.LOCAL_EXPORTIMG, Constants.LOCAL_EXPORTPATH, Constants.LOCAL_SEARCHKEYS, Constants.LOCAL_PDFTHEME, Constants.LOCAL_BAZAAR,
+            Constants.LOCAL_EXPORTWORD, Constants.LOCAL_EXPORTPDF, Constants.LOCAL_DOCINFO, Constants.LOCAL_MOBILE_TABS,
+            Constants.LOCAL_MOBILE_BOTTOM_BAR, Constants.LOCAL_MOBILE_SIDE_PANEL, "local-mobile-bars",
+            Constants.LOCAL_FONTSTYLES,
+            Constants.LOCAL_SEARCHDATA, Constants.LOCAL_ZOOM, Constants.LOCAL_LAYOUTS,
             Constants.LOCAL_PLUGINTOPUNPIN, Constants.LOCAL_SEARCHASSET, Constants.LOCAL_FLASHCARD,
             Constants.LOCAL_DIALOGPOSITION, Constants.LOCAL_SEARCHUNREF, Constants.LOCAL_HISTORY,
             Constants.LOCAL_OUTLINE, Constants.LOCAL_FILEPOSITION, Constants.LOCAL_FILESPATHS, Constants.LOCAL_IMAGES,
             Constants.LOCAL_PLUGIN_DOCKS, Constants.LOCAL_EMOJIS, Constants.LOCAL_MOVE_PATH, Constants.LOCAL_RECENT_DOCS,
             Constants.LOCAL_CLOSED_TABS].forEach((key) => {
-            if (typeof response.data[key] === "string") {
+            const value = response.data[key];
+            if (typeof value === "string") {
                 try {
-                    const parseData = JSON.parse(response.data[key]);
+                    const parseData = JSON.parse(value);
                     if (typeof parseData === "number") {
                         // https://github.com/siyuan-note/siyuan/issues/8852 Object.assign 会导致 number to Number
                         window.siyuan.storage[key] = parseData;
@@ -556,28 +834,136 @@ export const getLocalStorage = (cb: () => void) => {
                 window.siyuan.storage[key] = defaultStorage[key];
             }
         });
+        // 只使用当前支持的缩放档位，确保窗口初始化能取得对应的按钮位置。
+        if (!Constants.SIZE_ZOOM.some(item => item.zoom === window.siyuan.storage[Constants.LOCAL_ZOOM])) {
+            window.siyuan.storage[Constants.LOCAL_ZOOM] = defaultStorage[Constants.LOCAL_ZOOM];
+        }
+        window.siyuan.storage[Constants.LOCAL_SEARCHDATA].types = normalizeSearchTypes(window.siyuan.storage[Constants.LOCAL_SEARCHDATA].types);
         // 搜索数据添加 replaceTypes 兼容
         if (!window.siyuan.storage[Constants.LOCAL_SEARCHDATA].replaceTypes ||
             Object.keys(window.siyuan.storage[Constants.LOCAL_SEARCHDATA].replaceTypes).length === 0) {
             window.siyuan.storage[Constants.LOCAL_SEARCHDATA].replaceTypes = Object.assign({}, Constants.SIYUAN_DEFAULT_REPLACETYPES);
         }
+        // 缺少子类型配置时补充默认值。
+        if (!window.siyuan.storage[Constants.LOCAL_SEARCHDATA].subTypes) {
+            window.siyuan.storage[Constants.LOCAL_SEARCHDATA].subTypes = getDefaultSubType();
+        }
+        const closedTabs = window.siyuan.storage[Constants.LOCAL_CLOSED_TABS];
+        const sanitizedClosedTabs = sanitizeClosedTabs(closedTabs);
+        if (sanitizedClosedTabs.length !== closedTabs.length) {
+            window.siyuan.storage[Constants.LOCAL_CLOSED_TABS] = sanitizedClosedTabs;
+            setStorageVal(Constants.LOCAL_CLOSED_TABS, sanitizedClosedTabs);
+        }
         cb();
     });
+};
+
+export const isSensitiveSearchConfig = (config?: Config.IUILayoutTabSearchConfig) => {
+    if (!config) {
+        return false;
+    }
+    if (config.sensitive) {
+        return true;
+    }
+    return config.idPath?.some((item) => {
+        const boxID = item.split("/")[0];
+        return window.siyuan.notebooks?.some((notebook) => notebook.id === boxID && notebook.encrypted);
+    }) || false;
+};
+
+export const isSensitiveLayoutData = (data?: {
+    instance?: string,
+    type?: string,
+    notebookId?: string,
+    config?: Config.IUILayoutTabSearchConfig,
+}) => {
+    if (!data) {
+        return false;
+    }
+    if (data.instance === "Editor") {
+        return isEncryptedBox(data.notebookId);
+    }
+    if (data.instance === "Search") {
+        return isSensitiveSearchConfig(data.config);
+    }
+    if (data.type === "local" && ["Backlink", "Graph", "Outline"].includes(data.instance)) {
+        return !data.notebookId || isEncryptedBox(data.notebookId);
+    }
+    return false;
+};
+
+export const sanitizeClosedTabs = (tabs: Array<{children?: Parameters<typeof isSensitiveLayoutData>[0]}>) => {
+    if (!Array.isArray(tabs)) {
+        return [];
+    }
+    return tabs.filter((tab) => !isSensitiveLayoutData(tab.children));
+};
+
+const sanitizeSearchConfig = (config: Config.IUILayoutTabSearchConfig) => {
+    if (!isSensitiveSearchConfig(config)) {
+        return config;
+    }
+    const sanitized = JSON.parse(JSON.stringify(config)) as Config.IUILayoutTabSearchConfig;
+    sanitized.k = "";
+    sanitized.r = "";
+    sanitized.query = "";
+    sanitized.hPath = "";
+    sanitized.idPath = [];
+    sanitized.sensitive = false;
+    return sanitized;
+};
+
+const sanitizeFilesPaths = (filesPaths: IFilesPath[]) => {
+    if (!Array.isArray(filesPaths)) {
+        return [];
+    }
+    return filesPaths.filter((item) => !isEncryptedBox(item.notebookId));
 };
 
 export const setStorageVal = (key: string, val: any, cb?: () => void) => {
     if (window.siyuan.config.readonly || window.siyuan.isPublish) {
         return;
     }
+    let storageVal = val;
+    if (key === Constants.LOCAL_SEARCHDATA) {
+        storageVal = sanitizeSearchConfig(val);
+    } else if (key === Constants.LOCAL_FILESPATHS) {
+        storageVal = sanitizeFilesPaths(val);
+    } else if (key === Constants.LOCAL_CLOSED_TABS) {
+        storageVal = sanitizeClosedTabs(val);
+    }
+    if ([Constants.LOCAL_SEARCHDATA, Constants.LOCAL_FILESPATHS, Constants.LOCAL_CLOSED_TABS].includes(key)) {
+        window.siyuan.storage[key] = storageVal;
+    }
     fetchPost("/api/storage/setLocalStorageVal", {
         app: Constants.SIYUAN_APPID,
         key,
-        val,
+        val: storageVal,
     }, () => {
         if (cb) {
             cb();
         }
     });
+};
+
+export const initWindowOpenOverride = (app: App, openExternal?: (url: string) => void) => {
+    const originalOpen = window.open;
+    window.open = function (url?: string | URL, target?: string, features?: string): WindowProxy | null {
+        const urlStr = typeof url === "string" ? url : (url ? String(url) : "");
+        if (isSiYuanUriProtocol(urlStr) && (!isBrowser() || isInMobileApp() || target !== "_blank")) {
+            void import("../../util/uri").then(({processSiYuanUri}) => processSiYuanUri(app, urlStr));
+            return null;
+        }
+        if (!canOpenExternalURL(urlStr)) {
+            return null;
+        }
+        if (isInMobileApp() && urlStr && openExternal) {
+            openExternal(urlStr);
+            return null;
+        }
+        // 浏览器可通过 window.open("siyuan://blocks/20221031001313-rk7sd0e", "_blank") 打开本地客户端
+        return originalOpen.call(window, url, target, features);
+    };
 };
 
 /// #if !BROWSER
@@ -616,4 +1002,3 @@ export const initNativeDialogOverride = () => {
     };
 };
 /// #endif
-

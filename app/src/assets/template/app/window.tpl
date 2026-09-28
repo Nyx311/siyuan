@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>SiYuan</title>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="../../icon.png">
-    <script src="../../protyle/js/pdf/pdf.min.mjs?v=4.7.85" type="module"></script>
+    <link id="protyleKatexStyle" rel="stylesheet" href="../../protyle/js/katex/katex.min.css?v=0.16.9">
+    <script src="../../protyle/js/pdf/pdf.min.mjs?v=4.8.69" type="module"></script>
 </head>
 <body class="fn__flex-column body--window">
 <div class="fn__flex-1 fn__flex">

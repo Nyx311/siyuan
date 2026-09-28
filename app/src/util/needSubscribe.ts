@@ -1,6 +1,6 @@
 import {showMessage} from "../dialog/message";
 import {getCloudURL} from "../config/util/about";
-import {isDisabledFeature} from "../protyle/util/compatibility";
+import {isDisabledFeature, isInIOS} from "../protyle/util/compatibility";
 
 const isSyncProviderMembershipCheckBypassed = () => isDisabledFeature("sync-provider-membership-check-bypass");
 
@@ -10,21 +10,21 @@ export const needSubscribe = (tip = window.siyuan.languages._kernel[29]) => {
     }
 
     if (window.siyuan.user && (window.siyuan.user.userSiYuanProExpireTime === -1 || window.siyuan.user.userSiYuanProExpireTime > 0)) {
+        // 终身会员或订阅未过期
         return false;
     }
     if (tip) {
-        if (tip === window.siyuan.languages._kernel[29] && window.siyuan.config.system.container === "ios") {
-            showMessage(window.siyuan.languages._kernel[122]);
-        } else {
-            if (tip === window.siyuan.languages._kernel[29]) {
-                tip = window.siyuan.languages._kernel[29].replaceAll("${accountServer}", getCloudURL(""));
-            }
-            showMessage(tip);
+        if (tip === window.siyuan.languages._kernel[29]) {
+            tip = isInIOS() ? window.siyuan.languages._kernel[295] : window.siyuan.languages._kernel[29].replaceAll("${accountServer}", getCloudURL(""));
         }
+        showMessage(tip);
     }
     return true;
 };
 
+/**
+ * 判断是否可以使用第三方同步
+ */
 export const isPaidUser = () => {
     if (isSyncProviderMembershipCheckBypassed()) {
         return true;

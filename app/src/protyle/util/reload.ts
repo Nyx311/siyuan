@@ -9,8 +9,17 @@ import {isSupportCSSHL, searchMarkRender} from "../render/searchMarkRender";
 import {hideKeyboardToolbar} from "../../mobile/util/keyboardToolbar";
 /// #endif
 import {restoreLuteMarkdownSyntax} from "./paste";
+import {invalidateTrackedRanges} from "./trackedRange";
+import {updateBacklinkReferenceVisibility} from "../wysiwyg/backlinkReference";
+import {shouldReloadProtyle} from "./reloadState";
 
 export const reloadProtyle = (protyle: IProtyle, focus: boolean, updateReadonly?: boolean) => {
+    if (!shouldReloadProtyle(protyle)) {
+        return;
+    }
+    updateBacklinkReferenceVisibility(protyle);
+    protyle.wysiwyg.element.setAttribute("spellcheck", window.siyuan.config.editor.spellcheck.toString());
+    invalidateTrackedRanges(protyle);
     /// #if MOBILE
     hideKeyboardToolbar();
     /// #endif
@@ -23,6 +32,12 @@ export const reloadProtyle = (protyle: IProtyle, focus: boolean, updateReadonly?
         protyle.wysiwyg.element.classList.add("protyle-wysiwyg--attr");
     } else {
         protyle.wysiwyg.element.classList.remove("protyle-wysiwyg--attr");
+    }
+    // RTL 切换时同步 .protyle 元素的 .rtl 类名
+    if (window.siyuan.config.editor.rtl) {
+        protyle.element.classList.add("rtl");
+    } else {
+        protyle.element.classList.remove("rtl");
     }
     if (protyle.title) {
         protyle.title.element.removeAttribute("data-render");
@@ -44,12 +59,29 @@ export const reloadProtyle = (protyle: IProtyle, focus: boolean, updateReadonly?
         if (tabElement) {
             const inputsElement = tabElement.querySelectorAll(".b3-text-field") as NodeListOf<HTMLInputElement>;
             const keyword = isMention ? inputsElement[1].value : inputsElement[0].value;
-            fetchPost(isMention ? "/api/ref/getBackmentionDoc" : "/api/ref/getBacklinkDoc", {
+            const param: import("../../types/api").BacklinkDocumentRequestInput = {
                 defID: protyle.element.getAttribute("data-defid"),
                 refTreeID: protyle.block.rootID,
                 highlight: !isSupportCSSHL(),
                 keyword,
-            }, response => {
+            };
+            if (protyle.notebookId) {
+                param.notebook = protyle.notebookId;
+            }
+            const revision = protyle.element.getAttribute("data-backlink-revision");
+            if (revision) {
+                param.knownRevision = revision;
+            }
+            fetchPost(isMention ? "/api/ref/getBackmentionDoc" : "/api/ref/getBacklinkDoc", param, response => {
+                if (response.code !== 0 || !response.data) {
+                    removeLoading(protyle);
+                    return;
+                }
+                protyle.element.setAttribute("data-backlink-revision", response.data.revision);
+                if (response.data.unchanged) {
+                    removeLoading(protyle);
+                    return;
+                }
                 protyle.options.backlinkData = isMention ? response.data.backmentions : response.data.backlinks;
                 renderBacklink(protyle, protyle.options.backlinkData);
                 searchMarkRender(protyle, response.data.keywords);
@@ -66,6 +98,8 @@ export const reloadProtyle = (protyle: IProtyle, focus: boolean, updateReadonly?
                 if (protyle.query?.key) {
                     searchMarkRender(protyle, keys, protyle.highlight.rangeIndex);
                 }
+                protyle.databaseAttributePanel?.refresh();
+                protyle.model?.refreshBottomBacklinkPanel();
             }
         });
     }

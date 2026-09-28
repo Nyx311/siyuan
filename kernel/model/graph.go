@@ -1,4 +1,4 @@
-// SiYuan - Refactor your thinking
+// SiYuan - From thought to insight, with agents
 // Copyright (c) 2020-present, b3log.org
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import (
 	"github.com/88250/lute/html"
 	"github.com/88250/lute/parse"
 	"github.com/siyuan-note/logging"
+	"github.com/siyuan-note/siyuan/kernel/conf"
 	"github.com/siyuan-note/siyuan/kernel/sql"
 	"github.com/siyuan-note/siyuan/kernel/treenode"
 	"github.com/siyuan-note/siyuan/kernel/util"
@@ -295,39 +296,36 @@ func tagNodeIn(tagNodes []*GraphNode, content string) *GraphNode {
 
 func growTreeGraph(forwardlinks, backlinks *[]*Block, nodes *[]*GraphNode) {
 	forwardDepth, backDepth := 0, 0
-	growLinkedNodes(forwardlinks, backlinks, nodes, nodes, &forwardDepth, &backDepth)
+	visitedIDs := graphNodeIDs(*nodes)
+	growLinkedNodes(forwardlinks, backlinks, nodes, visitedIDs, Conf.Graph.Local.NodeSize, &forwardDepth, &backDepth)
 }
 
-func growLinkedNodes(forwardlinks, backlinks *[]*Block, nodes, all *[]*GraphNode, forwardDepth, backDepth *int) {
+func growLinkedNodes(forwardlinks, backlinks *[]*Block, nodes *[]*GraphNode, visitedIDs map[string]bool, nodeSize float64, forwardDepth, backDepth *int) {
 	if 1 > len(*nodes) {
 		return
 	}
+	currentIDs := graphNodeIDs(*nodes)
 
 	forwardGeneration := &[]*GraphNode{}
 	if 16 > *forwardDepth {
 		for _, ref := range *forwardlinks {
-			for _, node := range *nodes {
-				if node.ID == ref.ID {
-					var defs []*Block
-					for _, refDef := range ref.Defs {
-						if existNodes(all, refDef.ID) || existNodes(forwardGeneration, refDef.ID) || existNodes(nodes, refDef.ID) {
-							continue
-						}
-						defs = append(defs, refDef)
-					}
-
-					for _, refDef := range defs {
-						defNode := &GraphNode{
-							ID:   refDef.ID,
-							Box:  refDef.Box,
-							Path: refDef.Path,
-							Size: Conf.Graph.Local.NodeSize,
-							Type: refDef.Type,
-						}
-						nodeTitleLabel(defNode, nodeContentByBlock(refDef))
-						*forwardGeneration = append(*forwardGeneration, defNode)
-					}
+			if !currentIDs[ref.ID] {
+				continue
+			}
+			for _, refDef := range ref.Defs {
+				if visitedIDs[refDef.ID] || currentIDs[refDef.ID] {
+					continue
 				}
+				defNode := &GraphNode{
+					ID:   refDef.ID,
+					Box:  refDef.Box,
+					Path: refDef.Path,
+					Size: nodeSize,
+					Type: refDef.Type,
+				}
+				nodeTitleLabel(defNode, nodeContentByBlock(refDef))
+				*forwardGeneration = append(*forwardGeneration, defNode)
+				visitedIDs[refDef.ID] = true
 			}
 		}
 	}
@@ -335,24 +333,23 @@ func growLinkedNodes(forwardlinks, backlinks *[]*Block, nodes, all *[]*GraphNode
 	backGeneration := &[]*GraphNode{}
 	if 16 > *backDepth {
 		for _, def := range *backlinks {
-			for _, node := range *nodes {
-				if node.ID == def.ID {
-					for _, ref := range def.Refs {
-						if existNodes(all, ref.ID) || existNodes(backGeneration, ref.ID) || existNodes(nodes, ref.ID) {
-							continue
-						}
-
-						refNode := &GraphNode{
-							ID:   ref.ID,
-							Box:  ref.Box,
-							Path: ref.Path,
-							Size: Conf.Graph.Local.NodeSize,
-							Type: ref.Type,
-						}
-						nodeTitleLabel(refNode, nodeContentByBlock(ref))
-						*backGeneration = append(*backGeneration, refNode)
-					}
+			if !currentIDs[def.ID] {
+				continue
+			}
+			for _, ref := range def.Refs {
+				if visitedIDs[ref.ID] || currentIDs[ref.ID] {
+					continue
 				}
+				refNode := &GraphNode{
+					ID:   ref.ID,
+					Box:  ref.Box,
+					Path: ref.Path,
+					Size: nodeSize,
+					Type: ref.Type,
+				}
+				nodeTitleLabel(refNode, nodeContentByBlock(ref))
+				*backGeneration = append(*backGeneration, refNode)
+				visitedIDs[ref.ID] = true
 			}
 		}
 	}
@@ -362,17 +359,16 @@ func growLinkedNodes(forwardlinks, backlinks *[]*Block, nodes, all *[]*GraphNode
 	*generation = append(*generation, *backGeneration...)
 	*forwardDepth++
 	*backDepth++
-	growLinkedNodes(forwardlinks, backlinks, generation, nodes, forwardDepth, backDepth)
+	growLinkedNodes(forwardlinks, backlinks, generation, visitedIDs, nodeSize, forwardDepth, backDepth)
 	*nodes = append(*nodes, *generation...)
 }
 
-func existNodes(nodes *[]*GraphNode, id string) bool {
-	for _, node := range *nodes {
-		if node.ID == id {
-			return true
-		}
+func graphNodeIDs(nodes []*GraphNode) map[string]bool {
+	ret := make(map[string]bool, len(nodes))
+	for _, node := range nodes {
+		ret[node.ID] = true
 	}
-	return false
+	return ret
 }
 
 func buildLinks(defs *[]*Block, links *[]*GraphLink, local bool) {
@@ -427,30 +423,32 @@ func markLinkedNodes(nodes *[]*GraphNode, links *[]*GraphLink, local bool) {
 	if !local {
 		nodeSize = Conf.Graph.Global.NodeSize
 	}
+	markLinkedNodesWithSize(nodes, links, nodeSize)
+}
 
+func markLinkedNodesWithSize(nodes *[]*GraphNode, links *[]*GraphLink, nodeSize float64) {
+	nodeByID := make(map[string]*GraphNode, len(*nodes))
+	for _, node := range *nodes {
+		if nodeByID[node.ID] == nil {
+			nodeByID[node.ID] = node
+		}
+	}
 	tmpLinks := (*links)[:0]
 	for _, link := range *links {
-		var sourceFound, targetFound bool
-		for _, node := range *nodes {
-			if link.To == node.ID {
-				if link.Ref {
-					size := nodeSize
-					node.Defs++
-					size = math.Log2(float64(node.Defs))*nodeSize + nodeSize
-					node.Size = size
-				}
-				targetFound = true
-			} else if link.From == node.ID {
-				node.Refs++
-				sourceFound = true
-			}
-			if targetFound && sourceFound {
-				break
-			}
+		if link.From == link.To {
+			continue
 		}
-		if sourceFound && targetFound {
-			tmpLinks = append(tmpLinks, link)
+		source, sourceFound := nodeByID[link.From]
+		target, targetFound := nodeByID[link.To]
+		if !sourceFound || !targetFound {
+			continue
 		}
+		source.Refs++
+		if link.Ref {
+			target.Defs++
+			target.Size = (math.Log2(float64(target.Defs)) + 1) * nodeSize
+		}
+		tmpLinks = append(tmpLinks, link)
 	}
 	*links = tmpLinks
 }
@@ -469,41 +467,30 @@ func removeDuplicatedUnescape(nodes []*GraphNode) (ret []*GraphNode) {
 }
 
 func pruneUnref(nodes *[]*GraphNode, links *[]*GraphLink) {
-	maxBlocks := Conf.Graph.MaxBlocks
+	pruneUnrefWithLimits(nodes, links, Conf.Graph.Global.MinRefs, Conf.Graph.MaxBlocks)
+}
+
+func pruneUnrefWithLimits(nodes *[]*GraphNode, links *[]*GraphLink, minRefs, maxBlocks int) {
 	tmpNodes := (*nodes)[:0]
 	for _, node := range *nodes {
-		if 0 == Conf.Graph.Global.MinRefs {
-			tmpNodes = append(tmpNodes, node)
-		} else {
-			if Conf.Graph.Global.MinRefs <= node.Refs {
-				tmpNodes = append(tmpNodes, node)
-				continue
-			}
-
-			if Conf.Graph.Global.MinRefs <= node.Defs {
-				tmpNodes = append(tmpNodes, node)
-				continue
-			}
+		if minRefs > 0 && node.Refs < minRefs && node.Defs < minRefs {
+			continue
 		}
-
-		if maxBlocks < len(tmpNodes) {
+		if maxBlocks <= len(tmpNodes) {
 			logging.LogWarnf("exceeded the maximum number of render nodes [%d]", maxBlocks)
 			break
 		}
+		tmpNodes = append(tmpNodes, node)
 	}
 	*nodes = tmpNodes
 
+	nodeIDs := make(map[string]bool, len(*nodes))
+	for _, node := range *nodes {
+		nodeIDs[node.ID] = true
+	}
 	tmpLinks := (*links)[:0]
 	for _, link := range *links {
-		var sourceFound, targetFound bool
-		for _, node := range *nodes {
-			if link.To == node.ID {
-				targetFound = true
-			} else if link.From == node.ID {
-				sourceFound = true
-			}
-		}
-		if sourceFound && targetFound {
+		if link.From != link.To && nodeIDs[link.From] && nodeIDs[link.To] {
 			tmpLinks = append(tmpLinks, link)
 		}
 	}
@@ -644,7 +631,9 @@ func graphDailyNoteFilter(local bool) string {
 
 	buf := bytes.Buffer{}
 	for _, p := range dailyNotesPaths {
-		buf.WriteString(" AND ref.hpath NOT LIKE '" + p + "%'")
+		// 转义单引号，避免日记存储路径闭合 SQL 字符串字面量造成注入
+		// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-xr4h-j7cg-q8pc
+		buf.WriteString(" AND ref.hpath NOT LIKE '" + strings.ReplaceAll(p, "'", "''") + "%'")
 	}
 	return buf.String()
 }
@@ -691,6 +680,8 @@ func query2Stmt(queryStr string) (ret string) {
 				return ast.WalkContinue
 			}
 			if n.IsTextMarkType("tag") {
+				// 标签内容在构造 LIKE 条件时统一转义，避免改变查询语义。
+				// https://github.com/siyuan-note/siyuan/security/advisories/GHSA-5rwv-4j4c-f954
 				tags = append(tags, n.Text())
 			}
 			return ast.WalkContinue
@@ -705,8 +696,7 @@ func query2Stmt(queryStr string) (ret string) {
 			if "" == part {
 				continue
 			}
-			part = strings.ReplaceAll(part, "'", "''")
-			buf.WriteString("(content LIKE '%" + part + "%'")
+			buf.WriteString("(content LIKE " + conf.SearchLikePattern(part))
 			buf.WriteString(Conf.Search.NAMFilter(part))
 			buf.WriteString(")")
 			if i < len(parts)-1 {
@@ -719,14 +709,14 @@ func query2Stmt(queryStr string) (ret string) {
 				buf.WriteString(" OR ")
 			}
 			for i, tag := range tags {
-				buf.WriteString("(content LIKE '%#" + tag + "#%')")
+				buf.WriteString("(content LIKE " + conf.SearchLikePattern("#"+tag+"#") + ")")
 				if i < len(tags)-1 {
 					buf.WriteString(" AND ")
 				}
 			}
 			buf.WriteString(" OR ")
 			for i, tag := range tags {
-				buf.WriteString("ial LIKE '%tags=\"%" + tag + "%\"%'")
+				buf.WriteString("ial LIKE '%tags=\"%" + conf.EscapeSearchLikePattern(tag) + "%\"%' ESCAPE '\\'")
 				if i < len(tags)-1 {
 					buf.WriteString(" AND ")
 				}

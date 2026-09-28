@@ -6,7 +6,7 @@
 		"id": "20211226123302-akitvb1",
 		"title": "導入和導出",
 		"type": "doc",
-		"updated": "20250115151219"
+		"updated": "20260809232000"
 	},
 	"Children": [
 		{
@@ -15,7 +15,7 @@
 			"HeadingLevel": 2,
 			"Properties": {
 				"id": "20220317223850-m1y2b2z",
-				"updated": "20250115150844"
+				"updated": "20260803171606"
 			},
 			"Children": [
 				{
@@ -30,7 +30,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220511185953-vjaca7x",
-				"updated": "20250115150844"
+				"updated": "20260803163402"
 			},
 			"Children": [
 				{
@@ -119,7 +119,7 @@
 			"Type": "NodeParagraph",
 			"Properties": {
 				"id": "20240426184604-4ldk0w4",
-				"updated": "20250115150844"
+				"updated": "20260803163402"
 			},
 			"Children": [
 				{
@@ -187,7 +187,7 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ 相關開關。"
+					"Data": " ​ 相關開關。"
 				}
 			]
 		},
@@ -197,7 +197,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220511185951-ewyusg9",
-				"updated": "20250115150840"
+				"updated": "20260809232000"
 			},
 			"Children": [
 				{
@@ -211,39 +211,30 @@
 			"Type": "NodeParagraph",
 			"Properties": {
 				"id": "20220511185951-brwja06",
-				"updated": "20250115150840"
+				"updated": "20260809232000"
 			},
 			"Children": [
 				{
 					"Type": "NodeText",
-					"Data": "在桌面端 "
+					"Data": "桌面端和行動端均可在 "
 				},
 				{
 					"Type": "NodeTextMark",
 					"TextMarkType": "kbd",
-					"TextMarkTextContent": "設置"
+					"TextMarkTextContent": "設定"
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ - "
+					"Data": " - "
 				},
 				{
 					"Type": "NodeTextMark",
 					"TextMarkType": "kbd",
-					"TextMarkTextContent": "導出"
+					"TextMarkTextContent": "應用"
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​、移動端右側欄 "
-				},
-				{
-					"Type": "NodeTextMark",
-					"TextMarkType": "kbd",
-					"TextMarkTextContent": "關於"
-				},
-				{
-					"Type": "NodeText",
-					"Data": "​ 中可以進行資料導入和導出。這裡的導出會將 "
+					"Data": " 中進行資料導入和導出。該導出會完整複製 "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -252,7 +243,7 @@
 				},
 				{
 					"Type": "NodeText",
-					"Data": "​ 文件夾完整複製並打包為 zip 壓縮檔。"
+					"Data": " 資料夾並打包為 ZIP 壓縮檔。"
 				}
 			]
 		},
@@ -388,13 +379,69 @@
 			},
 			"Children": [
 				{
+					"Type": "NodeText",
+					"Data": "​"
+				},
+				{
 					"Type": "NodeTextMark",
 					"TextMarkType": "tag",
 					"TextMarkTextContent": "注意"
 				},
 				{
 					"Type": "NodeText",
-					"Data": "：使用前請務必留意，避免已有資料被覆蓋無法恢復。"
+					"Data": "​：使用前請務必留意，避免已有資料被覆蓋無法恢復。"
+				}
+			]
+		},
+		{
+			"ID": "20260614201247-kregnjm",
+			"Type": "NodeHeading",
+			"HeadingLevel": 3,
+			"Properties": {
+				"id": "20260614201247-kregnjm",
+				"updated": "20260809232000"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": ".sy.zip"
+				}
+			]
+		},
+		{
+			"ID": "20260614201247-kjiv7qf",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260614201247-kjiv7qf",
+				"updated": "20260809232000"
+			},
+			"Children": [
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "code",
+					"TextMarkTextContent": ".sy.zip"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " 是思源原生文檔格式。在文檔樹中選擇目標筆記本或文檔後，使用 "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "導入"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " - "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "SiYuan .sy.zip"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " 選擇壓縮檔。導入後的文檔會保留內容、設定中指定包含的子文檔、資源文件和區塊屬性。"
 				}
 			]
 		},
@@ -507,7 +554,7 @@
 			"HeadingLevel": 3,
 			"Properties": {
 				"id": "20220317223850-k4b4s53",
-				"updated": "20250115151219"
+				"updated": "20260809232000"
 			},
 			"Children": [
 				{
@@ -521,12 +568,12 @@
 			"Type": "NodeParagraph",
 			"Properties": {
 				"id": "20220317223850-d79osla",
-				"updated": "20250115151219"
+				"updated": "20260426180205"
 			},
 			"Children": [
 				{
 					"Type": "NodeText",
-					"Data": "在文檔樹上選擇文檔後右鍵選擇 "
+					"Data": "在文檔上選擇文檔後右鍵選擇 "
 				},
 				{
 					"Type": "NodeTextMark",
@@ -574,14 +621,16 @@
 						"Marker": "Kg=="
 					},
 					"Properties": {
-						"id": "20220317223850-pf0tfuv"
+						"id": "20220317223850-pf0tfuv",
+						"updated": "20220317223850"
 					},
 					"Children": [
 						{
 							"ID": "20220317223850-2uya521",
 							"Type": "NodeParagraph",
 							"Properties": {
-								"id": "20220317223850-2uya521"
+								"id": "20220317223850-2uya521",
+								"updated": "20220317223850"
 							},
 							"Children": [
 								{
@@ -600,14 +649,16 @@
 						"Marker": "Kg=="
 					},
 					"Properties": {
-						"id": "20220317223850-6rl8nmz"
+						"id": "20220317223850-6rl8nmz",
+						"updated": "20220317223850"
 					},
 					"Children": [
 						{
 							"ID": "20220317223850-vd88jo9",
 							"Type": "NodeParagraph",
 							"Properties": {
-								"id": "20220317223850-vd88jo9"
+								"id": "20220317223850-vd88jo9",
+								"updated": "20220317223850"
 							},
 							"Children": [
 								{
@@ -626,14 +677,16 @@
 						"Marker": "Kg=="
 					},
 					"Properties": {
-						"id": "20220317223850-n5o3dey"
+						"id": "20220317223850-n5o3dey",
+						"updated": "20220317223850"
 					},
 					"Children": [
 						{
 							"ID": "20220317223850-41ry7ml",
 							"Type": "NodeParagraph",
 							"Properties": {
-								"id": "20220317223850-41ry7ml"
+								"id": "20220317223850-41ry7ml",
+								"updated": "20220317223850"
 							},
 							"Children": [
 								{
@@ -652,14 +705,16 @@
 						"Marker": "Kg=="
 					},
 					"Properties": {
-						"id": "20220317223850-i461rjt"
+						"id": "20220317223850-i461rjt",
+						"updated": "20220317223850"
 					},
 					"Children": [
 						{
 							"ID": "20220317223850-w7mp1ff",
 							"Type": "NodeParagraph",
 							"Properties": {
-								"id": "20220317223850-w7mp1ff"
+								"id": "20220317223850-w7mp1ff",
+								"updated": "20220317223850"
 							},
 							"Children": [
 								{
@@ -669,6 +724,71 @@
 							]
 						}
 					]
+				},
+				{
+					"ID": "20260614201255-w4sor3z",
+					"Type": "NodeListItem",
+					"ListData": {
+						"BulletChar": 42,
+						"Marker": "Kg=="
+					},
+					"Properties": {
+						"id": "20260614201255-w4sor3z",
+						"updated": "20260614201255"
+					},
+					"Children": [
+						{
+							"ID": "20260614201255-amslbza",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20260614201255-amslbza",
+								"updated": "20260614201258"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": ".sy.zip"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"ID": "20260614201258-xrk25st",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20260614201258-xrk25st",
+				"updated": "20260809232000"
+			},
+			"Children": [
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "code",
+					"TextMarkTextContent": ".sy.zip"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " 格式會保留文檔內容、資源文件和區塊屬性。是否包含子文檔和關聯文檔取決於 "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "設定"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " - "
+				},
+				{
+					"Type": "NodeTextMark",
+					"TextMarkType": "kbd",
+					"TextMarkTextContent": "導出"
+				},
+				{
+					"Type": "NodeText",
+					"Data": " 中的對應選項。"
 				}
 			]
 		},
@@ -687,7 +807,7 @@
 				{
 					"Type": "NodeTextMark",
 					"TextMarkType": "kbd",
-					"TextMarkTextContent": "設置"
+					"TextMarkTextContent": "設定"
 				},
 				{
 					"Type": "NodeText",
