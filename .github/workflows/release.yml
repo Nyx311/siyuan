@@ -500,8 +500,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download all artifacts
+      - name: Download build artifact
         uses: actions/download-artifact@v8
+        with:
+          name: siyuan-win.exe
+          path: artifacts
 
       - name: Prepare Release Assets
         shell: bash
@@ -509,7 +512,14 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.prepare.outputs.version }}"
           mkdir -p release-assets
-          cp "siyuan-win.exe/siyuan-${VERSION}-win.exe" release-assets/
+          echo "Downloaded files under artifacts/:"
+          find artifacts -maxdepth 2 -type f -print
+          EXE=$(find artifacts -name 'siyuan-*-win.exe' -type f | head -1)
+          if [ -z "$EXE" ]; then
+            echo "ERROR: no siyuan-*-win.exe found in downloaded artifacts"
+            exit 1
+          fi
+          cp "$EXE" "release-assets/siyuan-${VERSION}-win.exe"
 
           EXPECTED_ASSETS=(
             "siyuan-${VERSION}-win.exe"
